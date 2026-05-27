@@ -7,11 +7,11 @@ export default async function Nav({ active }: { active?: string }) {
   const session = await getSession();
   if (!session) redirect("/login");
 
-  const [user, unreadCount] = await Promise.all([
-    prisma.user.findUnique({ where: { id: session.userId }, select: { username: true } }),
-    prisma.notification.count({ where: { userId: session.userId, read: false } }),
-  ]);
+  const user = await prisma.user.findUnique({ where: { id: session.userId }, select: { username: true } });
   if (!user) redirect("/login");
+
+  let unreadCount = 0;
+  try { unreadCount = await prisma.notification.count({ where: { userId: session.userId, read: false } }); } catch {}
 
   const links = [
     { href: "/catalogue", label: "Catalogue" },
