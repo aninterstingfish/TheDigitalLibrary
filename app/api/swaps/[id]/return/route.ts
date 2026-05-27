@@ -36,11 +36,11 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
       prisma.swapRequest.update({ where: { id: swap.requestId }, data: { status: "COMPLETED" } }),
       prisma.book.update({ where: { id: swap.request.book.id }, data: { isAvailable: true } }),
     ]);
-    await notify(swap.request.borrower.id, "RETURN_CONFIRMED", `Return of "${swap.request.book.title}" confirmed — please leave a rating!`, `/swaps/${id}`);
+    await notify(swap.request.borrower.id, "RETURN_CONFIRMED", `Return of "${swap.request.book.title}" confirmed — please leave a rating!`, `/swaps/${swap.requestId}`);
   } else if (body.confirmedBy === "borrower" && isBorrower) {
     await prisma.swap.update({ where: { id }, data: { borrowerConfirmedReturn: true } });
     const borrower = await prisma.user.findUnique({ where: { id: session.userId }, select: { name: true } });
-    await notify(swap.request.book.ownerId, "RETURN_PENDING", `${borrower?.name} says they've finished "${swap.request.book.title}" — confirm you got it back`, `/swaps/${id}`);
+    await notify(swap.request.book.ownerId, "RETURN_PENDING", `${borrower?.name} says they've finished "${swap.request.book.title}" — confirm you got it back`, `/swaps/${swap.requestId}`);
   }
 
   return NextResponse.json({ success: true });

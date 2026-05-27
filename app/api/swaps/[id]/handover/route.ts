@@ -28,7 +28,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   if (body.happened) {
     await prisma.swap.update({ where: { id }, data: { handedOver: true } });
     const owner = await prisma.user.findUnique({ where: { id: session.userId }, select: { name: true } });
-    await notify(swap.request.borrower.id, "SWAP_CONFIRMED", `${owner?.name} confirmed the handover of "${swap.request.book.title}"`, `/swaps/${id}`);
+    await notify(swap.request.borrower.id, "SWAP_CONFIRMED", `${owner?.name} confirmed the handover of "${swap.request.book.title}"`, `/swaps/${swap.requestId}`);
   } else {
     // No-show: cancel and restore availability
     const blame = body.blame ?? "unknown";
