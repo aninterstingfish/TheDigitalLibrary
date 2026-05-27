@@ -6,7 +6,7 @@ export default function TermsPage() {
       <div className="max-w-2xl mx-auto">
         <Link href="/login" className="flex items-center gap-3 mb-12">
           <BookIcon dark />
-          <span className="text-black text-xl font-bold tracking-tight">BookSwap</span>
+          <span className="text-black text-xl font-bold tracking-tight">Cloud Library</span>
         </Link>
 
         <h1 className="text-4xl font-bold text-black tracking-tight mb-2">Terms of Service</h1>
@@ -14,11 +14,11 @@ export default function TermsPage() {
 
         <div className="space-y-8 text-gray-600 text-sm leading-relaxed">
           <Section title="1. Acceptance">
-            By creating a BookSwap account you agree to these terms. If you do not agree, do not use the service.
+            By creating a Cloud Library account you agree to these terms. If you do not agree, do not use the service.
           </Section>
 
           <Section title="2. Eligibility">
-            BookSwap is intended for students at registered schools. You must be 13 or older to use the service.
+            Cloud Library is intended for students at registered schools. You must be 13 or older to use the service.
           </Section>
 
           <Section title="3. Book Listings">
@@ -38,17 +38,17 @@ export default function TermsPage() {
           </Section>
 
           <Section title="6. Prohibited Conduct">
-            You may not use BookSwap to harass other users, list stolen or counterfeit material, or circumvent
+            You may not use Cloud Library to harass other users, list stolen or counterfeit material, or circumvent
             the swap system. Violations may result in permanent account termination.
           </Section>
 
           <Section title="7. Limitation of Liability">
-            BookSwap is not responsible for lost, damaged, or unreturned books. Disputes between users are
+            Cloud Library is not responsible for lost, damaged, or unreturned books. Disputes between users are
             the responsibility of the users involved, with teacher/admin mediation available.
           </Section>
 
           <Section title="8. Changes to Terms">
-            We may update these terms from time to time. Continued use of BookSwap after changes constitutes
+            We may update these terms from time to time. Continued use of Cloud Library after changes constitutes
             acceptance of the updated terms.
           </Section>
         </div>

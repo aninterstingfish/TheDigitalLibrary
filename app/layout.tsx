@@ -8,7 +8,7 @@ const geistSans = Geist({
 });
 
 export const metadata: Metadata = {
-  title: "BookSwap — School Book Exchange",
+  title: "Cloud Library — School Book Exchange",
   description: "Peer-to-peer book lending for students.",
 };
 

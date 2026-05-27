@@ -26,7 +26,7 @@ export default function ForgotPasswordPage() {
         {/* Logo */}
         <Link href="/login" className="flex items-center gap-3 mb-12 group">
           <BookIcon dark />
-          <span className="text-black text-xl font-bold tracking-tight">BookSwap</span>
+          <span className="text-black text-xl font-bold tracking-tight">Cloud Library</span>
         </Link>
 
         {submitted ? (

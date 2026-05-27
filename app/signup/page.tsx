@@ -13,7 +13,7 @@ export default function SignupPage() {
         {/* Logo */}
         <div className="relative z-10 flex items-center gap-3">
           <BookIcon />
-          <span className="text-white text-xl font-bold tracking-tight">BookSwap</span>
+          <span className="text-white text-xl font-bold tracking-tight">Cloud Library</span>
         </div>
 
         {/* Hero copy */}
@@ -45,13 +45,13 @@ export default function SignupPage() {
         {/* Mobile logo */}
         <div className="lg:hidden mb-10 flex items-center gap-3">
           <BookIcon dark />
-          <span className="text-black text-xl font-bold tracking-tight">BookSwap</span>
+          <span className="text-black text-xl font-bold tracking-tight">Cloud Library</span>
         </div>
 
         <SignupForm />
 
         <p className="mt-10 text-xs text-gray-300 text-center">
-          By creating an account you agree to BookSwap&apos;s{" "}
+          By creating an account you agree to Cloud Library&apos;s{" "}
           <Link href="/terms" className="underline hover:text-gray-500 transition-colors">Terms</Link>
           {" "}&amp;{" "}
           <Link href="/privacy" className="underline hover:text-gray-500 transition-colors">Privacy Policy</Link>.
@@ -73,11 +73,16 @@ function Step({ n, text }: { n: string; text: string }) {
 }
 
 function BookIcon({ dark }: { dark?: boolean }) {
+  const cloud = dark ? "#000" : "#fff";
+  const book = dark ? "#fff" : "#000";
   return (
-    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
-      <rect width="28" height="28" rx="7" fill={dark ? "#000" : "#fff"} />
-      <path d="M8 8h7a3 3 0 013 3v9a3 3 0 01-3 3H8V8z" fill={dark ? "#fff" : "#000"} />
-      <path d="M15 8h1a3 3 0 013 3v9a3 3 0 01-3 3h-1" stroke={dark ? "#fff" : "#000"} strokeWidth="1.5" fill="none" />
+    <svg width="36" height="28" viewBox="0 0 36 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+      <circle cx="11" cy="17" r="6" fill={cloud} />
+      <circle cx="18" cy="12" r="7" fill={cloud} />
+      <circle cx="25" cy="17" r="6" fill={cloud} />
+      <rect x="5" y="17" width="26" height="8" rx="4" fill={cloud} />
+      <path d="M18 16 L12 17.5 L12 23 L18 22 Z" fill={book} />
+      <path d="M18 16 L24 17.5 L24 23 L18 22 Z" fill={book} />
     </svg>
   );
 }

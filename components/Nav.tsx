@@ -24,8 +24,8 @@ export default async function Nav({ active }: { active?: string }) {
   return (
     <nav className="bg-black px-6 py-4 flex items-center justify-between sticky top-0 z-50">
       <Link href="/dashboard" className="flex items-center gap-3 shrink-0">
-        <BookIcon />
-        <span className="text-white text-lg font-bold tracking-tight">BookSwap</span>
+        <CloudBookIcon />
+        <span className="text-white text-lg font-bold tracking-tight">Cloud Library</span>
       </Link>
       <div className="flex items-center gap-1">
         {links.map((l) => (
@@ -62,12 +62,17 @@ export default async function Nav({ active }: { active?: string }) {
   );
 }
 
-function BookIcon() {
+function CloudBookIcon() {
   return (
-    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
-      <rect width="28" height="28" rx="7" fill="#fff" />
-      <path d="M8 8h7a3 3 0 013 3v9a3 3 0 01-3 3H8V8z" fill="#000" />
-      <path d="M15 8h1a3 3 0 013 3v9a3 3 0 01-3 3h-1" stroke="#000" strokeWidth="1.5" fill="none" />
+    <svg width="36" height="28" viewBox="0 0 36 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+      {/* Cloud */}
+      <circle cx="11" cy="17" r="6" fill="white" />
+      <circle cx="18" cy="12" r="7" fill="white" />
+      <circle cx="25" cy="17" r="6" fill="white" />
+      <rect x="5" y="17" width="26" height="8" rx="4" fill="white" />
+      {/* Open book */}
+      <path d="M18 16 L12 17.5 L12 23 L18 22 Z" fill="black" />
+      <path d="M18 16 L24 17.5 L24 23 L18 22 Z" fill="black" />
     </svg>
   );
 }

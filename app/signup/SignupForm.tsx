@@ -116,7 +116,7 @@ export default function SignupForm() {
   return (
     <div className="w-full max-w-[360px]">
       <h2 className="text-[2rem] font-bold text-black tracking-tight leading-none mb-2">Create account</h2>
-      <p className="text-gray-500 text-sm mb-8">Join BookSwap and start sharing books.</p>
+      <p className="text-gray-500 text-sm mb-8">Join Cloud Library and start sharing books.</p>
 
       <form onSubmit={handleSubmit} noValidate className="space-y-4">
         <Field id="name" label="Full name" type="text" placeholder="Alex Johnson"

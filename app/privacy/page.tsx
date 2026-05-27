@@ -6,7 +6,7 @@ export default function PrivacyPage() {
       <div className="max-w-2xl mx-auto">
         <Link href="/login" className="flex items-center gap-3 mb-12">
           <BookIcon dark />
-          <span className="text-black text-xl font-bold tracking-tight">BookSwap</span>
+          <span className="text-black text-xl font-bold tracking-tight">Cloud Library</span>
         </Link>
 
         <h1 className="text-4xl font-bold text-black tracking-tight mb-2">Privacy Policy</h1>
@@ -20,18 +20,18 @@ export default function PrivacyPage() {
           </Section>
 
           <Section title="2. How We Use It">
-            Your data is used solely to operate BookSwap: matching borrowers with owners, sending
+            Your data is used solely to operate Cloud Library: matching borrowers with owners, sending
             in-app notifications about swap dates and returns, and calculating your reputation rating.
             We do not sell your data to third parties.
           </Section>
 
           <Section title="3. Who Can See Your Data">
             Your name, username, profile photo, star ratings, listed books, and swap count are visible
-            to other BookSwap users. Your email address and password hash are never shown publicly.
+            to other Cloud Library users. Your email address and password hash are never shown publicly.
           </Section>
 
           <Section title="4. Notifications">
-            BookSwap may send browser push notifications for swap confirmations, upcoming swap dates,
+            Cloud Library may send browser push notifications for swap confirmations, upcoming swap dates,
             return reminders, and overdue alerts. You can disable these in your browser settings at any time.
           </Section>
 
@@ -48,7 +48,7 @@ export default function PrivacyPage() {
           </Section>
 
           <Section title="7. Cookies">
-            BookSwap uses a single session cookie to keep you signed in. No third-party tracking or
+            Cloud Library uses a single session cookie to keep you signed in. No third-party tracking or
             advertising cookies are used.
           </Section>
 
