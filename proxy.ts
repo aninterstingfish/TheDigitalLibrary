@@ -4,7 +4,7 @@ import { jwtVerify } from "jose";
 const PUBLIC_ROUTES = ["/login", "/signup", "/forgot-password", "/terms", "/privacy"];
 const encodedKey = new TextEncoder().encode(process.env.SESSION_SECRET!);
 
-export async function middleware(req: NextRequest) {
+export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   if (PUBLIC_ROUTES.some((r) => pathname.startsWith(r))) {
