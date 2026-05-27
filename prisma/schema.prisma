@@ -14,7 +14,8 @@ model User {
   passwordHash   String
   name           String
   profilePhoto   String?
-  borrowLimit    Int      @default(3)
+  yearGroup      Int?
+  borrowLimit    Int      @default(5)
   createdAt      DateTime @default(now())
 
   ownedBooks      Book[]
@@ -22,32 +23,38 @@ model User {
   ratingsGiven    Rating[]      @relation("RatingsGiven")
   ratingsReceived Rating[]      @relation("RatingsReceived")
   messages        Message[]
+  wishlist        WishlistItem[]
 }
 
 model Book {
-  id          String      @id @default(cuid())
+  id          String    @id @default(cuid())
   title       String
-  author      String
+  author      String?
   condition   Condition
   coverPhoto  String?
-  meetUpSpot  String
-  isAvailable Boolean     @default(true)
-  createdAt   DateTime    @default(now())
+  genres      String    @default("[]")
+  description String?
+  isAvailable Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 
-  owner       User         @relation(fields: [ownerId], references: [id])
-  ownerId     String
-  requests    SwapRequest[]
+  owner        User          @relation(fields: [ownerId], references: [id])
+  ownerId      String
+  requests     SwapRequest[]
+  wishlistedBy WishlistItem[]
 }
 
 model SwapRequest {
-  id                    String        @id @default(cuid())
-  requestedSwapDate     DateTime
-  loanDays              Int
-  status                RequestStatus @default(PENDING)
-  counterProposedDate   DateTime?
-  counterProposedDays   Int?
-  createdAt             DateTime      @default(now())
-  updatedAt             DateTime      @updatedAt
+  id                  String        @id @default(cuid())
+  requestedPickupDate DateTime
+  requestedReturnDate DateTime?
+  loanMode            LoanMode      @default(FIXED_DATE)
+  status              RequestStatus @default(PENDING)
+  counterPickupDate   DateTime?
+  counterReturnDate   DateTime?
+  counterLoanMode     LoanMode?
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt
 
   book       Book   @relation(fields: [bookId], references: [id])
   bookId     String
@@ -58,12 +65,13 @@ model SwapRequest {
 }
 
 model Swap {
-  id                    String   @id @default(cuid())
-  swapDate              DateTime
-  returnDate            DateTime
-  confirmedAt           DateTime @default(now())
-  ownerConfirmedReturn  Boolean  @default(false)
-  borrowerConfirmedReturn Boolean @default(false)
+  id                      String    @id @default(cuid())
+  pickupDate              DateTime
+  returnDate              DateTime?
+  loanMode                LoanMode  @default(FIXED_DATE)
+  confirmedAt             DateTime  @default(now())
+  ownerConfirmedReturn    Boolean   @default(false)
+  borrowerConfirmedReturn Boolean   @default(false)
 
   request    SwapRequest @relation(fields: [requestId], references: [id])
   requestId  String      @unique
@@ -84,10 +92,11 @@ model Message {
 }
 
 model Rating {
-  id        String     @id @default(cuid())
+  id        String    @id @default(cuid())
   stars     Int
+  review    String?
   role      RaterRole
-  createdAt DateTime   @default(now())
+  createdAt DateTime  @default(now())
 
   swap      Swap   @relation(fields: [swapId], references: [id])
   swapId    String
@@ -99,10 +108,23 @@ model Rating {
   @@unique([swapId, raterId])
 }
 
+model WishlistItem {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  user      User   @relation(fields: [userId], references: [id])
+  userId    String
+  book      Book   @relation(fields: [bookId], references: [id])
+  bookId    String
+
+  @@unique([userId, bookId])
+}
+
 enum Condition {
   NEW
-  GOOD
-  WORN
+  MINOR_WEAR
+  MAJOR_WEAR
+  SEVERE_WEAR
 }
 
 enum RequestStatus {
@@ -117,4 +139,9 @@ enum RequestStatus {
 enum RaterRole {
   AS_OWNER
   AS_BORROWER
+}
+
+enum LoanMode {
+  FIXED_DATE
+  READ_TILL_FINISH
 }

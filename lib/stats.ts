@@ -3,12 +3,7 @@ import { prisma } from "@/lib/prisma";
 export async function getStats() {
   const [bookCount, activeSwapCount, ratingResult] = await Promise.all([
     prisma.book.count({ where: { isAvailable: true } }),
-    prisma.swap.count({
-      where: {
-        returnDate: { gt: new Date() },
-        ownerConfirmedReturn: false,
-      },
-    }),
+    prisma.swap.count({ where: { ownerConfirmedReturn: false } }),
     prisma.rating.aggregate({ _avg: { stars: true } }),
   ]);
 
