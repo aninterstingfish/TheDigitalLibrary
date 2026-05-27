@@ -76,7 +76,7 @@ export default async function SwapsPage() {
           borrower: r.borrower,
         }))}
         activeAsOwner={activeAsOwner.map((s) => ({
-          id: s.id, loanMode: s.loanMode,
+          id: s.request.id, loanMode: s.loanMode,
           pickupDate: ser(s.pickupDate),
           returnDate: ser(s.returnDate),
           confirmedAt: ser(s.confirmedAt)!,
@@ -92,7 +92,7 @@ export default async function SwapsPage() {
           owner: (r.book as any).owner,
         }))}
         activeAsBorrower={activeAsBorrower.map((s) => ({
-          id: s.id, loanMode: s.loanMode,
+          id: s.request.id, loanMode: s.loanMode,
           pickupDate: ser(s.pickupDate),
           returnDate: ser(s.returnDate),
           confirmedAt: ser(s.confirmedAt)!,

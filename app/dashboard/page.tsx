@@ -29,6 +29,9 @@ export default async function DashboardPage() {
           <DashCard title="Browse books" desc="Search and request books from other students." href="/catalogue" cta="Browse catalogue" />
           <DashCard title="List a book" desc="Share a book you own and let others borrow it." href="/books/new" cta="Add listing" />
           <DashCard title="My swaps" desc="Track your active loans and incoming requests." href="/swaps" cta="View swaps" />
+          <DashCard title="Wishlist" desc="Books you're keeping an eye on." href="/wishlist" cta="View wishlist" />
+          <DashCard title="Leaderboard" desc="See the top lenders and borrowers." href="/leaderboard" cta="View leaderboard" />
+          <DashCard title="Notifications" desc="Stay on top of requests and updates." href="/notifications" cta="View notifications" />
         </div>
       </main>
     </div>
