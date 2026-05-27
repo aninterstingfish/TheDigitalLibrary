@@ -3,71 +3,59 @@
 import { useState } from "react";
 import Link from "next/link";
 
-type Field = "name" | "username" | "email" | "password" | "confirm" | "age";
-interface FormState { name: string; username: string; email: string; password: string; confirm: string; age: boolean; }
+type Field = "name" | "username" | "email" | "password" | "confirm" | "age" | "parentEmail";
+interface FormState { name: string; username: string; email: string; password: string; confirm: string; age: string; parentEmail: string; }
 interface Errors extends Partial<Record<Field, string>> {}
 
-// Allowed username characters: letters, numbers, _@#!$%^&*:"<>?{}+=.-
 const USERNAME_RE = /^[a-zA-Z0-9_@#!$%^&*:"<>?{}+=.\-]{3,30}$/;
 
 function validateForm(form: FormState): Errors {
   const e: Errors = {};
+  const age = parseInt(form.age);
+  const needsParent = !isNaN(age) && age < 13;
 
-  // Name — letters and spaces only, 2+ non-space chars
-  if (!form.name.trim()) {
-    e.name = "Full name is required.";
-  } else if (!/^[a-zA-Z\s]+$/.test(form.name.trim())) {
-    e.name = "Name can only contain letters and spaces.";
-  } else if (form.name.trim().replace(/\s+/g, "").length < 2) {
-    e.name = "Name must be at least 2 characters.";
-  }
+  if (!form.name.trim()) e.name = "Full name is required.";
+  else if (!/^[a-zA-Z\s]+$/.test(form.name.trim())) e.name = "Name can only contain letters and spaces.";
+  else if (form.name.trim().replace(/\s+/g, "").length < 2) e.name = "Name must be at least 2 characters.";
 
-  // Username
-  if (!form.username.trim()) {
-    e.username = "Username is required.";
-  } else if (!USERNAME_RE.test(form.username)) {
+  if (!form.username.trim()) e.username = "Username is required.";
+  else if (!USERNAME_RE.test(form.username)) {
     if (form.username.length < 3) e.username = "Username must be at least 3 characters.";
     else if (form.username.length > 30) e.username = "Username must be 30 characters or fewer.";
     else e.username = "Username contains an invalid character.";
   }
 
-  // Email
-  if (!form.email.trim()) {
-    e.email = "Email is required.";
-  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) {
-    e.email = "Enter a valid email address.";
-  }
+  if (!form.email.trim()) e.email = "Email is required.";
+  else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) e.email = "Enter a valid email address.";
 
-  // Password — 8+ chars, must contain a capital letter
-  if (!form.password) {
-    e.password = "Password is required.";
-  } else if (form.password.length < 8) {
-    e.password = "Password must be at least 8 characters.";
-  } else if (!/[A-Z]/.test(form.password)) {
-    e.password = "Password must contain at least one capital letter.";
-  }
+  if (!form.password) e.password = "Password is required.";
+  else if (form.password.length < 8) e.password = "Password must be at least 8 characters.";
+  else if (!/[A-Z]/.test(form.password)) e.password = "Password must contain at least one capital letter.";
 
-  // Confirm
-  if (!form.confirm) {
-    e.confirm = "Please confirm your password.";
-  } else if (form.confirm !== form.password) {
-    e.confirm = "Passwords do not match.";
-  }
+  if (!form.confirm) e.confirm = "Please confirm your password.";
+  else if (form.confirm !== form.password) e.confirm = "Passwords do not match.";
 
-  // Age
-  if (!form.age) {
-    e.age = "You must confirm you are 13 or older to create an account.";
+  if (!form.age) e.age = "Please enter your age.";
+  else if (isNaN(age) || age < 5 || age > 110) e.age = "Please enter a valid age.";
+
+  if (needsParent) {
+    if (!form.parentEmail.trim()) e.parentEmail = "A parent or guardian email is required for users under 13.";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.parentEmail.trim())) e.parentEmail = "Enter a valid parent email address.";
   }
 
   return e;
 }
 
 export default function SignupForm() {
-  const [form, setForm] = useState<FormState>({ name: "", username: "", email: "", password: "", confirm: "", age: false });
+  const [form, setForm] = useState<FormState>({ name: "", username: "", email: "", password: "", confirm: "", age: "", parentEmail: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState<Errors>({});
   const [isLoading, setIsLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [pendingParentEmail, setPendingParentEmail] = useState("");
+
+  const age = parseInt(form.age);
+  const needsParent = !isNaN(age) && age < 13;
 
   const set = (field: Field) => (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm((f) => ({ ...f, [field]: e.target.value }));
@@ -88,6 +76,8 @@ export default function SignupForm() {
         username: form.username.trim(),
         email: form.email.trim().toLowerCase(),
         password: form.password,
+        age: parseInt(form.age),
+        ...(needsParent && { parentEmail: form.parentEmail.trim() }),
       }),
     });
     const text = await res.text();
@@ -98,19 +88,46 @@ export default function SignupForm() {
       return;
     }
     setIsLoading(false);
+    if (data.pendingApproval) {
+      setPendingParentEmail(data.parentEmail);
+    }
     setSubmitted(true);
   };
+
+  if (submitted && pendingParentEmail) {
+    return (
+      <div className="w-full max-w-[360px] text-center">
+        <div className="w-14 h-14 bg-black rounded-full flex items-center justify-center mx-auto mb-6">
+          <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          </svg>
+        </div>
+        <h2 className="text-2xl font-bold text-black mb-2">Check your parent&apos;s email</h2>
+        <p className="text-gray-500 text-sm leading-relaxed mb-2">
+          We&apos;ve sent a confirmation email to
+        </p>
+        <p className="text-black font-semibold text-sm mb-4">{pendingParentEmail}</p>
+        <p className="text-gray-500 text-sm leading-relaxed mb-8">
+          Ask your parent or guardian to open it and click <strong className="text-black">Confirm account creation</strong>.
+          Once they do, you can sign in here.
+        </p>
+        <Link href="/login" className="block w-full bg-black text-white py-3.5 rounded-xl text-sm font-semibold text-center hover:bg-zinc-800 transition-all">
+          Go to sign in
+        </Link>
+      </div>
+    );
+  }
 
   if (submitted) {
     return (
       <div className="w-full max-w-[360px] text-center">
         <div className="w-14 h-14 bg-black rounded-full flex items-center justify-center mx-auto mb-6">
-          <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+          <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} aria-hidden>
             <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
           </svg>
         </div>
         <h2 className="text-2xl font-bold text-black mb-2">Account created!</h2>
-        <p className="text-gray-500 text-sm mb-8">You&apos;re ready to start swapping books.</p>
+        <p className="text-gray-500 text-sm mb-8">You&apos;re ready to start sharing books.</p>
         <Link href="/dashboard" className="block w-full bg-black text-white py-3.5 rounded-xl text-sm font-semibold text-center hover:bg-zinc-800 transition-all">
           Go to dashboard
         </Link>
@@ -159,20 +176,37 @@ export default function SignupForm() {
           {errors.confirm && <p className="text-red-500 text-xs">{errors.confirm}</p>}
         </div>
 
-        {/* Age confirmation — required for GDPR */}
+        {/* Age */}
         <div className="space-y-1.5">
-          <label className="flex items-start gap-3 cursor-pointer">
-            <input type="checkbox" checked={form.age}
-              onChange={(e) => { setForm((f) => ({ ...f, age: e.target.checked })); setErrors((err) => ({ ...err, age: undefined })); }}
-              className="mt-0.5 w-4 h-4 accent-black shrink-0" />
-            <span className="text-sm text-gray-700">I confirm I am 13 or older (or have parental consent if under 16).</span>
-          </label>
-          {errors.age && <p className="text-red-500 text-xs">{errors.age}</p>}
+          <label htmlFor="age" className="block text-sm font-medium text-black">Your age</label>
+          <input id="age" type="number" min={5} max={110} placeholder="e.g. 14"
+            value={form.age} onChange={set("age")} className={inputClass(!!errors.age)} />
+          {errors.age
+            ? <p className="text-red-500 text-xs">{errors.age}</p>
+            : <p className="text-gray-400 text-xs">Required for GDPR age verification.</p>}
         </div>
+
+        {/* Parent email — shown only if under 13 */}
+        {needsParent && (
+          <div className="space-y-1.5 rounded-xl bg-amber-50 border border-amber-100 p-4">
+            <label htmlFor="parentEmail" className="block text-sm font-medium text-black">
+              Parent or guardian email
+            </label>
+            <p className="text-xs text-amber-700 mb-2">
+              Because you&apos;re under 13, we need a parent or guardian to approve your account before you can sign in.
+              We&apos;ll send them one email with a confirmation link.
+            </p>
+            <input id="parentEmail" type="email" placeholder="parent@example.com"
+              value={form.parentEmail} onChange={set("parentEmail")} className={inputClass(!!errors.parentEmail)} />
+            {errors.parentEmail && <p className="text-red-500 text-xs">{errors.parentEmail}</p>}
+          </div>
+        )}
 
         <button type="submit" disabled={isLoading}
           className="w-full bg-black text-white py-3.5 rounded-xl text-sm font-semibold tracking-wide hover:bg-zinc-800 active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed !mt-6">
-          {isLoading ? <span className="flex items-center justify-center gap-2"><Spinner />Creating account…</span> : "Create account"}
+          {isLoading
+            ? <span className="flex items-center justify-center gap-2"><Spinner />{needsParent ? "Sending consent email…" : "Creating account…"}</span>
+            : needsParent ? "Send consent email" : "Create account"}
         </button>
       </form>
 

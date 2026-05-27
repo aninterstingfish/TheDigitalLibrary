@@ -83,6 +83,9 @@ export const UserScalarFieldEnum = {
   profilePhoto: 'profilePhoto',
   yearGroup: 'yearGroup',
   borrowLimit: 'borrowLimit',
+  approved: 'approved',
+  parentEmail: 'parentEmail',
+  parentToken: 'parentToken',
   createdAt: 'createdAt'
 } as const
 

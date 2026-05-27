@@ -514,10 +514,6 @@ export type EnumConditionFieldUpdateOperationsInput = {
   set?: $Enums.Condition
 }
 
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
-}
-
 export type BookCreateNestedOneWithoutRequestsInput = {
   create?: Prisma.XOR<Prisma.BookCreateWithoutRequestsInput, Prisma.BookUncheckedCreateWithoutRequestsInput>
   connectOrCreate?: Prisma.BookCreateOrConnectWithoutRequestsInput

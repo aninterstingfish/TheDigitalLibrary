@@ -16,6 +16,9 @@ model User {
   profilePhoto   String?
   yearGroup      Int?
   borrowLimit    Int      @default(5)
+  approved       Boolean  @default(true)
+  parentEmail    String?
+  parentToken    String?  @unique
   createdAt      DateTime @default(now())
 
   ownedBooks      Book[]

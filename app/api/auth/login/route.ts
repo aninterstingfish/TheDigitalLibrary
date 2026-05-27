@@ -43,6 +43,10 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Incorrect password." }, { status: 401 });
   }
 
+  if (!user.approved) {
+    return NextResponse.json({ error: `Account pending parental approval. Ask the parent at ${user.parentEmail} to check their email and click the confirmation link.` }, { status: 403 });
+  }
+
   try {
     await createSession(user.id);
   } catch (err) {

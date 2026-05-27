@@ -1048,6 +1048,9 @@ export const UserScalarFieldEnum = {
   profilePhoto: 'profilePhoto',
   yearGroup: 'yearGroup',
   borrowLimit: 'borrowLimit',
+  approved: 'approved',
+  parentEmail: 'parentEmail',
+  parentToken: 'parentToken',
   createdAt: 'createdAt'
 } as const
 
@@ -1190,6 +1193,13 @@ export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'In
 
 
 /**
+ * Reference to a field of type 'Boolean'
+ */
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+/**
  * Reference to a field of type 'DateTime'
  */
 export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -1200,13 +1210,6 @@ export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
  * Reference to a field of type 'Condition'
  */
 export type EnumConditionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Condition'>
-    
-
-
-/**
- * Reference to a field of type 'Boolean'
- */
-export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
