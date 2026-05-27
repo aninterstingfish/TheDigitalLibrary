@@ -29,7 +29,8 @@ export default function SignupForm() {
   const [submitted, setSubmitted] = useState(false);
 
   const set = (field: Field) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm((f) => ({ ...f, [field]: e.target.value }));
+    const value = field === "username" ? e.target.value.toLowerCase() : e.target.value;
+    setForm((f) => ({ ...f, [field]: value }));
     setErrors((err) => ({ ...err, [field]: undefined }));
   };
 
@@ -115,7 +116,7 @@ export default function SignupForm() {
           onChange={set("username")}
           error={errors.username}
           autoComplete="username"
-          hint="Letters, numbers and underscores only."
+          hint="Auto-lowercased. Letters, numbers and underscores only."
         />
 
         <Field
