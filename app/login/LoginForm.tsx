@@ -46,7 +46,7 @@ export default function LoginForm() {
       <form onSubmit={handleSubmit} noValidate className="space-y-5">
         <div className="space-y-1.5">
           <label htmlFor="username" className="block text-sm font-medium text-black">
-            Username
+            Username or email
           </label>
           <input
             id="username"
@@ -55,7 +55,7 @@ export default function LoginForm() {
             spellCheck={false}
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            placeholder="your_username"
+            placeholder="Alex_J or alex@example.com"
             className="w-full px-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl text-black text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all"
           />
         </div>
