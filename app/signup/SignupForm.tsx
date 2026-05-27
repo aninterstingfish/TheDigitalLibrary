@@ -3,8 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 
-type Field = "name" | "username" | "email" | "password" | "confirm";
-interface FormState { name: string; username: string; email: string; password: string; confirm: string; }
+type Field = "name" | "username" | "email" | "password" | "confirm" | "age";
+interface FormState { name: string; username: string; email: string; password: string; confirm: string; age: boolean; }
 interface Errors extends Partial<Record<Field, string>> {}
 
 // Allowed username characters: letters, numbers, _@#!$%^&*:"<>?{}+=.-
@@ -54,11 +54,16 @@ function validateForm(form: FormState): Errors {
     e.confirm = "Passwords do not match.";
   }
 
+  // Age
+  if (!form.age) {
+    e.age = "You must confirm you are 13 or older to create an account.";
+  }
+
   return e;
 }
 
 export default function SignupForm() {
-  const [form, setForm] = useState<FormState>({ name: "", username: "", email: "", password: "", confirm: "" });
+  const [form, setForm] = useState<FormState>({ name: "", username: "", email: "", password: "", confirm: "", age: false });
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState<Errors>({});
   const [isLoading, setIsLoading] = useState(false);
@@ -152,6 +157,17 @@ export default function SignupForm() {
             placeholder="Repeat your password"
             value={form.confirm} onChange={set("confirm")} className={inputClass(!!errors.confirm)} />
           {errors.confirm && <p className="text-red-500 text-xs">{errors.confirm}</p>}
+        </div>
+
+        {/* Age confirmation — required for GDPR */}
+        <div className="space-y-1.5">
+          <label className="flex items-start gap-3 cursor-pointer">
+            <input type="checkbox" checked={form.age}
+              onChange={(e) => { setForm((f) => ({ ...f, age: e.target.checked })); setErrors((err) => ({ ...err, age: undefined })); }}
+              className="mt-0.5 w-4 h-4 accent-black shrink-0" />
+            <span className="text-sm text-gray-700">I confirm I am 13 or older (or have parental consent if under 16).</span>
+          </label>
+          {errors.age && <p className="text-red-500 text-xs">{errors.age}</p>}
         </div>
 
         <button type="submit" disabled={isLoading}

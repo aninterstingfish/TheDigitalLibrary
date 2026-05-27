@@ -5,7 +5,7 @@ export default function TermsPage() {
     <div className="min-h-screen bg-white px-8 py-12">
       <div className="max-w-2xl mx-auto">
         <Link href="/login" className="flex items-center gap-3 mb-12">
-          <BookIcon dark />
+          <CloudBookIcon />
           <span className="text-black text-xl font-bold tracking-tight">Cloud Library</span>
         </Link>
 
@@ -14,42 +14,55 @@ export default function TermsPage() {
 
         <div className="space-y-8 text-gray-600 text-sm leading-relaxed">
           <Section title="1. Acceptance">
-            By creating a Cloud Library account you agree to these terms. If you do not agree, do not use the service.
+            By creating a Cloud Library account you agree to these terms and our{" "}
+            <Link href="/privacy" className="text-black underline underline-offset-2">Privacy Policy</Link>.
+            If you do not agree, do not use the service.
           </Section>
 
-          <Section title="2. Eligibility">
-            Cloud Library is intended for students at registered schools. You must be 13 or older to use the service.
+          <Section title="2. Eligibility &amp; Age">
+            Cloud Library is intended for students at registered schools. You must be{" "}
+            <strong className="text-black">13 or older</strong> to use the service. Users aged 13–15 in EU
+            countries where the age of digital consent is 16 must have parental or guardian consent.
+            By ticking the age confirmation checkbox at signup you confirm this requirement is met.
           </Section>
 
           <Section title="3. Book Listings">
-            You may only list books you own. Listings must be accurate — the photo, condition, and title must represent
-            the actual book. Misleading listings may result in account suspension.
+            You may only list books you own. Listings must be accurate — the photo, condition, and title
+            must represent the actual book. Misleading listings may result in account suspension.
           </Section>
 
           <Section title="4. Swaps &amp; Returns">
             Once a swap is confirmed, both parties are expected to meet at the agreed location and time.
-            Borrowers must return books by the agreed return date. Repeated failures to return books on time
-            will reduce your borrow limit.
+            Borrowers must return books by the agreed return date. Repeated failures to return books on
+            time will reduce your borrow limit.
           </Section>
 
           <Section title="5. Ratings">
-            Ratings are left after the swap date. Both owners and borrowers can rate each other 1–5 stars.
-            Ratings must be honest. Abusive or retaliatory ratings may be removed by an admin.
+            Ratings are submitted after the swap is complete. Both owners and borrowers can rate each
+            other 1–5 stars. Ratings must be honest. Abusive or retaliatory ratings may be removed by
+            an admin.
           </Section>
 
           <Section title="6. Prohibited Conduct">
-            You may not use Cloud Library to harass other users, list stolen or counterfeit material, or circumvent
-            the swap system. Violations may result in permanent account termination.
+            You may not use Cloud Library to harass other users, list stolen or counterfeit material,
+            or circumvent the swap system. Violations may result in permanent account termination.
           </Section>
 
           <Section title="7. Limitation of Liability">
-            Cloud Library is not responsible for lost, damaged, or unreturned books. Disputes between users are
-            the responsibility of the users involved, with teacher/admin mediation available.
+            Cloud Library is not responsible for lost, damaged, or unreturned books. Disputes between
+            users are the responsibility of the users involved, with teacher or admin mediation available.
           </Section>
 
-          <Section title="8. Changes to Terms">
-            We may update these terms from time to time. Continued use of Cloud Library after changes constitutes
-            acceptance of the updated terms.
+          <Section title="8. Your Data Rights">
+            You have the right to access, correct, export, and delete your personal data at any time
+            via Settings. See our <Link href="/privacy" className="text-black underline underline-offset-2">Privacy Policy</Link>{" "}
+            for full details of your GDPR rights.
+          </Section>
+
+          <Section title="9. Changes to Terms">
+            We may update these terms from time to time. We will notify users of material changes via
+            an in-app notification at least 14 days before they take effect. Continued use of Cloud
+            Library after that date constitutes acceptance of the updated terms.
           </Section>
         </div>
 
@@ -71,12 +84,15 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   );
 }
 
-function BookIcon({ dark }: { dark?: boolean }) {
+function CloudBookIcon() {
   return (
-    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
-      <rect width="28" height="28" rx="7" fill={dark ? "#000" : "#fff"} />
-      <path d="M8 8h7a3 3 0 013 3v9a3 3 0 01-3 3H8V8z" fill={dark ? "#fff" : "#000"} />
-      <path d="M15 8h1a3 3 0 013 3v9a3 3 0 01-3 3h-1" stroke={dark ? "#fff" : "#000"} strokeWidth="1.5" fill="none" />
+    <svg width="36" height="28" viewBox="0 0 36 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+      <circle cx="11" cy="17" r="6" fill="#000" />
+      <circle cx="18" cy="12" r="7" fill="#000" />
+      <circle cx="25" cy="17" r="6" fill="#000" />
+      <rect x="5" y="17" width="26" height="8" rx="4" fill="#000" />
+      <path d="M18 16 L12 17.5 L12 23 L18 22 Z" fill="#fff" />
+      <path d="M18 16 L24 17.5 L24 23 L18 22 Z" fill="#fff" />
     </svg>
   );
 }
