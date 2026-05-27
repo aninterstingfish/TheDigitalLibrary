@@ -58,8 +58,22 @@ export default function SignupForm() {
       return;
     }
     setIsLoading(true);
-    // TODO: wire up registration API
-    await new Promise((r) => setTimeout(r, 1000));
+    const res = await fetch("/api/auth/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: form.name.trim(),
+        username: form.username,
+        email: form.email.trim(),
+        password: form.password,
+      }),
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      setErrors({ [data.field ?? "email"]: data.error });
+      setIsLoading(false);
+      return;
+    }
     setIsLoading(false);
     setSubmitted(true);
   };
@@ -77,10 +91,10 @@ export default function SignupForm() {
           You&apos;re ready to start swapping books.
         </p>
         <Link
-          href="/login"
+          href="/dashboard"
           className="block w-full bg-black text-white py-3.5 rounded-xl text-sm font-semibold text-center hover:bg-zinc-800 transition-all"
         >
-          Sign in
+          Go to dashboard
         </Link>
       </div>
     );

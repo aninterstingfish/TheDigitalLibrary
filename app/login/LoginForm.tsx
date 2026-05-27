@@ -20,10 +20,18 @@ export default function LoginForm() {
     }
 
     setIsLoading(true);
-    // TODO: wire up NextAuth sign-in
-    await new Promise((r) => setTimeout(r, 1000));
-    setIsLoading(false);
-    setError("Authentication not yet configured — coming soon.");
+    const res = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username: username.trim(), password }),
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      setError(data.error || "Sign in failed.");
+      setIsLoading(false);
+      return;
+    }
+    window.location.href = "/dashboard";
   };
 
   return (
