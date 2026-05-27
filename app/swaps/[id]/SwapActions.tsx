@@ -38,7 +38,7 @@ export default function SwapActions({
 
   async function act(key: string, fn: () => Promise<void>) {
     setLoading(key); setErr("");
-    try { await fn(); router.refresh(); } catch { setErr("Something went wrong."); }
+    try { await fn(); router.refresh(); } catch (e) { setErr(e instanceof Error ? e.message : "Something went wrong."); }
     setLoading("");
   }
 
