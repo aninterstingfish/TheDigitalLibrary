@@ -40,7 +40,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-/app/generated/prisma
+# /app/generated/prisma  — committed so users don't need to run prisma generate
 
 # SQLite database files
 *.db
