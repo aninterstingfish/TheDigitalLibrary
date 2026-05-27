@@ -1,0 +1,120 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id             String   @id @default(cuid())
+  username       String   @unique
+  email          String   @unique
+  passwordHash   String
+  name           String
+  profilePhoto   String?
+  borrowLimit    Int      @default(3)
+  createdAt      DateTime @default(now())
+
+  ownedBooks      Book[]
+  swapRequests    SwapRequest[] @relation("BorrowerRequests")
+  ratingsGiven    Rating[]      @relation("RatingsGiven")
+  ratingsReceived Rating[]      @relation("RatingsReceived")
+  messages        Message[]
+}
+
+model Book {
+  id          String      @id @default(cuid())
+  title       String
+  author      String
+  condition   Condition
+  coverPhoto  String?
+  meetUpSpot  String
+  isAvailable Boolean     @default(true)
+  createdAt   DateTime    @default(now())
+
+  owner       User         @relation(fields: [ownerId], references: [id])
+  ownerId     String
+  requests    SwapRequest[]
+}
+
+model SwapRequest {
+  id                    String        @id @default(cuid())
+  requestedSwapDate     DateTime
+  loanDays              Int
+  status                RequestStatus @default(PENDING)
+  counterProposedDate   DateTime?
+  counterProposedDays   Int?
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
+
+  book       Book   @relation(fields: [bookId], references: [id])
+  bookId     String
+  borrower   User   @relation("BorrowerRequests", fields: [borrowerId], references: [id])
+  borrowerId String
+
+  swap       Swap?
+}
+
+model Swap {
+  id                    String   @id @default(cuid())
+  swapDate              DateTime
+  returnDate            DateTime
+  confirmedAt           DateTime @default(now())
+  ownerConfirmedReturn  Boolean  @default(false)
+  borrowerConfirmedReturn Boolean @default(false)
+
+  request    SwapRequest @relation(fields: [requestId], references: [id])
+  requestId  String      @unique
+
+  messages   Message[]
+  ratings    Rating[]
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  content   String
+  createdAt DateTime @default(now())
+
+  swap      Swap   @relation(fields: [swapId], references: [id])
+  swapId    String
+  sender    User   @relation(fields: [senderId], references: [id])
+  senderId  String
+}
+
+model Rating {
+  id        String     @id @default(cuid())
+  stars     Int
+  role      RaterRole
+  createdAt DateTime   @default(now())
+
+  swap      Swap   @relation(fields: [swapId], references: [id])
+  swapId    String
+  rater     User   @relation("RatingsGiven", fields: [raterId], references: [id])
+  raterId   String
+  ratee     User   @relation("RatingsReceived", fields: [rateeId], references: [id])
+  rateeId   String
+
+  @@unique([swapId, raterId])
+}
+
+enum Condition {
+  NEW
+  GOOD
+  WORN
+}
+
+enum RequestStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+  COUNTER_PROPOSED
+  COMPLETED
+  CANCELLED
+}
+
+enum RaterRole {
+  AS_OWNER
+  AS_BORROWER
+}
