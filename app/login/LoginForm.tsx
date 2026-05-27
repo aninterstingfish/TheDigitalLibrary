@@ -25,7 +25,8 @@ export default function LoginForm() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username: username.trim(), password }),
     });
-    const data = await res.json();
+    const text = await res.text();
+    const data = text ? JSON.parse(text) : {};
     if (!res.ok) {
       setError(data.error || "Sign in failed.");
       setIsLoading(false);

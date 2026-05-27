@@ -6,7 +6,13 @@ import { createSession } from "@/lib/session";
 const USERNAME_RE = /^[a-zA-Z0-9_@#!$%^&*:"<>?{}+=.\-]{3,30}$/;
 
 export async function POST(req: NextRequest) {
-  const { name, username, email, password } = await req.json();
+  let body: { name?: string; username?: string; email?: string; password?: string };
+  try {
+    body = await req.json();
+  } catch {
+    return NextResponse.json({ error: "Invalid request body." }, { status: 400 });
+  }
+  const { name, username, email, password } = body;
 
   // Server-side validation (mirrors client)
   if (!name?.trim() || !username?.trim() || !email?.trim() || !password) {
@@ -41,11 +47,15 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "An account with that email already exists.", field: "email" }, { status: 400 });
   }
 
-  const passwordHash = await bcrypt.hash(password, 12);
-  const user = await prisma.user.create({
-    data: { name: name.trim(), username: username.trim(), email: email.trim().toLowerCase(), passwordHash },
-  });
-
-  await createSession(user.id);
-  return NextResponse.json({ success: true });
+  try {
+    const passwordHash = await bcrypt.hash(password, 12);
+    const user = await prisma.user.create({
+      data: { name: name.trim(), username: username.trim(), email: email.trim().toLowerCase(), passwordHash },
+    });
+    await createSession(user.id);
+    return NextResponse.json({ success: true });
+  } catch (err) {
+    console.error("[register]", err);
+    return NextResponse.json({ error: "Something went wrong. Please try again." }, { status: 500 });
+  }
 }

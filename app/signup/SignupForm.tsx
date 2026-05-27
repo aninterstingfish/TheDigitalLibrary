@@ -85,7 +85,8 @@ export default function SignupForm() {
         password: form.password,
       }),
     });
-    const data = await res.json();
+    const text = await res.text();
+    const data = text ? JSON.parse(text) : {};
     if (!res.ok) {
       setErrors({ [data.field ?? "email"]: data.error });
       setIsLoading(false);
