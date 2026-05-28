@@ -31,6 +31,10 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
         ...(body.description !== undefined && { description: (body.description as string)?.trim() || null }),
         ...(body.coverPhoto !== undefined && { coverPhoto: body.coverPhoto as string | null }),
         ...(body.isCurrentlyReading !== undefined && { isCurrentlyReading: Boolean(body.isCurrentlyReading) }),
+        ...(body.series !== undefined && { series: (body.series as string)?.trim() || null }),
+        ...(body.seriesNumber !== undefined && { seriesNumber: body.seriesNumber ? Number(body.seriesNumber) : null }),
+        ...(body.labelType && { labelType: body.labelType as any }),
+        ...(body.tags !== undefined && { tags: JSON.stringify(Array.isArray(body.tags) ? body.tags : []) }),
       },
     });
     return NextResponse.json({ success: true, id: updated.id });

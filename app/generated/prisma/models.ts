@@ -10,6 +10,9 @@
  */
 export type * from './models/User'
 export type * from './models/Book'
+export type * from './models/BookRating'
+export type * from './models/ReadingList'
+export type * from './models/ReadingListItem'
 export type * from './models/BookRequest'
 export type * from './models/QueueEntry'
 export type * from './models/SwapRequest'

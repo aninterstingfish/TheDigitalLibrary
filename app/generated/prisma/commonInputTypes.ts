@@ -180,6 +180,13 @@ export type EnumConditionFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumConditionFilter<$PrismaModel> | $Enums.Condition
 }
 
+export type EnumLabelTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.LabelType | Prisma.EnumLabelTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.LabelType[]
+  notIn?: $Enums.LabelType[]
+  not?: Prisma.NestedEnumLabelTypeFilter<$PrismaModel> | $Enums.LabelType
+}
+
 export type EnumConditionWithAggregatesFilter<$PrismaModel = never> = {
   equals?: $Enums.Condition | Prisma.EnumConditionFieldRefInput<$PrismaModel>
   in?: $Enums.Condition[]
@@ -188,6 +195,16 @@ export type EnumConditionWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumConditionFilter<$PrismaModel>
   _max?: Prisma.NestedEnumConditionFilter<$PrismaModel>
+}
+
+export type EnumLabelTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.LabelType | Prisma.EnumLabelTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.LabelType[]
+  notIn?: $Enums.LabelType[]
+  not?: Prisma.NestedEnumLabelTypeWithAggregatesFilter<$PrismaModel> | $Enums.LabelType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumLabelTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumLabelTypeFilter<$PrismaModel>
 }
 
 export type EnumQueueStatusFilter<$PrismaModel = never> = {
@@ -483,6 +500,13 @@ export type NestedEnumConditionFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumConditionFilter<$PrismaModel> | $Enums.Condition
 }
 
+export type NestedEnumLabelTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.LabelType | Prisma.EnumLabelTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.LabelType[]
+  notIn?: $Enums.LabelType[]
+  not?: Prisma.NestedEnumLabelTypeFilter<$PrismaModel> | $Enums.LabelType
+}
+
 export type NestedEnumConditionWithAggregatesFilter<$PrismaModel = never> = {
   equals?: $Enums.Condition | Prisma.EnumConditionFieldRefInput<$PrismaModel>
   in?: $Enums.Condition[]
@@ -491,6 +515,16 @@ export type NestedEnumConditionWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumConditionFilter<$PrismaModel>
   _max?: Prisma.NestedEnumConditionFilter<$PrismaModel>
+}
+
+export type NestedEnumLabelTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.LabelType | Prisma.EnumLabelTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.LabelType[]
+  notIn?: $Enums.LabelType[]
+  not?: Prisma.NestedEnumLabelTypeWithAggregatesFilter<$PrismaModel> | $Enums.LabelType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumLabelTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumLabelTypeFilter<$PrismaModel>
 }
 
 export type NestedEnumQueueStatusFilter<$PrismaModel = never> = {

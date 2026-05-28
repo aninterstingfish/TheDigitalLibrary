@@ -8,20 +8,25 @@ export async function POST(req: NextRequest) {
   const session = await getSession();
   if (!session) return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
 
-  let body: { title?: string; author?: string; condition?: string; genres?: string[]; description?: string; coverPhoto?: string };
+  let body: { title?: string; author?: string; series?: string; seriesNumber?: number; condition?: string; genres?: string[]; description?: string; coverPhoto?: string; labelType?: string; tags?: string[] };
   try { body = await req.json(); } catch { return NextResponse.json({ error: "Invalid request." }, { status: 400 }); }
 
-  const { title, author, condition, genres, description, coverPhoto } = body;
+  const { title, author, series, seriesNumber, condition, genres, description, coverPhoto, labelType, tags } = body;
 
   if (!title?.trim()) return NextResponse.json({ error: "Title is required.", field: "title" }, { status: 400 });
   if (!condition || !VALID_CONDITIONS.includes(condition)) return NextResponse.json({ error: "Invalid condition.", field: "condition" }, { status: 400 });
 
   try {
+    const VALID_LABELS = ["PERSONAL", "SCHOOL_PROPERTY", "DONATED"];
     const book = await prisma.book.create({
       data: {
         title: title.trim(),
         author: author?.trim() || null,
+        series: series?.trim() || null,
+        seriesNumber: seriesNumber ? Number(seriesNumber) : null,
         condition: condition as any,
+        labelType: (labelType && VALID_LABELS.includes(labelType) ? labelType : "PERSONAL") as any,
+        tags: JSON.stringify(Array.isArray(tags) ? tags : []),
         genres: JSON.stringify(Array.isArray(genres) ? genres : []),
         description: description?.trim() || null,
         coverPhoto: coverPhoto || null,

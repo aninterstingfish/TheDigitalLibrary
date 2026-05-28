@@ -178,7 +178,8 @@ export default function SettingsForm({ user }: { user: User }) {
           <select id="year" value={yearGroup} onChange={(e) => setYearGroup(e.target.value)}
             className="w-full px-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl text-black text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all">
             <option value="">Select year group</option>
-            {[7,8,9,10,11,12,13].map((y) => <option key={y} value={y}>Year {y}</option>)}
+            <option value="0">Reception</option>
+            {[1,2,3,4,5,6,7,8,9,10,11,12,13].map((y) => <option key={y} value={y}>Year {y}</option>)}
           </select>
         </div>
 

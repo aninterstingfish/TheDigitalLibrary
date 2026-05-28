@@ -15,7 +15,7 @@ export default async function ProfilePage({ params }: { params: Promise<{ userna
   const user = await prisma.user.findUnique({
     where: { username },
     select: {
-      id: true, name: true, username: true, profilePhoto: true, yearGroup: true, borrowLimit: true, createdAt: true, damagedReports: true,
+      id: true, name: true, username: true, profilePhoto: true, yearGroup: true, borrowLimit: true, createdAt: true, damagedReports: true, nonReturns: true,
       ownedBooks: {
         where: { isAvailable: true },
         select: { id: true, title: true, author: true, condition: true, coverPhoto: true, genres: true },
@@ -31,9 +31,9 @@ export default async function ProfilePage({ params }: { params: Promise<{ userna
     ? user.ratingsReceived.reduce((s, r) => s + r.stars, 0) / user.ratingsReceived.length
     : null;
 
-  // Trust score: based on avg rating (0–5 → 0–100) minus damage penalty
+  // Trust score: based on avg rating (0–5 → 0–100) minus non-return penalty
   const trustScore = avgRating !== null
-    ? Math.max(0, Math.round((avgRating / 5) * 100) - user.damagedReports * 5)
+    ? Math.max(0, Math.round((avgRating / 5) * 100) - user.nonReturns * 10)
     : null;
 
   const isOwnProfile = session.userId === user.id;
@@ -75,10 +75,10 @@ export default async function ProfilePage({ params }: { params: Promise<{ userna
                 <p className="text-lg font-bold text-black">{user.ownedBooks.length}</p>
                 <p className="text-xs text-gray-400">books listed</p>
               </div>
-              {user.damagedReports > 0 && (
+              {user.nonReturns > 0 && (
                 <div className="text-center">
-                  <p className="text-lg font-bold text-red-500">{user.damagedReports}</p>
-                  <p className="text-xs text-gray-400">damage {user.damagedReports === 1 ? "report" : "reports"}</p>
+                  <p className="text-lg font-bold text-red-500">{user.nonReturns}</p>
+                  <p className="text-xs text-gray-400">unreturned {user.nonReturns === 1 ? "book" : "books"}</p>
                 </div>
               )}
             </div>

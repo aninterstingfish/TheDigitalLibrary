@@ -28,6 +28,21 @@ export type User = Prisma.UserModel
  */
 export type Book = Prisma.BookModel
 /**
+ * Model BookRating
+ * 
+ */
+export type BookRating = Prisma.BookRatingModel
+/**
+ * Model ReadingList
+ * 
+ */
+export type ReadingList = Prisma.ReadingListModel
+/**
+ * Model ReadingListItem
+ * 
+ */
+export type ReadingListItem = Prisma.ReadingListItemModel
+/**
  * Model BookRequest
  * 
  */

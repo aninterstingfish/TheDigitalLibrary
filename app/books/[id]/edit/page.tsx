@@ -12,13 +12,14 @@ export default async function EditBookPage({ params }: { params: Promise<{ id: s
 
   const book = await prisma.book.findUnique({
     where: { id },
-    select: { id: true, title: true, author: true, condition: true, genres: true, description: true, coverPhoto: true, ownerId: true, isCurrentlyReading: true },
+    select: { id: true, title: true, author: true, series: true, seriesNumber: true, condition: true, genres: true, tags: true, labelType: true, description: true, coverPhoto: true, ownerId: true, isCurrentlyReading: true },
   });
 
   if (!book) notFound();
   if (book.ownerId !== session.userId) redirect("/catalogue");
 
   const genres: string[] = (() => { try { return JSON.parse(book.genres); } catch { return []; } })();
+  const tags: string[] = (() => { try { return JSON.parse(book.tags); } catch { return []; } })();
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -31,8 +32,12 @@ export default async function EditBookPage({ params }: { params: Promise<{ id: s
           initial={{
             title: book.title,
             author: book.author ?? "",
+            series: book.series ?? "",
+            seriesNumber: book.seriesNumber?.toString() ?? "",
             condition: book.condition,
             genres,
+            tags,
+            labelType: book.labelType,
             description: book.description ?? "",
             coverPhoto: book.coverPhoto,
             isCurrentlyReading: book.isCurrentlyReading,

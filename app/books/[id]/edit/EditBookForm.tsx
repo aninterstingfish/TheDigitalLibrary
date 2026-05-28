@@ -10,13 +10,23 @@ const CONDITIONS = [
   { value: "MAJOR_WEAR", label: "Major Wear" },
   { value: "SEVERE_WEAR", label: "Severe Wear (Pages Missing)" },
 ];
+const LABEL_TYPES = [
+  { value: "PERSONAL", label: "Personal" },
+  { value: "SCHOOL_PROPERTY", label: "School Property" },
+  { value: "DONATED", label: "Donated" },
+];
 
-type Initial = { title: string; author: string; condition: string; genres: string[]; description: string; coverPhoto: string | null; isCurrentlyReading: boolean };
+type Initial = { title: string; author: string; series: string; seriesNumber: string; condition: string; genres: string[]; description: string; coverPhoto: string | null; isCurrentlyReading: boolean; labelType: string; tags: string[] };
 
 export default function EditBookForm({ id, initial }: { id: string; initial: Initial }) {
   const router = useRouter();
   const [title, setTitle] = useState(initial.title);
   const [author, setAuthor] = useState(initial.author);
+  const [series, setSeries] = useState(initial.series);
+  const [seriesNumber, setSeriesNumber] = useState(initial.seriesNumber);
+  const [labelType, setLabelType] = useState(initial.labelType);
+  const [tagInput, setTagInput] = useState("");
+  const [tags, setTags] = useState<string[]>(initial.tags);
   const [condition, setCondition] = useState(initial.condition);
   const [genres, setGenres] = useState<string[]>(initial.genres);
   const [description, setDescription] = useState(initial.description);
@@ -37,6 +47,14 @@ export default function EditBookForm({ id, initial }: { id: string; initial: Ini
     if (!file) return;
     setCoverFile(file);
     setCoverPreview(URL.createObjectURL(file));
+  }
+
+  function addTag(value: string) {
+    const t = value.trim().toLowerCase().replace(/,/g, "");
+    if (t && !tags.includes(t) && tags.length < 10) {
+      setTags((prev) => [...prev, t]);
+    }
+    setTagInput("");
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -63,6 +81,10 @@ export default function EditBookForm({ id, initial }: { id: string; initial: Ini
       body: JSON.stringify({
         title: title.trim(),
         author: author.trim() || null,
+        series: series.trim() || null,
+        seriesNumber: seriesNumber ? Number(seriesNumber) : null,
+        labelType,
+        tags,
         condition,
         genres,
         description: description.trim() || null,
@@ -121,6 +143,65 @@ export default function EditBookForm({ id, initial }: { id: string; initial: Ini
       <div>
         <label htmlFor="author" className="block text-sm font-medium text-black mb-1.5">Author <span className="text-gray-400 font-normal">(optional)</span></label>
         <input id="author" type="text" value={author} onChange={(e) => setAuthor(e.target.value)} className={ic(false)} />
+      </div>
+
+      {/* Series */}
+      <div>
+        <label htmlFor="series" className="block text-sm font-medium text-black mb-1.5">
+          Series <span className="text-gray-400 font-normal">(optional)</span>
+        </label>
+        <input type="text" id="series" value={series} onChange={(e) => setSeries(e.target.value)} placeholder="e.g. Harry Potter" className={ic(false)} />
+      </div>
+
+      {/* Series number */}
+      {series.trim() && (
+        <div>
+          <label htmlFor="seriesNumber" className="block text-sm font-medium text-black mb-1.5">
+            Book number in series <span className="text-gray-400 font-normal">(optional)</span>
+          </label>
+          <input type="number" id="seriesNumber" min={1} max={100} value={seriesNumber} onChange={(e) => setSeriesNumber(e.target.value)}
+            onWheel={(e) => e.currentTarget.blur()} placeholder="e.g. 3" className={ic(false)} />
+        </div>
+      )}
+
+      {/* Label type */}
+      <div>
+        <label className="block text-sm font-medium text-black mb-2">
+          Book type <span className="text-red-400">*</span>
+        </label>
+        <div className="grid grid-cols-3 gap-2">
+          {LABEL_TYPES.map((l) => (
+            <button key={l.value} type="button" onClick={() => setLabelType(l.value)}
+              className={`px-3 py-2.5 rounded-xl border text-sm font-medium text-left transition-all ${labelType === l.value ? "border-black bg-black text-white" : "border-gray-200 bg-white text-gray-700 hover:border-gray-400"}`}>
+              {l.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Tags */}
+      <div>
+        <label className="block text-sm font-medium text-black mb-1.5">
+          Tags <span className="text-gray-400 font-normal">(optional)</span>
+        </label>
+        <div className="flex flex-wrap gap-1.5 mb-2">
+          {tags.map((t) => (
+            <span key={t} className="flex items-center gap-1 bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">
+              {t}
+              <button type="button" onClick={() => setTags((prev) => prev.filter((x) => x !== t))} className="text-gray-400 hover:text-gray-600">×</button>
+            </span>
+          ))}
+        </div>
+        <input
+          type="text"
+          value={tagInput}
+          onChange={(e) => setTagInput(e.target.value)}
+          onKeyDown={(e) => { if (e.key === "Enter" || e.key === ",") { e.preventDefault(); addTag(tagInput); } }}
+          onBlur={() => { if (tagInput.trim()) addTag(tagInput); }}
+          placeholder="Type and press Enter to add tags…"
+          className={ic(false)}
+        />
+        <p className="text-xs text-gray-400 mt-1">Up to 10 tags. Press Enter or comma to add.</p>
       </div>
 
       {/* Condition */}

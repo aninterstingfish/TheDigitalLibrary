@@ -20,6 +20,7 @@ export default async function Nav({ active }: { active?: string }) {
     { href: "/book-requests", label: "Requests" },
     { href: "/history", label: "History" },
     { href: "/wishlist", label: "Wishlist" },
+    { href: "/reading-lists", label: "Lists" },
     ...(user.isAdmin ? [{ href: "/admin", label: "Admin" }] : []),
   ];
 

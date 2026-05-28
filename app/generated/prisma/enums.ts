@@ -19,6 +19,15 @@ export const Condition = {
 export type Condition = (typeof Condition)[keyof typeof Condition]
 
 
+export const LabelType = {
+  PERSONAL: 'PERSONAL',
+  SCHOOL_PROPERTY: 'SCHOOL_PROPERTY',
+  DONATED: 'DONATED'
+} as const
+
+export type LabelType = (typeof LabelType)[keyof typeof LabelType]
+
+
 export const RequestStatus = {
   PENDING: 'PENDING',
   ACCEPTED: 'ACCEPTED',

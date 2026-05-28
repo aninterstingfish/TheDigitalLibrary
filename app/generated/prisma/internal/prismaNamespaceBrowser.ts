@@ -53,6 +53,9 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   User: 'User',
   Book: 'Book',
+  BookRating: 'BookRating',
+  ReadingList: 'ReadingList',
+  ReadingListItem: 'ReadingListItem',
   BookRequest: 'BookRequest',
   QueueEntry: 'QueueEntry',
   SwapRequest: 'SwapRequest',
@@ -86,8 +89,11 @@ export const UserScalarFieldEnum = {
   yearGroup: 'yearGroup',
   borrowLimit: 'borrowLimit',
   approved: 'approved',
+  paused: 'paused',
   isAdmin: 'isAdmin',
+  isTeacher: 'isTeacher',
   damagedReports: 'damagedReports',
+  nonReturns: 'nonReturns',
   createdAt: 'createdAt',
   parentId: 'parentId'
 } as const
@@ -99,7 +105,11 @@ export const BookScalarFieldEnum = {
   id: 'id',
   title: 'title',
   author: 'author',
+  series: 'series',
+  seriesNumber: 'seriesNumber',
   condition: 'condition',
+  labelType: 'labelType',
+  tags: 'tags',
   coverPhoto: 'coverPhoto',
   genres: 'genres',
   description: 'description',
@@ -111,6 +121,41 @@ export const BookScalarFieldEnum = {
 } as const
 
 export type BookScalarFieldEnum = (typeof BookScalarFieldEnum)[keyof typeof BookScalarFieldEnum]
+
+
+export const BookRatingScalarFieldEnum = {
+  id: 'id',
+  stars: 'stars',
+  review: 'review',
+  createdAt: 'createdAt',
+  bookId: 'bookId',
+  userId: 'userId'
+} as const
+
+export type BookRatingScalarFieldEnum = (typeof BookRatingScalarFieldEnum)[keyof typeof BookRatingScalarFieldEnum]
+
+
+export const ReadingListScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  isPublic: 'isPublic',
+  isTeacherList: 'isTeacherList',
+  createdAt: 'createdAt',
+  userId: 'userId'
+} as const
+
+export type ReadingListScalarFieldEnum = (typeof ReadingListScalarFieldEnum)[keyof typeof ReadingListScalarFieldEnum]
+
+
+export const ReadingListItemScalarFieldEnum = {
+  id: 'id',
+  addedAt: 'addedAt',
+  listId: 'listId',
+  bookId: 'bookId'
+} as const
+
+export type ReadingListItemScalarFieldEnum = (typeof ReadingListItemScalarFieldEnum)[keyof typeof ReadingListItemScalarFieldEnum]
 
 
 export const BookRequestScalarFieldEnum = {
@@ -189,6 +234,7 @@ export const RatingScalarFieldEnum = {
   review: 'review',
   role: 'role',
   damaged: 'damaged',
+  notReturned: 'notReturned',
   createdAt: 'createdAt',
   swapId: 'swapId',
   raterId: 'raterId',

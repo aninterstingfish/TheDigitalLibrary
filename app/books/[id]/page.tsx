@@ -4,6 +4,8 @@ import { redirect, notFound } from "next/navigation";
 import Nav from "@/components/Nav";
 import Link from "next/link";
 import QueueSection from "./QueueSection";
+import BookRatings from "./BookRatings";
+import AddToListButton from "./AddToListButton";
 
 const CONDITION_LABELS: Record<string, string> = {
   NEW: "New",
@@ -19,37 +21,67 @@ const CONDITION_COLORS: Record<string, string> = {
   SEVERE_WEAR: "bg-red-100 text-red-700",
 };
 
+const LABEL_COLORS: Record<string, string> = {
+  SCHOOL_PROPERTY: "bg-blue-50 text-blue-700",
+  DONATED: "bg-green-50 text-green-700",
+};
+
+const LABEL_LABELS: Record<string, string> = {
+  PERSONAL: "Personal",
+  SCHOOL_PROPERTY: "School Property",
+  DONATED: "Donated",
+};
+
 export default async function BookPage({ params }: { params: Promise<{ id: string }> }) {
   const session = await getSession();
   if (!session) redirect("/login");
 
   const { id } = await params;
 
-  const book = await prisma.book.findUnique({
-    where: { id },
-    include: {
-      owner: { select: { id: true, username: true, name: true, ratingsReceived: { select: { stars: true } } } },
-      _count: { select: { requests: true } },
-      wishlistedBy: { where: { userId: session.userId }, select: { id: true } },
-      queueEntries: {
-        orderBy: { position: "asc" },
-        select: {
-          id: true,
-          position: true,
-          status: true,
-          note: true,
-          user: { select: { id: true, username: true, name: true } },
+  const [book, hasBorrowed] = await Promise.all([
+    prisma.book.findUnique({
+      where: { id },
+      include: {
+        owner: { select: { id: true, username: true, name: true } },
+        _count: { select: { requests: true } },
+        wishlistedBy: { where: { userId: session.userId }, select: { id: true } },
+        queueEntries: {
+          orderBy: { position: "asc" },
+          select: {
+            id: true,
+            position: true,
+            status: true,
+            note: true,
+            user: { select: { id: true, username: true, name: true } },
+          },
+        },
+        bookRatings: {
+          orderBy: { createdAt: "desc" },
+          select: {
+            id: true,
+            stars: true,
+            review: true,
+            createdAt: true,
+            user: { select: { id: true, username: true, name: true } },
+          },
         },
       },
-    },
-  });
+    }),
+    prisma.swap.findFirst({
+      where: { ownerConfirmedReturn: true, request: { bookId: id, borrowerId: session.userId } },
+      select: { id: true },
+    }),
+  ]);
 
   if (!book) notFound();
 
   const isOwner = book.ownerId === session.userId;
   const genres: string[] = (() => { try { return JSON.parse(book.genres); } catch { return []; } })();
-  const avgRating = book.owner.ratingsReceived.length
-    ? (book.owner.ratingsReceived.reduce((s, r) => s + r.stars, 0) / book.owner.ratingsReceived.length).toFixed(1)
+  const tags: string[] = (() => { try { const p = JSON.parse(book.tags ?? "[]"); return Array.isArray(p) ? p : []; } catch { return []; } })();
+  const canRate = !isOwner && Boolean(hasBorrowed);
+
+  const bookAvgRating = book.bookRatings.length
+    ? (book.bookRatings.reduce((s, r) => s + r.stars, 0) / book.bookRatings.length).toFixed(1)
     : null;
 
   const myQueueEntry = book.queueEntries.find((e) => e.user.id === session.userId);
@@ -83,10 +115,30 @@ export default async function BookPage({ params }: { params: Promise<{ id: strin
               </div>
 
               {/* Info */}
-              <div className="p-6 flex-1 flex flex-col gap-4">
+              <div className="p-6 flex-1 flex flex-col gap-3">
                 <div>
                   <h1 className="text-2xl font-bold text-black tracking-tight">{book.title}</h1>
                   {book.author && <p className="text-gray-500 text-sm mt-1">{book.author}</p>}
+                  {book.series && (
+                    <p className="text-gray-400 text-xs mt-1">
+                      {book.series}{book.seriesNumber ? ` · Book ${book.seriesNumber}` : ""}
+                    </p>
+                  )}
+                </div>
+
+                {/* Badges row */}
+                <div className="flex flex-wrap gap-1.5">
+                  <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${CONDITION_COLORS[book.condition] ?? "bg-gray-100 text-gray-600"}`}>
+                    {CONDITION_LABELS[book.condition] ?? book.condition}
+                  </span>
+                  {book.labelType && book.labelType !== "PERSONAL" && (
+                    <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${LABEL_COLORS[book.labelType] ?? "bg-gray-100 text-gray-600"}`}>
+                      {LABEL_LABELS[book.labelType] ?? book.labelType}
+                    </span>
+                  )}
+                  {!book.isAvailable && (
+                    <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-gray-100 text-gray-500">On Loan</span>
+                  )}
                 </div>
 
                 {genres.length > 0 && (
@@ -97,46 +149,57 @@ export default async function BookPage({ params }: { params: Promise<{ id: strin
                   </div>
                 )}
 
-                <div className="flex items-center gap-3">
-                  <span className={`text-xs font-medium px-3 py-1 rounded-full ${CONDITION_COLORS[book.condition] ?? "bg-gray-100 text-gray-600"}`}>
-                    {CONDITION_LABELS[book.condition] ?? book.condition}
-                  </span>
-                  {!book.isAvailable && (
-                    <span className="text-xs font-medium px-3 py-1 rounded-full bg-gray-100 text-gray-500">On Loan</span>
-                  )}
-                </div>
+                {tags.length > 0 && (
+                  <div className="flex flex-wrap gap-1.5">
+                    {tags.map((t) => (
+                      <span key={t} className="text-xs bg-gray-50 text-gray-500 border border-gray-200 px-2.5 py-0.5 rounded-full">#{t}</span>
+                    ))}
+                  </div>
+                )}
 
                 {book.description && (
                   <p className="text-sm text-gray-600 leading-relaxed">{book.description}</p>
                 )}
 
+                {/* Book rating summary */}
+                {bookAvgRating && (
+                  <div className="flex items-center gap-1">
+                    <span className="text-amber-400 text-sm">★</span>
+                    <span className="text-sm font-medium text-black">{bookAvgRating}</span>
+                    <span className="text-xs text-gray-400">book rating ({book.bookRatings.length})</span>
+                  </div>
+                )}
+
                 {/* Owner */}
-                <div className="flex items-center gap-2 pt-2 border-t border-gray-50">
+                <div className="flex items-center gap-2 pt-2 border-t border-gray-50 mt-auto">
                   <div className="w-8 h-8 bg-black rounded-full flex items-center justify-center text-white text-xs font-bold">
                     {book.owner.name[0]}
                   </div>
-                  <div>
-                    <p className="text-sm font-medium text-black">@{book.owner.username}</p>
-                    {avgRating && (
-                      <p className="text-xs text-gray-400">★ {avgRating} avg rating</p>
-                    )}
-                  </div>
+                  <Link href={`/profile/${book.owner.username}`} className="text-sm font-medium text-black hover:underline">
+                    @{book.owner.username}
+                  </Link>
                 </div>
 
                 {/* Actions */}
-                <div className="flex gap-2 mt-auto pt-2">
+                <div className="flex flex-wrap gap-2 pt-1">
                   {isOwner ? (
                     <Link href={`/books/${id}/edit`} className="flex-1 text-center bg-black text-white text-sm font-semibold py-3 rounded-xl hover:bg-zinc-800 transition-all">
                       Edit listing
                     </Link>
                   ) : book.isAvailable ? (
-                    <Link href={`/books/${id}/request`} className="flex-1 text-center bg-black text-white text-sm font-semibold py-3 rounded-xl hover:bg-zinc-800 transition-all">
-                      Request loan
-                    </Link>
+                    <>
+                      <Link href={`/books/${id}/request`} className="flex-1 text-center bg-black text-white text-sm font-semibold py-3 rounded-xl hover:bg-zinc-800 transition-all">
+                        Request loan
+                      </Link>
+                      <AddToListButton bookId={id} />
+                    </>
                   ) : (
-                    <div className="flex-1 text-center bg-gray-100 text-gray-400 text-sm font-semibold py-3 rounded-xl cursor-not-allowed">
-                      Currently on loan
-                    </div>
+                    <>
+                      <div className="flex-1 text-center bg-gray-100 text-gray-400 text-sm font-semibold py-3 rounded-xl cursor-not-allowed">
+                        Currently on loan
+                      </div>
+                      <AddToListButton bookId={id} />
+                    </>
                   )}
                 </div>
               </div>
@@ -161,6 +224,17 @@ export default async function BookPage({ params }: { params: Promise<{ id: strin
               ownerEntries={book.queueEntries}
             />
           )}
+
+          {/* Book ratings */}
+          <BookRatings
+            bookId={id}
+            initialRatings={book.bookRatings.map((r) => ({
+              ...r,
+              createdAt: r.createdAt.toISOString(),
+            }))}
+            canRate={canRate}
+            currentUserId={session.userId}
+          />
         </div>
       </main>
     </div>

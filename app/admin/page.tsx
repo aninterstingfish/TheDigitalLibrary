@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import Nav from "@/components/Nav";
 import ApproveButton from "./ApproveButton";
+import ChildAccountActions from "./ChildAccountActions";
 import Link from "next/link";
 
 export default async function AdminPage() {
@@ -22,7 +23,9 @@ export default async function AdminPage() {
           username: true,
           email: true,
           approved: true,
+          paused: true,
           damagedReports: true,
+          nonReturns: true,
           createdAt: true,
           swapRequests: {
             where: { swap: { handedOver: true, ownerConfirmedReturn: false } },
@@ -100,9 +103,12 @@ export default async function AdminPage() {
               <div className="flex items-center justify-between mb-3">
                 <h2 className="text-sm font-semibold text-black uppercase tracking-wide">{child.name} (@{child.username})</h2>
                 <div className="flex items-center gap-3">
-                  {child.damagedReports > 0 && (
+                  {child.paused && (
+                    <span className="text-xs bg-amber-50 text-amber-600 px-2 py-1 rounded-lg font-medium">Paused</span>
+                  )}
+                  {child.nonReturns > 0 && (
                     <span className="text-xs bg-red-50 text-red-500 px-2 py-1 rounded-lg font-medium">
-                      {child.damagedReports} damage report{child.damagedReports > 1 ? "s" : ""}
+                      {child.nonReturns} unreturned book{child.nonReturns > 1 ? "s" : ""}
                     </span>
                   )}
                   <Link href={`/admin/history/${child.id}`}
@@ -161,6 +167,10 @@ export default async function AdminPage() {
                   There are overdue items. Contact the other party through the swap chat.
                 </p>
               )}
+
+              <div className="bg-white rounded-2xl border border-gray-100 px-5">
+                <ChildAccountActions userId={child.id} paused={child.paused} />
+              </div>
             </section>
           );
         })}

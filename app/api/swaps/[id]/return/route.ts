@@ -8,7 +8,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   if (!session) return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
   const { id } = await params;
 
-  let body: { confirmedBy: "owner" | "borrower" };
+  let body: { confirmedBy: "owner" | "borrower"; notReturned?: boolean };
   try { body = await req.json(); } catch { return NextResponse.json({ error: "Invalid request." }, { status: 400 }); }
 
   const swap = await prisma.swap.findUnique({
@@ -31,12 +31,32 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   const now = new Date();
 
   if (body.confirmedBy === "owner" && isOwner) {
+    const bookId = swap.request.book.id;
     await prisma.$transaction([
       prisma.swap.update({ where: { id }, data: { ownerConfirmedReturn: true, returnConfirmedAt: now } }),
       prisma.swapRequest.update({ where: { id: swap.requestId }, data: { status: "COMPLETED" } }),
-      prisma.book.update({ where: { id: swap.request.book.id }, data: { isAvailable: true } }),
+      prisma.book.update({ where: { id: bookId }, data: { isAvailable: true } }),
     ]);
+
+    if (body.notReturned) {
+      await prisma.user.update({ where: { id: swap.request.borrower.id }, data: { nonReturns: { increment: 1 } } });
+    }
+
     await notify(swap.request.borrower.id, "RETURN_CONFIRMED", `Return of "${swap.request.book.title}" confirmed — please leave a rating!`, `/swaps/${swap.requestId}`);
+
+    const nextInQueue = await prisma.queueEntry.findFirst({
+      where: { bookId, status: "WAITING" },
+      orderBy: { position: "asc" },
+      select: { user: { select: { username: true, name: true } } },
+    });
+    if (nextInQueue) {
+      await notify(
+        session.userId,
+        "QUEUE_NEXT",
+        `"${swap.request.book.title}" is back — @${nextInQueue.user.username} is next in queue. Visit the book to offer it to them.`,
+        `/books/${bookId}`
+      );
+    }
   } else if (body.confirmedBy === "borrower" && isBorrower) {
     await prisma.swap.update({ where: { id }, data: { borrowerConfirmedReturn: true } });
     const borrower = await prisma.user.findUnique({ where: { id: session.userId }, select: { name: true } });

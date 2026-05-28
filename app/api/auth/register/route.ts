@@ -54,21 +54,37 @@ export async function POST(req: NextRequest) {
   const needsApproval = age < 13;
   let parentId: string | null = null;
 
-  if (needsApproval) {
-    const parent = await prisma.user.findFirst({ where: { username: parentUsername!.trim() } });
+  // Under-13: parent required. Over-13: parent optional.
+  if (parentUsername?.trim()) {
+    const parent = await prisma.user.findFirst({ where: { username: parentUsername.trim() } });
     if (!parent) {
-      return NextResponse.json({ error: "Parent account not found.", code: "PARENT_NOT_FOUND" }, { status: 404 });
+      if (needsApproval) {
+        return NextResponse.json({ error: "Parent account not found.", code: "PARENT_NOT_FOUND" }, { status: 404 });
+      }
+      // Over-13 with optional parent that doesn't exist — just warn but don't block
+      return NextResponse.json({ error: "No account found with that parent username.", field: "parentUsername" }, { status: 400 });
     }
     parentId = parent.id;
-    // Notify the parent
-    await prisma.notification.create({
-      data: {
-        userId: parent.id,
-        type: "APPROVAL_NEEDED",
-        message: `${name.trim()} has signed up and needs your approval. Visit your Admin panel to approve their account.`,
-        link: "/admin",
-      },
-    });
+    if (needsApproval) {
+      await prisma.notification.create({
+        data: {
+          userId: parent.id,
+          type: "APPROVAL_NEEDED",
+          message: `${name.trim()} has signed up and needs your approval. Visit your Admin panel to approve their account.`,
+          link: "/admin",
+        },
+      });
+    } else {
+      // Over-13 voluntary link — notify parent
+      await prisma.notification.create({
+        data: {
+          userId: parent.id,
+          type: "CHILD_LINKED",
+          message: `${name.trim()} (@${username.trim()}) has linked their account to yours.`,
+          link: "/admin",
+        },
+      });
+    }
   }
 
   try {

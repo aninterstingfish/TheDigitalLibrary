@@ -17,8 +17,11 @@ model User {
   yearGroup      Int?
   borrowLimit    Int      @default(5)
   approved       Boolean  @default(true)
+  paused         Boolean  @default(false)
   isAdmin        Boolean  @default(false)
+  isTeacher      Boolean  @default(false)
   damagedReports Int      @default(0)
+  nonReturns     Int      @default(0)
   createdAt      DateTime @default(now())
 
   parentId  String?
@@ -29,31 +32,79 @@ model User {
   swapRequests    SwapRequest[] @relation("BorrowerRequests")
   ratingsGiven    Rating[]      @relation("RatingsGiven")
   ratingsReceived Rating[]      @relation("RatingsReceived")
+  bookRatings     BookRating[]
   messages        Message[]
   wishlist        WishlistItem[]
   notifications   Notification[]
   bookRequests    BookRequest[]
   queueEntries    QueueEntry[]
+  readingLists    ReadingList[]
 }
 
 model Book {
-  id               String    @id @default(cuid())
-  title            String
-  author           String?
-  condition        Condition
-  coverPhoto       String?
-  genres           String    @default("[]")
-  description      String?
-  isAvailable      Boolean   @default(true)
-  isCurrentlyReading Boolean @default(false)
-  createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @updatedAt
+  id                 String    @id @default(cuid())
+  title              String
+  author             String?
+  series             String?
+  seriesNumber       Int?
+  condition          Condition
+  labelType          LabelType @default(PERSONAL)
+  tags               String    @default("[]")
+  coverPhoto         String?
+  genres             String    @default("[]")
+  description        String?
+  isAvailable        Boolean   @default(true)
+  isCurrentlyReading Boolean   @default(false)
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
 
-  owner        User          @relation(fields: [ownerId], references: [id])
-  ownerId      String
-  requests     SwapRequest[]
-  wishlistedBy WishlistItem[]
-  queueEntries QueueEntry[]
+  owner           User            @relation(fields: [ownerId], references: [id])
+  ownerId         String
+  requests        SwapRequest[]
+  wishlistedBy    WishlistItem[]
+  queueEntries    QueueEntry[]
+  bookRatings     BookRating[]
+  readingListItems ReadingListItem[]
+}
+
+model BookRating {
+  id        String   @id @default(cuid())
+  stars     Int
+  review    String?
+  createdAt DateTime @default(now())
+
+  book   Book   @relation(fields: [bookId], references: [id])
+  bookId String
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  @@unique([bookId, userId])
+}
+
+model ReadingList {
+  id            String   @id @default(cuid())
+  name          String
+  description   String?
+  isPublic      Boolean  @default(false)
+  isTeacherList Boolean  @default(false)
+  createdAt     DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  items ReadingListItem[]
+}
+
+model ReadingListItem {
+  id      String   @id @default(cuid())
+  addedAt DateTime @default(now())
+
+  list   ReadingList @relation(fields: [listId], references: [id])
+  listId String
+  book   Book        @relation(fields: [bookId], references: [id])
+  bookId String
+
+  @@unique([listId, bookId])
 }
 
 model BookRequest {
@@ -137,6 +188,7 @@ model Rating {
   review    String?
   role      RaterRole
   damaged   Boolean   @default(false)
+  notReturned Boolean @default(false)
   createdAt DateTime  @default(now())
 
   swap    Swap   @relation(fields: [swapId], references: [id])
@@ -178,6 +230,12 @@ enum Condition {
   MINOR_WEAR
   MAJOR_WEAR
   SEVERE_WEAR
+}
+
+enum LabelType {
+  PERSONAL
+  SCHOOL_PROPERTY
+  DONATED
 }
 
 enum RequestStatus {

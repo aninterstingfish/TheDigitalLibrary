@@ -30,12 +30,14 @@ export type UserAvgAggregateOutputType = {
   yearGroup: number | null
   borrowLimit: number | null
   damagedReports: number | null
+  nonReturns: number | null
 }
 
 export type UserSumAggregateOutputType = {
   yearGroup: number | null
   borrowLimit: number | null
   damagedReports: number | null
+  nonReturns: number | null
 }
 
 export type UserMinAggregateOutputType = {
@@ -48,8 +50,11 @@ export type UserMinAggregateOutputType = {
   yearGroup: number | null
   borrowLimit: number | null
   approved: boolean | null
+  paused: boolean | null
   isAdmin: boolean | null
+  isTeacher: boolean | null
   damagedReports: number | null
+  nonReturns: number | null
   createdAt: Date | null
   parentId: string | null
 }
@@ -64,8 +69,11 @@ export type UserMaxAggregateOutputType = {
   yearGroup: number | null
   borrowLimit: number | null
   approved: boolean | null
+  paused: boolean | null
   isAdmin: boolean | null
+  isTeacher: boolean | null
   damagedReports: number | null
+  nonReturns: number | null
   createdAt: Date | null
   parentId: string | null
 }
@@ -80,8 +88,11 @@ export type UserCountAggregateOutputType = {
   yearGroup: number
   borrowLimit: number
   approved: number
+  paused: number
   isAdmin: number
+  isTeacher: number
   damagedReports: number
+  nonReturns: number
   createdAt: number
   parentId: number
   _all: number
@@ -92,12 +103,14 @@ export type UserAvgAggregateInputType = {
   yearGroup?: true
   borrowLimit?: true
   damagedReports?: true
+  nonReturns?: true
 }
 
 export type UserSumAggregateInputType = {
   yearGroup?: true
   borrowLimit?: true
   damagedReports?: true
+  nonReturns?: true
 }
 
 export type UserMinAggregateInputType = {
@@ -110,8 +123,11 @@ export type UserMinAggregateInputType = {
   yearGroup?: true
   borrowLimit?: true
   approved?: true
+  paused?: true
   isAdmin?: true
+  isTeacher?: true
   damagedReports?: true
+  nonReturns?: true
   createdAt?: true
   parentId?: true
 }
@@ -126,8 +142,11 @@ export type UserMaxAggregateInputType = {
   yearGroup?: true
   borrowLimit?: true
   approved?: true
+  paused?: true
   isAdmin?: true
+  isTeacher?: true
   damagedReports?: true
+  nonReturns?: true
   createdAt?: true
   parentId?: true
 }
@@ -142,8 +161,11 @@ export type UserCountAggregateInputType = {
   yearGroup?: true
   borrowLimit?: true
   approved?: true
+  paused?: true
   isAdmin?: true
+  isTeacher?: true
   damagedReports?: true
+  nonReturns?: true
   createdAt?: true
   parentId?: true
   _all?: true
@@ -245,8 +267,11 @@ export type UserGroupByOutputType = {
   yearGroup: number | null
   borrowLimit: number
   approved: boolean
+  paused: boolean
   isAdmin: boolean
+  isTeacher: boolean
   damagedReports: number
+  nonReturns: number
   createdAt: Date
   parentId: string | null
   _count: UserCountAggregateOutputType | null
@@ -284,8 +309,11 @@ export type UserWhereInput = {
   yearGroup?: Prisma.IntNullableFilter<"User"> | number | null
   borrowLimit?: Prisma.IntFilter<"User"> | number
   approved?: Prisma.BoolFilter<"User"> | boolean
+  paused?: Prisma.BoolFilter<"User"> | boolean
   isAdmin?: Prisma.BoolFilter<"User"> | boolean
+  isTeacher?: Prisma.BoolFilter<"User"> | boolean
   damagedReports?: Prisma.IntFilter<"User"> | number
+  nonReturns?: Prisma.IntFilter<"User"> | number
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   parentId?: Prisma.StringNullableFilter<"User"> | string | null
   parent?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
@@ -294,11 +322,13 @@ export type UserWhereInput = {
   swapRequests?: Prisma.SwapRequestListRelationFilter
   ratingsGiven?: Prisma.RatingListRelationFilter
   ratingsReceived?: Prisma.RatingListRelationFilter
+  bookRatings?: Prisma.BookRatingListRelationFilter
   messages?: Prisma.MessageListRelationFilter
   wishlist?: Prisma.WishlistItemListRelationFilter
   notifications?: Prisma.NotificationListRelationFilter
   bookRequests?: Prisma.BookRequestListRelationFilter
   queueEntries?: Prisma.QueueEntryListRelationFilter
+  readingLists?: Prisma.ReadingListListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -311,8 +341,11 @@ export type UserOrderByWithRelationInput = {
   yearGroup?: Prisma.SortOrderInput | Prisma.SortOrder
   borrowLimit?: Prisma.SortOrder
   approved?: Prisma.SortOrder
+  paused?: Prisma.SortOrder
   isAdmin?: Prisma.SortOrder
+  isTeacher?: Prisma.SortOrder
   damagedReports?: Prisma.SortOrder
+  nonReturns?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   parentId?: Prisma.SortOrderInput | Prisma.SortOrder
   parent?: Prisma.UserOrderByWithRelationInput
@@ -321,11 +354,13 @@ export type UserOrderByWithRelationInput = {
   swapRequests?: Prisma.SwapRequestOrderByRelationAggregateInput
   ratingsGiven?: Prisma.RatingOrderByRelationAggregateInput
   ratingsReceived?: Prisma.RatingOrderByRelationAggregateInput
+  bookRatings?: Prisma.BookRatingOrderByRelationAggregateInput
   messages?: Prisma.MessageOrderByRelationAggregateInput
   wishlist?: Prisma.WishlistItemOrderByRelationAggregateInput
   notifications?: Prisma.NotificationOrderByRelationAggregateInput
   bookRequests?: Prisma.BookRequestOrderByRelationAggregateInput
   queueEntries?: Prisma.QueueEntryOrderByRelationAggregateInput
+  readingLists?: Prisma.ReadingListOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -341,8 +376,11 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   yearGroup?: Prisma.IntNullableFilter<"User"> | number | null
   borrowLimit?: Prisma.IntFilter<"User"> | number
   approved?: Prisma.BoolFilter<"User"> | boolean
+  paused?: Prisma.BoolFilter<"User"> | boolean
   isAdmin?: Prisma.BoolFilter<"User"> | boolean
+  isTeacher?: Prisma.BoolFilter<"User"> | boolean
   damagedReports?: Prisma.IntFilter<"User"> | number
+  nonReturns?: Prisma.IntFilter<"User"> | number
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   parentId?: Prisma.StringNullableFilter<"User"> | string | null
   parent?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
@@ -351,11 +389,13 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   swapRequests?: Prisma.SwapRequestListRelationFilter
   ratingsGiven?: Prisma.RatingListRelationFilter
   ratingsReceived?: Prisma.RatingListRelationFilter
+  bookRatings?: Prisma.BookRatingListRelationFilter
   messages?: Prisma.MessageListRelationFilter
   wishlist?: Prisma.WishlistItemListRelationFilter
   notifications?: Prisma.NotificationListRelationFilter
   bookRequests?: Prisma.BookRequestListRelationFilter
   queueEntries?: Prisma.QueueEntryListRelationFilter
+  readingLists?: Prisma.ReadingListListRelationFilter
 }, "id" | "username" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -368,8 +408,11 @@ export type UserOrderByWithAggregationInput = {
   yearGroup?: Prisma.SortOrderInput | Prisma.SortOrder
   borrowLimit?: Prisma.SortOrder
   approved?: Prisma.SortOrder
+  paused?: Prisma.SortOrder
   isAdmin?: Prisma.SortOrder
+  isTeacher?: Prisma.SortOrder
   damagedReports?: Prisma.SortOrder
+  nonReturns?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   parentId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
@@ -392,8 +435,11 @@ export type UserScalarWhereWithAggregatesInput = {
   yearGroup?: Prisma.IntNullableWithAggregatesFilter<"User"> | number | null
   borrowLimit?: Prisma.IntWithAggregatesFilter<"User"> | number
   approved?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  paused?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   isAdmin?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  isTeacher?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   damagedReports?: Prisma.IntWithAggregatesFilter<"User"> | number
+  nonReturns?: Prisma.IntWithAggregatesFilter<"User"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   parentId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
 }
@@ -408,8 +454,11 @@ export type UserCreateInput = {
   yearGroup?: number | null
   borrowLimit?: number
   approved?: boolean
+  paused?: boolean
   isAdmin?: boolean
+  isTeacher?: boolean
   damagedReports?: number
+  nonReturns?: number
   createdAt?: Date | string
   parent?: Prisma.UserCreateNestedOneWithoutChildrenInput
   children?: Prisma.UserCreateNestedManyWithoutParentInput
@@ -417,11 +466,13 @@ export type UserCreateInput = {
   swapRequests?: Prisma.SwapRequestCreateNestedManyWithoutBorrowerInput
   ratingsGiven?: Prisma.RatingCreateNestedManyWithoutRaterInput
   ratingsReceived?: Prisma.RatingCreateNestedManyWithoutRateeInput
+  bookRatings?: Prisma.BookRatingCreateNestedManyWithoutUserInput
   messages?: Prisma.MessageCreateNestedManyWithoutSenderInput
   wishlist?: Prisma.WishlistItemCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   bookRequests?: Prisma.BookRequestCreateNestedManyWithoutUserInput
   queueEntries?: Prisma.QueueEntryCreateNestedManyWithoutUserInput
+  readingLists?: Prisma.ReadingListCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -434,8 +485,11 @@ export type UserUncheckedCreateInput = {
   yearGroup?: number | null
   borrowLimit?: number
   approved?: boolean
+  paused?: boolean
   isAdmin?: boolean
+  isTeacher?: boolean
   damagedReports?: number
+  nonReturns?: number
   createdAt?: Date | string
   parentId?: string | null
   children?: Prisma.UserUncheckedCreateNestedManyWithoutParentInput
@@ -443,11 +497,13 @@ export type UserUncheckedCreateInput = {
   swapRequests?: Prisma.SwapRequestUncheckedCreateNestedManyWithoutBorrowerInput
   ratingsGiven?: Prisma.RatingUncheckedCreateNestedManyWithoutRaterInput
   ratingsReceived?: Prisma.RatingUncheckedCreateNestedManyWithoutRateeInput
+  bookRatings?: Prisma.BookRatingUncheckedCreateNestedManyWithoutUserInput
   messages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   wishlist?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   bookRequests?: Prisma.BookRequestUncheckedCreateNestedManyWithoutUserInput
   queueEntries?: Prisma.QueueEntryUncheckedCreateNestedManyWithoutUserInput
+  readingLists?: Prisma.ReadingListUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -460,8 +516,11 @@ export type UserUpdateInput = {
   yearGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   borrowLimit?: Prisma.IntFieldUpdateOperationsInput | number
   approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  paused?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isTeacher?: Prisma.BoolFieldUpdateOperationsInput | boolean
   damagedReports?: Prisma.IntFieldUpdateOperationsInput | number
+  nonReturns?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   parent?: Prisma.UserUpdateOneWithoutChildrenNestedInput
   children?: Prisma.UserUpdateManyWithoutParentNestedInput
@@ -469,11 +528,13 @@ export type UserUpdateInput = {
   swapRequests?: Prisma.SwapRequestUpdateManyWithoutBorrowerNestedInput
   ratingsGiven?: Prisma.RatingUpdateManyWithoutRaterNestedInput
   ratingsReceived?: Prisma.RatingUpdateManyWithoutRateeNestedInput
+  bookRatings?: Prisma.BookRatingUpdateManyWithoutUserNestedInput
   messages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   wishlist?: Prisma.WishlistItemUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   bookRequests?: Prisma.BookRequestUpdateManyWithoutUserNestedInput
   queueEntries?: Prisma.QueueEntryUpdateManyWithoutUserNestedInput
+  readingLists?: Prisma.ReadingListUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -486,8 +547,11 @@ export type UserUncheckedUpdateInput = {
   yearGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   borrowLimit?: Prisma.IntFieldUpdateOperationsInput | number
   approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  paused?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isTeacher?: Prisma.BoolFieldUpdateOperationsInput | boolean
   damagedReports?: Prisma.IntFieldUpdateOperationsInput | number
+  nonReturns?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   children?: Prisma.UserUncheckedUpdateManyWithoutParentNestedInput
@@ -495,11 +559,13 @@ export type UserUncheckedUpdateInput = {
   swapRequests?: Prisma.SwapRequestUncheckedUpdateManyWithoutBorrowerNestedInput
   ratingsGiven?: Prisma.RatingUncheckedUpdateManyWithoutRaterNestedInput
   ratingsReceived?: Prisma.RatingUncheckedUpdateManyWithoutRateeNestedInput
+  bookRatings?: Prisma.BookRatingUncheckedUpdateManyWithoutUserNestedInput
   messages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   wishlist?: Prisma.WishlistItemUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   bookRequests?: Prisma.BookRequestUncheckedUpdateManyWithoutUserNestedInput
   queueEntries?: Prisma.QueueEntryUncheckedUpdateManyWithoutUserNestedInput
+  readingLists?: Prisma.ReadingListUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -512,8 +578,11 @@ export type UserCreateManyInput = {
   yearGroup?: number | null
   borrowLimit?: number
   approved?: boolean
+  paused?: boolean
   isAdmin?: boolean
+  isTeacher?: boolean
   damagedReports?: number
+  nonReturns?: number
   createdAt?: Date | string
   parentId?: string | null
 }
@@ -528,8 +597,11 @@ export type UserUpdateManyMutationInput = {
   yearGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   borrowLimit?: Prisma.IntFieldUpdateOperationsInput | number
   approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  paused?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isTeacher?: Prisma.BoolFieldUpdateOperationsInput | boolean
   damagedReports?: Prisma.IntFieldUpdateOperationsInput | number
+  nonReturns?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -543,8 +615,11 @@ export type UserUncheckedUpdateManyInput = {
   yearGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   borrowLimit?: Prisma.IntFieldUpdateOperationsInput | number
   approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  paused?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isTeacher?: Prisma.BoolFieldUpdateOperationsInput | boolean
   damagedReports?: Prisma.IntFieldUpdateOperationsInput | number
+  nonReturns?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -574,8 +649,11 @@ export type UserCountOrderByAggregateInput = {
   yearGroup?: Prisma.SortOrder
   borrowLimit?: Prisma.SortOrder
   approved?: Prisma.SortOrder
+  paused?: Prisma.SortOrder
   isAdmin?: Prisma.SortOrder
+  isTeacher?: Prisma.SortOrder
   damagedReports?: Prisma.SortOrder
+  nonReturns?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   parentId?: Prisma.SortOrder
 }
@@ -584,6 +662,7 @@ export type UserAvgOrderByAggregateInput = {
   yearGroup?: Prisma.SortOrder
   borrowLimit?: Prisma.SortOrder
   damagedReports?: Prisma.SortOrder
+  nonReturns?: Prisma.SortOrder
 }
 
 export type UserMaxOrderByAggregateInput = {
@@ -596,8 +675,11 @@ export type UserMaxOrderByAggregateInput = {
   yearGroup?: Prisma.SortOrder
   borrowLimit?: Prisma.SortOrder
   approved?: Prisma.SortOrder
+  paused?: Prisma.SortOrder
   isAdmin?: Prisma.SortOrder
+  isTeacher?: Prisma.SortOrder
   damagedReports?: Prisma.SortOrder
+  nonReturns?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   parentId?: Prisma.SortOrder
 }
@@ -612,8 +694,11 @@ export type UserMinOrderByAggregateInput = {
   yearGroup?: Prisma.SortOrder
   borrowLimit?: Prisma.SortOrder
   approved?: Prisma.SortOrder
+  paused?: Prisma.SortOrder
   isAdmin?: Prisma.SortOrder
+  isTeacher?: Prisma.SortOrder
   damagedReports?: Prisma.SortOrder
+  nonReturns?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   parentId?: Prisma.SortOrder
 }
@@ -622,6 +707,7 @@ export type UserSumOrderByAggregateInput = {
   yearGroup?: Prisma.SortOrder
   borrowLimit?: Prisma.SortOrder
   damagedReports?: Prisma.SortOrder
+  nonReturns?: Prisma.SortOrder
 }
 
 export type UserScalarRelationFilter = {
@@ -731,6 +817,34 @@ export type UserUpdateOneRequiredWithoutOwnedBooksNestedInput = {
   upsert?: Prisma.UserUpsertWithoutOwnedBooksInput
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutOwnedBooksInput, Prisma.UserUpdateWithoutOwnedBooksInput>, Prisma.UserUncheckedUpdateWithoutOwnedBooksInput>
+}
+
+export type UserCreateNestedOneWithoutBookRatingsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutBookRatingsInput, Prisma.UserUncheckedCreateWithoutBookRatingsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutBookRatingsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutBookRatingsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutBookRatingsInput, Prisma.UserUncheckedCreateWithoutBookRatingsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutBookRatingsInput
+  upsert?: Prisma.UserUpsertWithoutBookRatingsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutBookRatingsInput, Prisma.UserUpdateWithoutBookRatingsInput>, Prisma.UserUncheckedUpdateWithoutBookRatingsInput>
+}
+
+export type UserCreateNestedOneWithoutReadingListsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutReadingListsInput, Prisma.UserUncheckedCreateWithoutReadingListsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReadingListsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutReadingListsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutReadingListsInput, Prisma.UserUncheckedCreateWithoutReadingListsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReadingListsInput
+  upsert?: Prisma.UserUpsertWithoutReadingListsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutReadingListsInput, Prisma.UserUpdateWithoutReadingListsInput>, Prisma.UserUncheckedUpdateWithoutReadingListsInput>
 }
 
 export type UserCreateNestedOneWithoutBookRequestsInput = {
@@ -855,19 +969,24 @@ export type UserCreateWithoutChildrenInput = {
   yearGroup?: number | null
   borrowLimit?: number
   approved?: boolean
+  paused?: boolean
   isAdmin?: boolean
+  isTeacher?: boolean
   damagedReports?: number
+  nonReturns?: number
   createdAt?: Date | string
   parent?: Prisma.UserCreateNestedOneWithoutChildrenInput
   ownedBooks?: Prisma.BookCreateNestedManyWithoutOwnerInput
   swapRequests?: Prisma.SwapRequestCreateNestedManyWithoutBorrowerInput
   ratingsGiven?: Prisma.RatingCreateNestedManyWithoutRaterInput
   ratingsReceived?: Prisma.RatingCreateNestedManyWithoutRateeInput
+  bookRatings?: Prisma.BookRatingCreateNestedManyWithoutUserInput
   messages?: Prisma.MessageCreateNestedManyWithoutSenderInput
   wishlist?: Prisma.WishlistItemCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   bookRequests?: Prisma.BookRequestCreateNestedManyWithoutUserInput
   queueEntries?: Prisma.QueueEntryCreateNestedManyWithoutUserInput
+  readingLists?: Prisma.ReadingListCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutChildrenInput = {
@@ -880,19 +999,24 @@ export type UserUncheckedCreateWithoutChildrenInput = {
   yearGroup?: number | null
   borrowLimit?: number
   approved?: boolean
+  paused?: boolean
   isAdmin?: boolean
+  isTeacher?: boolean
   damagedReports?: number
+  nonReturns?: number
   createdAt?: Date | string
   parentId?: string | null
   ownedBooks?: Prisma.BookUncheckedCreateNestedManyWithoutOwnerInput
   swapRequests?: Prisma.SwapRequestUncheckedCreateNestedManyWithoutBorrowerInput
   ratingsGiven?: Prisma.RatingUncheckedCreateNestedManyWithoutRaterInput
   ratingsReceived?: Prisma.RatingUncheckedCreateNestedManyWithoutRateeInput
+  bookRatings?: Prisma.BookRatingUncheckedCreateNestedManyWithoutUserInput
   messages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   wishlist?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   bookRequests?: Prisma.BookRequestUncheckedCreateNestedManyWithoutUserInput
   queueEntries?: Prisma.QueueEntryUncheckedCreateNestedManyWithoutUserInput
+  readingLists?: Prisma.ReadingListUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutChildrenInput = {
@@ -910,19 +1034,24 @@ export type UserCreateWithoutParentInput = {
   yearGroup?: number | null
   borrowLimit?: number
   approved?: boolean
+  paused?: boolean
   isAdmin?: boolean
+  isTeacher?: boolean
   damagedReports?: number
+  nonReturns?: number
   createdAt?: Date | string
   children?: Prisma.UserCreateNestedManyWithoutParentInput
   ownedBooks?: Prisma.BookCreateNestedManyWithoutOwnerInput
   swapRequests?: Prisma.SwapRequestCreateNestedManyWithoutBorrowerInput
   ratingsGiven?: Prisma.RatingCreateNestedManyWithoutRaterInput
   ratingsReceived?: Prisma.RatingCreateNestedManyWithoutRateeInput
+  bookRatings?: Prisma.BookRatingCreateNestedManyWithoutUserInput
   messages?: Prisma.MessageCreateNestedManyWithoutSenderInput
   wishlist?: Prisma.WishlistItemCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   bookRequests?: Prisma.BookRequestCreateNestedManyWithoutUserInput
   queueEntries?: Prisma.QueueEntryCreateNestedManyWithoutUserInput
+  readingLists?: Prisma.ReadingListCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutParentInput = {
@@ -935,19 +1064,24 @@ export type UserUncheckedCreateWithoutParentInput = {
   yearGroup?: number | null
   borrowLimit?: number
   approved?: boolean
+  paused?: boolean
   isAdmin?: boolean
+  isTeacher?: boolean
   damagedReports?: number
+  nonReturns?: number
   createdAt?: Date | string
   children?: Prisma.UserUncheckedCreateNestedManyWithoutParentInput
   ownedBooks?: Prisma.BookUncheckedCreateNestedManyWithoutOwnerInput
   swapRequests?: Prisma.SwapRequestUncheckedCreateNestedManyWithoutBorrowerInput
   ratingsGiven?: Prisma.RatingUncheckedCreateNestedManyWithoutRaterInput
   ratingsReceived?: Prisma.RatingUncheckedCreateNestedManyWithoutRateeInput
+  bookRatings?: Prisma.BookRatingUncheckedCreateNestedManyWithoutUserInput
   messages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   wishlist?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   bookRequests?: Prisma.BookRequestUncheckedCreateNestedManyWithoutUserInput
   queueEntries?: Prisma.QueueEntryUncheckedCreateNestedManyWithoutUserInput
+  readingLists?: Prisma.ReadingListUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutParentInput = {
@@ -980,19 +1114,24 @@ export type UserUpdateWithoutChildrenInput = {
   yearGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   borrowLimit?: Prisma.IntFieldUpdateOperationsInput | number
   approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  paused?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isTeacher?: Prisma.BoolFieldUpdateOperationsInput | boolean
   damagedReports?: Prisma.IntFieldUpdateOperationsInput | number
+  nonReturns?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   parent?: Prisma.UserUpdateOneWithoutChildrenNestedInput
   ownedBooks?: Prisma.BookUpdateManyWithoutOwnerNestedInput
   swapRequests?: Prisma.SwapRequestUpdateManyWithoutBorrowerNestedInput
   ratingsGiven?: Prisma.RatingUpdateManyWithoutRaterNestedInput
   ratingsReceived?: Prisma.RatingUpdateManyWithoutRateeNestedInput
+  bookRatings?: Prisma.BookRatingUpdateManyWithoutUserNestedInput
   messages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   wishlist?: Prisma.WishlistItemUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   bookRequests?: Prisma.BookRequestUpdateManyWithoutUserNestedInput
   queueEntries?: Prisma.QueueEntryUpdateManyWithoutUserNestedInput
+  readingLists?: Prisma.ReadingListUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutChildrenInput = {
@@ -1005,19 +1144,24 @@ export type UserUncheckedUpdateWithoutChildrenInput = {
   yearGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   borrowLimit?: Prisma.IntFieldUpdateOperationsInput | number
   approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  paused?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isTeacher?: Prisma.BoolFieldUpdateOperationsInput | boolean
   damagedReports?: Prisma.IntFieldUpdateOperationsInput | number
+  nonReturns?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ownedBooks?: Prisma.BookUncheckedUpdateManyWithoutOwnerNestedInput
   swapRequests?: Prisma.SwapRequestUncheckedUpdateManyWithoutBorrowerNestedInput
   ratingsGiven?: Prisma.RatingUncheckedUpdateManyWithoutRaterNestedInput
   ratingsReceived?: Prisma.RatingUncheckedUpdateManyWithoutRateeNestedInput
+  bookRatings?: Prisma.BookRatingUncheckedUpdateManyWithoutUserNestedInput
   messages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   wishlist?: Prisma.WishlistItemUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   bookRequests?: Prisma.BookRequestUncheckedUpdateManyWithoutUserNestedInput
   queueEntries?: Prisma.QueueEntryUncheckedUpdateManyWithoutUserNestedInput
+  readingLists?: Prisma.ReadingListUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithWhereUniqueWithoutParentInput = {
@@ -1049,8 +1193,11 @@ export type UserScalarWhereInput = {
   yearGroup?: Prisma.IntNullableFilter<"User"> | number | null
   borrowLimit?: Prisma.IntFilter<"User"> | number
   approved?: Prisma.BoolFilter<"User"> | boolean
+  paused?: Prisma.BoolFilter<"User"> | boolean
   isAdmin?: Prisma.BoolFilter<"User"> | boolean
+  isTeacher?: Prisma.BoolFilter<"User"> | boolean
   damagedReports?: Prisma.IntFilter<"User"> | number
+  nonReturns?: Prisma.IntFilter<"User"> | number
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   parentId?: Prisma.StringNullableFilter<"User"> | string | null
 }
@@ -1065,19 +1212,24 @@ export type UserCreateWithoutOwnedBooksInput = {
   yearGroup?: number | null
   borrowLimit?: number
   approved?: boolean
+  paused?: boolean
   isAdmin?: boolean
+  isTeacher?: boolean
   damagedReports?: number
+  nonReturns?: number
   createdAt?: Date | string
   parent?: Prisma.UserCreateNestedOneWithoutChildrenInput
   children?: Prisma.UserCreateNestedManyWithoutParentInput
   swapRequests?: Prisma.SwapRequestCreateNestedManyWithoutBorrowerInput
   ratingsGiven?: Prisma.RatingCreateNestedManyWithoutRaterInput
   ratingsReceived?: Prisma.RatingCreateNestedManyWithoutRateeInput
+  bookRatings?: Prisma.BookRatingCreateNestedManyWithoutUserInput
   messages?: Prisma.MessageCreateNestedManyWithoutSenderInput
   wishlist?: Prisma.WishlistItemCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   bookRequests?: Prisma.BookRequestCreateNestedManyWithoutUserInput
   queueEntries?: Prisma.QueueEntryCreateNestedManyWithoutUserInput
+  readingLists?: Prisma.ReadingListCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutOwnedBooksInput = {
@@ -1090,19 +1242,24 @@ export type UserUncheckedCreateWithoutOwnedBooksInput = {
   yearGroup?: number | null
   borrowLimit?: number
   approved?: boolean
+  paused?: boolean
   isAdmin?: boolean
+  isTeacher?: boolean
   damagedReports?: number
+  nonReturns?: number
   createdAt?: Date | string
   parentId?: string | null
   children?: Prisma.UserUncheckedCreateNestedManyWithoutParentInput
   swapRequests?: Prisma.SwapRequestUncheckedCreateNestedManyWithoutBorrowerInput
   ratingsGiven?: Prisma.RatingUncheckedCreateNestedManyWithoutRaterInput
   ratingsReceived?: Prisma.RatingUncheckedCreateNestedManyWithoutRateeInput
+  bookRatings?: Prisma.BookRatingUncheckedCreateNestedManyWithoutUserInput
   messages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   wishlist?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   bookRequests?: Prisma.BookRequestUncheckedCreateNestedManyWithoutUserInput
   queueEntries?: Prisma.QueueEntryUncheckedCreateNestedManyWithoutUserInput
+  readingLists?: Prisma.ReadingListUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutOwnedBooksInput = {
@@ -1131,19 +1288,24 @@ export type UserUpdateWithoutOwnedBooksInput = {
   yearGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   borrowLimit?: Prisma.IntFieldUpdateOperationsInput | number
   approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  paused?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isTeacher?: Prisma.BoolFieldUpdateOperationsInput | boolean
   damagedReports?: Prisma.IntFieldUpdateOperationsInput | number
+  nonReturns?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   parent?: Prisma.UserUpdateOneWithoutChildrenNestedInput
   children?: Prisma.UserUpdateManyWithoutParentNestedInput
   swapRequests?: Prisma.SwapRequestUpdateManyWithoutBorrowerNestedInput
   ratingsGiven?: Prisma.RatingUpdateManyWithoutRaterNestedInput
   ratingsReceived?: Prisma.RatingUpdateManyWithoutRateeNestedInput
+  bookRatings?: Prisma.BookRatingUpdateManyWithoutUserNestedInput
   messages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   wishlist?: Prisma.WishlistItemUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   bookRequests?: Prisma.BookRequestUpdateManyWithoutUserNestedInput
   queueEntries?: Prisma.QueueEntryUpdateManyWithoutUserNestedInput
+  readingLists?: Prisma.ReadingListUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutOwnedBooksInput = {
@@ -1156,14 +1318,291 @@ export type UserUncheckedUpdateWithoutOwnedBooksInput = {
   yearGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   borrowLimit?: Prisma.IntFieldUpdateOperationsInput | number
   approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  paused?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isTeacher?: Prisma.BoolFieldUpdateOperationsInput | boolean
   damagedReports?: Prisma.IntFieldUpdateOperationsInput | number
+  nonReturns?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   children?: Prisma.UserUncheckedUpdateManyWithoutParentNestedInput
   swapRequests?: Prisma.SwapRequestUncheckedUpdateManyWithoutBorrowerNestedInput
   ratingsGiven?: Prisma.RatingUncheckedUpdateManyWithoutRaterNestedInput
   ratingsReceived?: Prisma.RatingUncheckedUpdateManyWithoutRateeNestedInput
+  bookRatings?: Prisma.BookRatingUncheckedUpdateManyWithoutUserNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+  wishlist?: Prisma.WishlistItemUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  bookRequests?: Prisma.BookRequestUncheckedUpdateManyWithoutUserNestedInput
+  queueEntries?: Prisma.QueueEntryUncheckedUpdateManyWithoutUserNestedInput
+  readingLists?: Prisma.ReadingListUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutBookRatingsInput = {
+  id?: string
+  username: string
+  email: string
+  passwordHash: string
+  name: string
+  profilePhoto?: string | null
+  yearGroup?: number | null
+  borrowLimit?: number
+  approved?: boolean
+  paused?: boolean
+  isAdmin?: boolean
+  isTeacher?: boolean
+  damagedReports?: number
+  nonReturns?: number
+  createdAt?: Date | string
+  parent?: Prisma.UserCreateNestedOneWithoutChildrenInput
+  children?: Prisma.UserCreateNestedManyWithoutParentInput
+  ownedBooks?: Prisma.BookCreateNestedManyWithoutOwnerInput
+  swapRequests?: Prisma.SwapRequestCreateNestedManyWithoutBorrowerInput
+  ratingsGiven?: Prisma.RatingCreateNestedManyWithoutRaterInput
+  ratingsReceived?: Prisma.RatingCreateNestedManyWithoutRateeInput
+  messages?: Prisma.MessageCreateNestedManyWithoutSenderInput
+  wishlist?: Prisma.WishlistItemCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  bookRequests?: Prisma.BookRequestCreateNestedManyWithoutUserInput
+  queueEntries?: Prisma.QueueEntryCreateNestedManyWithoutUserInput
+  readingLists?: Prisma.ReadingListCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutBookRatingsInput = {
+  id?: string
+  username: string
+  email: string
+  passwordHash: string
+  name: string
+  profilePhoto?: string | null
+  yearGroup?: number | null
+  borrowLimit?: number
+  approved?: boolean
+  paused?: boolean
+  isAdmin?: boolean
+  isTeacher?: boolean
+  damagedReports?: number
+  nonReturns?: number
+  createdAt?: Date | string
+  parentId?: string | null
+  children?: Prisma.UserUncheckedCreateNestedManyWithoutParentInput
+  ownedBooks?: Prisma.BookUncheckedCreateNestedManyWithoutOwnerInput
+  swapRequests?: Prisma.SwapRequestUncheckedCreateNestedManyWithoutBorrowerInput
+  ratingsGiven?: Prisma.RatingUncheckedCreateNestedManyWithoutRaterInput
+  ratingsReceived?: Prisma.RatingUncheckedCreateNestedManyWithoutRateeInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
+  wishlist?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  bookRequests?: Prisma.BookRequestUncheckedCreateNestedManyWithoutUserInput
+  queueEntries?: Prisma.QueueEntryUncheckedCreateNestedManyWithoutUserInput
+  readingLists?: Prisma.ReadingListUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutBookRatingsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutBookRatingsInput, Prisma.UserUncheckedCreateWithoutBookRatingsInput>
+}
+
+export type UserUpsertWithoutBookRatingsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutBookRatingsInput, Prisma.UserUncheckedUpdateWithoutBookRatingsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutBookRatingsInput, Prisma.UserUncheckedCreateWithoutBookRatingsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutBookRatingsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutBookRatingsInput, Prisma.UserUncheckedUpdateWithoutBookRatingsInput>
+}
+
+export type UserUpdateWithoutBookRatingsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  yearGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  borrowLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  paused?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isTeacher?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  damagedReports?: Prisma.IntFieldUpdateOperationsInput | number
+  nonReturns?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  parent?: Prisma.UserUpdateOneWithoutChildrenNestedInput
+  children?: Prisma.UserUpdateManyWithoutParentNestedInput
+  ownedBooks?: Prisma.BookUpdateManyWithoutOwnerNestedInput
+  swapRequests?: Prisma.SwapRequestUpdateManyWithoutBorrowerNestedInput
+  ratingsGiven?: Prisma.RatingUpdateManyWithoutRaterNestedInput
+  ratingsReceived?: Prisma.RatingUpdateManyWithoutRateeNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
+  wishlist?: Prisma.WishlistItemUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  bookRequests?: Prisma.BookRequestUpdateManyWithoutUserNestedInput
+  queueEntries?: Prisma.QueueEntryUpdateManyWithoutUserNestedInput
+  readingLists?: Prisma.ReadingListUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutBookRatingsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  yearGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  borrowLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  paused?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isTeacher?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  damagedReports?: Prisma.IntFieldUpdateOperationsInput | number
+  nonReturns?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  children?: Prisma.UserUncheckedUpdateManyWithoutParentNestedInput
+  ownedBooks?: Prisma.BookUncheckedUpdateManyWithoutOwnerNestedInput
+  swapRequests?: Prisma.SwapRequestUncheckedUpdateManyWithoutBorrowerNestedInput
+  ratingsGiven?: Prisma.RatingUncheckedUpdateManyWithoutRaterNestedInput
+  ratingsReceived?: Prisma.RatingUncheckedUpdateManyWithoutRateeNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+  wishlist?: Prisma.WishlistItemUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  bookRequests?: Prisma.BookRequestUncheckedUpdateManyWithoutUserNestedInput
+  queueEntries?: Prisma.QueueEntryUncheckedUpdateManyWithoutUserNestedInput
+  readingLists?: Prisma.ReadingListUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutReadingListsInput = {
+  id?: string
+  username: string
+  email: string
+  passwordHash: string
+  name: string
+  profilePhoto?: string | null
+  yearGroup?: number | null
+  borrowLimit?: number
+  approved?: boolean
+  paused?: boolean
+  isAdmin?: boolean
+  isTeacher?: boolean
+  damagedReports?: number
+  nonReturns?: number
+  createdAt?: Date | string
+  parent?: Prisma.UserCreateNestedOneWithoutChildrenInput
+  children?: Prisma.UserCreateNestedManyWithoutParentInput
+  ownedBooks?: Prisma.BookCreateNestedManyWithoutOwnerInput
+  swapRequests?: Prisma.SwapRequestCreateNestedManyWithoutBorrowerInput
+  ratingsGiven?: Prisma.RatingCreateNestedManyWithoutRaterInput
+  ratingsReceived?: Prisma.RatingCreateNestedManyWithoutRateeInput
+  bookRatings?: Prisma.BookRatingCreateNestedManyWithoutUserInput
+  messages?: Prisma.MessageCreateNestedManyWithoutSenderInput
+  wishlist?: Prisma.WishlistItemCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  bookRequests?: Prisma.BookRequestCreateNestedManyWithoutUserInput
+  queueEntries?: Prisma.QueueEntryCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutReadingListsInput = {
+  id?: string
+  username: string
+  email: string
+  passwordHash: string
+  name: string
+  profilePhoto?: string | null
+  yearGroup?: number | null
+  borrowLimit?: number
+  approved?: boolean
+  paused?: boolean
+  isAdmin?: boolean
+  isTeacher?: boolean
+  damagedReports?: number
+  nonReturns?: number
+  createdAt?: Date | string
+  parentId?: string | null
+  children?: Prisma.UserUncheckedCreateNestedManyWithoutParentInput
+  ownedBooks?: Prisma.BookUncheckedCreateNestedManyWithoutOwnerInput
+  swapRequests?: Prisma.SwapRequestUncheckedCreateNestedManyWithoutBorrowerInput
+  ratingsGiven?: Prisma.RatingUncheckedCreateNestedManyWithoutRaterInput
+  ratingsReceived?: Prisma.RatingUncheckedCreateNestedManyWithoutRateeInput
+  bookRatings?: Prisma.BookRatingUncheckedCreateNestedManyWithoutUserInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
+  wishlist?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  bookRequests?: Prisma.BookRequestUncheckedCreateNestedManyWithoutUserInput
+  queueEntries?: Prisma.QueueEntryUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutReadingListsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutReadingListsInput, Prisma.UserUncheckedCreateWithoutReadingListsInput>
+}
+
+export type UserUpsertWithoutReadingListsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutReadingListsInput, Prisma.UserUncheckedUpdateWithoutReadingListsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutReadingListsInput, Prisma.UserUncheckedCreateWithoutReadingListsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutReadingListsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutReadingListsInput, Prisma.UserUncheckedUpdateWithoutReadingListsInput>
+}
+
+export type UserUpdateWithoutReadingListsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  yearGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  borrowLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  paused?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isTeacher?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  damagedReports?: Prisma.IntFieldUpdateOperationsInput | number
+  nonReturns?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  parent?: Prisma.UserUpdateOneWithoutChildrenNestedInput
+  children?: Prisma.UserUpdateManyWithoutParentNestedInput
+  ownedBooks?: Prisma.BookUpdateManyWithoutOwnerNestedInput
+  swapRequests?: Prisma.SwapRequestUpdateManyWithoutBorrowerNestedInput
+  ratingsGiven?: Prisma.RatingUpdateManyWithoutRaterNestedInput
+  ratingsReceived?: Prisma.RatingUpdateManyWithoutRateeNestedInput
+  bookRatings?: Prisma.BookRatingUpdateManyWithoutUserNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
+  wishlist?: Prisma.WishlistItemUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  bookRequests?: Prisma.BookRequestUpdateManyWithoutUserNestedInput
+  queueEntries?: Prisma.QueueEntryUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutReadingListsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  yearGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  borrowLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  paused?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isTeacher?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  damagedReports?: Prisma.IntFieldUpdateOperationsInput | number
+  nonReturns?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  children?: Prisma.UserUncheckedUpdateManyWithoutParentNestedInput
+  ownedBooks?: Prisma.BookUncheckedUpdateManyWithoutOwnerNestedInput
+  swapRequests?: Prisma.SwapRequestUncheckedUpdateManyWithoutBorrowerNestedInput
+  ratingsGiven?: Prisma.RatingUncheckedUpdateManyWithoutRaterNestedInput
+  ratingsReceived?: Prisma.RatingUncheckedUpdateManyWithoutRateeNestedInput
+  bookRatings?: Prisma.BookRatingUncheckedUpdateManyWithoutUserNestedInput
   messages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   wishlist?: Prisma.WishlistItemUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
@@ -1181,8 +1620,11 @@ export type UserCreateWithoutBookRequestsInput = {
   yearGroup?: number | null
   borrowLimit?: number
   approved?: boolean
+  paused?: boolean
   isAdmin?: boolean
+  isTeacher?: boolean
   damagedReports?: number
+  nonReturns?: number
   createdAt?: Date | string
   parent?: Prisma.UserCreateNestedOneWithoutChildrenInput
   children?: Prisma.UserCreateNestedManyWithoutParentInput
@@ -1190,10 +1632,12 @@ export type UserCreateWithoutBookRequestsInput = {
   swapRequests?: Prisma.SwapRequestCreateNestedManyWithoutBorrowerInput
   ratingsGiven?: Prisma.RatingCreateNestedManyWithoutRaterInput
   ratingsReceived?: Prisma.RatingCreateNestedManyWithoutRateeInput
+  bookRatings?: Prisma.BookRatingCreateNestedManyWithoutUserInput
   messages?: Prisma.MessageCreateNestedManyWithoutSenderInput
   wishlist?: Prisma.WishlistItemCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   queueEntries?: Prisma.QueueEntryCreateNestedManyWithoutUserInput
+  readingLists?: Prisma.ReadingListCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutBookRequestsInput = {
@@ -1206,8 +1650,11 @@ export type UserUncheckedCreateWithoutBookRequestsInput = {
   yearGroup?: number | null
   borrowLimit?: number
   approved?: boolean
+  paused?: boolean
   isAdmin?: boolean
+  isTeacher?: boolean
   damagedReports?: number
+  nonReturns?: number
   createdAt?: Date | string
   parentId?: string | null
   children?: Prisma.UserUncheckedCreateNestedManyWithoutParentInput
@@ -1215,10 +1662,12 @@ export type UserUncheckedCreateWithoutBookRequestsInput = {
   swapRequests?: Prisma.SwapRequestUncheckedCreateNestedManyWithoutBorrowerInput
   ratingsGiven?: Prisma.RatingUncheckedCreateNestedManyWithoutRaterInput
   ratingsReceived?: Prisma.RatingUncheckedCreateNestedManyWithoutRateeInput
+  bookRatings?: Prisma.BookRatingUncheckedCreateNestedManyWithoutUserInput
   messages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   wishlist?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   queueEntries?: Prisma.QueueEntryUncheckedCreateNestedManyWithoutUserInput
+  readingLists?: Prisma.ReadingListUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutBookRequestsInput = {
@@ -1247,8 +1696,11 @@ export type UserUpdateWithoutBookRequestsInput = {
   yearGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   borrowLimit?: Prisma.IntFieldUpdateOperationsInput | number
   approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  paused?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isTeacher?: Prisma.BoolFieldUpdateOperationsInput | boolean
   damagedReports?: Prisma.IntFieldUpdateOperationsInput | number
+  nonReturns?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   parent?: Prisma.UserUpdateOneWithoutChildrenNestedInput
   children?: Prisma.UserUpdateManyWithoutParentNestedInput
@@ -1256,10 +1708,12 @@ export type UserUpdateWithoutBookRequestsInput = {
   swapRequests?: Prisma.SwapRequestUpdateManyWithoutBorrowerNestedInput
   ratingsGiven?: Prisma.RatingUpdateManyWithoutRaterNestedInput
   ratingsReceived?: Prisma.RatingUpdateManyWithoutRateeNestedInput
+  bookRatings?: Prisma.BookRatingUpdateManyWithoutUserNestedInput
   messages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   wishlist?: Prisma.WishlistItemUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   queueEntries?: Prisma.QueueEntryUpdateManyWithoutUserNestedInput
+  readingLists?: Prisma.ReadingListUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutBookRequestsInput = {
@@ -1272,8 +1726,11 @@ export type UserUncheckedUpdateWithoutBookRequestsInput = {
   yearGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   borrowLimit?: Prisma.IntFieldUpdateOperationsInput | number
   approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  paused?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isTeacher?: Prisma.BoolFieldUpdateOperationsInput | boolean
   damagedReports?: Prisma.IntFieldUpdateOperationsInput | number
+  nonReturns?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   children?: Prisma.UserUncheckedUpdateManyWithoutParentNestedInput
@@ -1281,10 +1738,12 @@ export type UserUncheckedUpdateWithoutBookRequestsInput = {
   swapRequests?: Prisma.SwapRequestUncheckedUpdateManyWithoutBorrowerNestedInput
   ratingsGiven?: Prisma.RatingUncheckedUpdateManyWithoutRaterNestedInput
   ratingsReceived?: Prisma.RatingUncheckedUpdateManyWithoutRateeNestedInput
+  bookRatings?: Prisma.BookRatingUncheckedUpdateManyWithoutUserNestedInput
   messages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   wishlist?: Prisma.WishlistItemUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   queueEntries?: Prisma.QueueEntryUncheckedUpdateManyWithoutUserNestedInput
+  readingLists?: Prisma.ReadingListUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutQueueEntriesInput = {
@@ -1297,8 +1756,11 @@ export type UserCreateWithoutQueueEntriesInput = {
   yearGroup?: number | null
   borrowLimit?: number
   approved?: boolean
+  paused?: boolean
   isAdmin?: boolean
+  isTeacher?: boolean
   damagedReports?: number
+  nonReturns?: number
   createdAt?: Date | string
   parent?: Prisma.UserCreateNestedOneWithoutChildrenInput
   children?: Prisma.UserCreateNestedManyWithoutParentInput
@@ -1306,10 +1768,12 @@ export type UserCreateWithoutQueueEntriesInput = {
   swapRequests?: Prisma.SwapRequestCreateNestedManyWithoutBorrowerInput
   ratingsGiven?: Prisma.RatingCreateNestedManyWithoutRaterInput
   ratingsReceived?: Prisma.RatingCreateNestedManyWithoutRateeInput
+  bookRatings?: Prisma.BookRatingCreateNestedManyWithoutUserInput
   messages?: Prisma.MessageCreateNestedManyWithoutSenderInput
   wishlist?: Prisma.WishlistItemCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   bookRequests?: Prisma.BookRequestCreateNestedManyWithoutUserInput
+  readingLists?: Prisma.ReadingListCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutQueueEntriesInput = {
@@ -1322,8 +1786,11 @@ export type UserUncheckedCreateWithoutQueueEntriesInput = {
   yearGroup?: number | null
   borrowLimit?: number
   approved?: boolean
+  paused?: boolean
   isAdmin?: boolean
+  isTeacher?: boolean
   damagedReports?: number
+  nonReturns?: number
   createdAt?: Date | string
   parentId?: string | null
   children?: Prisma.UserUncheckedCreateNestedManyWithoutParentInput
@@ -1331,10 +1798,12 @@ export type UserUncheckedCreateWithoutQueueEntriesInput = {
   swapRequests?: Prisma.SwapRequestUncheckedCreateNestedManyWithoutBorrowerInput
   ratingsGiven?: Prisma.RatingUncheckedCreateNestedManyWithoutRaterInput
   ratingsReceived?: Prisma.RatingUncheckedCreateNestedManyWithoutRateeInput
+  bookRatings?: Prisma.BookRatingUncheckedCreateNestedManyWithoutUserInput
   messages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   wishlist?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   bookRequests?: Prisma.BookRequestUncheckedCreateNestedManyWithoutUserInput
+  readingLists?: Prisma.ReadingListUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutQueueEntriesInput = {
@@ -1363,8 +1832,11 @@ export type UserUpdateWithoutQueueEntriesInput = {
   yearGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   borrowLimit?: Prisma.IntFieldUpdateOperationsInput | number
   approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  paused?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isTeacher?: Prisma.BoolFieldUpdateOperationsInput | boolean
   damagedReports?: Prisma.IntFieldUpdateOperationsInput | number
+  nonReturns?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   parent?: Prisma.UserUpdateOneWithoutChildrenNestedInput
   children?: Prisma.UserUpdateManyWithoutParentNestedInput
@@ -1372,10 +1844,12 @@ export type UserUpdateWithoutQueueEntriesInput = {
   swapRequests?: Prisma.SwapRequestUpdateManyWithoutBorrowerNestedInput
   ratingsGiven?: Prisma.RatingUpdateManyWithoutRaterNestedInput
   ratingsReceived?: Prisma.RatingUpdateManyWithoutRateeNestedInput
+  bookRatings?: Prisma.BookRatingUpdateManyWithoutUserNestedInput
   messages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   wishlist?: Prisma.WishlistItemUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   bookRequests?: Prisma.BookRequestUpdateManyWithoutUserNestedInput
+  readingLists?: Prisma.ReadingListUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutQueueEntriesInput = {
@@ -1388,8 +1862,11 @@ export type UserUncheckedUpdateWithoutQueueEntriesInput = {
   yearGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   borrowLimit?: Prisma.IntFieldUpdateOperationsInput | number
   approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  paused?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isTeacher?: Prisma.BoolFieldUpdateOperationsInput | boolean
   damagedReports?: Prisma.IntFieldUpdateOperationsInput | number
+  nonReturns?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   children?: Prisma.UserUncheckedUpdateManyWithoutParentNestedInput
@@ -1397,10 +1874,12 @@ export type UserUncheckedUpdateWithoutQueueEntriesInput = {
   swapRequests?: Prisma.SwapRequestUncheckedUpdateManyWithoutBorrowerNestedInput
   ratingsGiven?: Prisma.RatingUncheckedUpdateManyWithoutRaterNestedInput
   ratingsReceived?: Prisma.RatingUncheckedUpdateManyWithoutRateeNestedInput
+  bookRatings?: Prisma.BookRatingUncheckedUpdateManyWithoutUserNestedInput
   messages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   wishlist?: Prisma.WishlistItemUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   bookRequests?: Prisma.BookRequestUncheckedUpdateManyWithoutUserNestedInput
+  readingLists?: Prisma.ReadingListUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSwapRequestsInput = {
@@ -1413,19 +1892,24 @@ export type UserCreateWithoutSwapRequestsInput = {
   yearGroup?: number | null
   borrowLimit?: number
   approved?: boolean
+  paused?: boolean
   isAdmin?: boolean
+  isTeacher?: boolean
   damagedReports?: number
+  nonReturns?: number
   createdAt?: Date | string
   parent?: Prisma.UserCreateNestedOneWithoutChildrenInput
   children?: Prisma.UserCreateNestedManyWithoutParentInput
   ownedBooks?: Prisma.BookCreateNestedManyWithoutOwnerInput
   ratingsGiven?: Prisma.RatingCreateNestedManyWithoutRaterInput
   ratingsReceived?: Prisma.RatingCreateNestedManyWithoutRateeInput
+  bookRatings?: Prisma.BookRatingCreateNestedManyWithoutUserInput
   messages?: Prisma.MessageCreateNestedManyWithoutSenderInput
   wishlist?: Prisma.WishlistItemCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   bookRequests?: Prisma.BookRequestCreateNestedManyWithoutUserInput
   queueEntries?: Prisma.QueueEntryCreateNestedManyWithoutUserInput
+  readingLists?: Prisma.ReadingListCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSwapRequestsInput = {
@@ -1438,19 +1922,24 @@ export type UserUncheckedCreateWithoutSwapRequestsInput = {
   yearGroup?: number | null
   borrowLimit?: number
   approved?: boolean
+  paused?: boolean
   isAdmin?: boolean
+  isTeacher?: boolean
   damagedReports?: number
+  nonReturns?: number
   createdAt?: Date | string
   parentId?: string | null
   children?: Prisma.UserUncheckedCreateNestedManyWithoutParentInput
   ownedBooks?: Prisma.BookUncheckedCreateNestedManyWithoutOwnerInput
   ratingsGiven?: Prisma.RatingUncheckedCreateNestedManyWithoutRaterInput
   ratingsReceived?: Prisma.RatingUncheckedCreateNestedManyWithoutRateeInput
+  bookRatings?: Prisma.BookRatingUncheckedCreateNestedManyWithoutUserInput
   messages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   wishlist?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   bookRequests?: Prisma.BookRequestUncheckedCreateNestedManyWithoutUserInput
   queueEntries?: Prisma.QueueEntryUncheckedCreateNestedManyWithoutUserInput
+  readingLists?: Prisma.ReadingListUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSwapRequestsInput = {
@@ -1479,19 +1968,24 @@ export type UserUpdateWithoutSwapRequestsInput = {
   yearGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   borrowLimit?: Prisma.IntFieldUpdateOperationsInput | number
   approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  paused?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isTeacher?: Prisma.BoolFieldUpdateOperationsInput | boolean
   damagedReports?: Prisma.IntFieldUpdateOperationsInput | number
+  nonReturns?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   parent?: Prisma.UserUpdateOneWithoutChildrenNestedInput
   children?: Prisma.UserUpdateManyWithoutParentNestedInput
   ownedBooks?: Prisma.BookUpdateManyWithoutOwnerNestedInput
   ratingsGiven?: Prisma.RatingUpdateManyWithoutRaterNestedInput
   ratingsReceived?: Prisma.RatingUpdateManyWithoutRateeNestedInput
+  bookRatings?: Prisma.BookRatingUpdateManyWithoutUserNestedInput
   messages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   wishlist?: Prisma.WishlistItemUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   bookRequests?: Prisma.BookRequestUpdateManyWithoutUserNestedInput
   queueEntries?: Prisma.QueueEntryUpdateManyWithoutUserNestedInput
+  readingLists?: Prisma.ReadingListUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSwapRequestsInput = {
@@ -1504,19 +1998,24 @@ export type UserUncheckedUpdateWithoutSwapRequestsInput = {
   yearGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   borrowLimit?: Prisma.IntFieldUpdateOperationsInput | number
   approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  paused?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isTeacher?: Prisma.BoolFieldUpdateOperationsInput | boolean
   damagedReports?: Prisma.IntFieldUpdateOperationsInput | number
+  nonReturns?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   children?: Prisma.UserUncheckedUpdateManyWithoutParentNestedInput
   ownedBooks?: Prisma.BookUncheckedUpdateManyWithoutOwnerNestedInput
   ratingsGiven?: Prisma.RatingUncheckedUpdateManyWithoutRaterNestedInput
   ratingsReceived?: Prisma.RatingUncheckedUpdateManyWithoutRateeNestedInput
+  bookRatings?: Prisma.BookRatingUncheckedUpdateManyWithoutUserNestedInput
   messages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   wishlist?: Prisma.WishlistItemUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   bookRequests?: Prisma.BookRequestUncheckedUpdateManyWithoutUserNestedInput
   queueEntries?: Prisma.QueueEntryUncheckedUpdateManyWithoutUserNestedInput
+  readingLists?: Prisma.ReadingListUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutMessagesInput = {
@@ -1529,8 +2028,11 @@ export type UserCreateWithoutMessagesInput = {
   yearGroup?: number | null
   borrowLimit?: number
   approved?: boolean
+  paused?: boolean
   isAdmin?: boolean
+  isTeacher?: boolean
   damagedReports?: number
+  nonReturns?: number
   createdAt?: Date | string
   parent?: Prisma.UserCreateNestedOneWithoutChildrenInput
   children?: Prisma.UserCreateNestedManyWithoutParentInput
@@ -1538,10 +2040,12 @@ export type UserCreateWithoutMessagesInput = {
   swapRequests?: Prisma.SwapRequestCreateNestedManyWithoutBorrowerInput
   ratingsGiven?: Prisma.RatingCreateNestedManyWithoutRaterInput
   ratingsReceived?: Prisma.RatingCreateNestedManyWithoutRateeInput
+  bookRatings?: Prisma.BookRatingCreateNestedManyWithoutUserInput
   wishlist?: Prisma.WishlistItemCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   bookRequests?: Prisma.BookRequestCreateNestedManyWithoutUserInput
   queueEntries?: Prisma.QueueEntryCreateNestedManyWithoutUserInput
+  readingLists?: Prisma.ReadingListCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutMessagesInput = {
@@ -1554,8 +2058,11 @@ export type UserUncheckedCreateWithoutMessagesInput = {
   yearGroup?: number | null
   borrowLimit?: number
   approved?: boolean
+  paused?: boolean
   isAdmin?: boolean
+  isTeacher?: boolean
   damagedReports?: number
+  nonReturns?: number
   createdAt?: Date | string
   parentId?: string | null
   children?: Prisma.UserUncheckedCreateNestedManyWithoutParentInput
@@ -1563,10 +2070,12 @@ export type UserUncheckedCreateWithoutMessagesInput = {
   swapRequests?: Prisma.SwapRequestUncheckedCreateNestedManyWithoutBorrowerInput
   ratingsGiven?: Prisma.RatingUncheckedCreateNestedManyWithoutRaterInput
   ratingsReceived?: Prisma.RatingUncheckedCreateNestedManyWithoutRateeInput
+  bookRatings?: Prisma.BookRatingUncheckedCreateNestedManyWithoutUserInput
   wishlist?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   bookRequests?: Prisma.BookRequestUncheckedCreateNestedManyWithoutUserInput
   queueEntries?: Prisma.QueueEntryUncheckedCreateNestedManyWithoutUserInput
+  readingLists?: Prisma.ReadingListUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutMessagesInput = {
@@ -1595,8 +2104,11 @@ export type UserUpdateWithoutMessagesInput = {
   yearGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   borrowLimit?: Prisma.IntFieldUpdateOperationsInput | number
   approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  paused?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isTeacher?: Prisma.BoolFieldUpdateOperationsInput | boolean
   damagedReports?: Prisma.IntFieldUpdateOperationsInput | number
+  nonReturns?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   parent?: Prisma.UserUpdateOneWithoutChildrenNestedInput
   children?: Prisma.UserUpdateManyWithoutParentNestedInput
@@ -1604,10 +2116,12 @@ export type UserUpdateWithoutMessagesInput = {
   swapRequests?: Prisma.SwapRequestUpdateManyWithoutBorrowerNestedInput
   ratingsGiven?: Prisma.RatingUpdateManyWithoutRaterNestedInput
   ratingsReceived?: Prisma.RatingUpdateManyWithoutRateeNestedInput
+  bookRatings?: Prisma.BookRatingUpdateManyWithoutUserNestedInput
   wishlist?: Prisma.WishlistItemUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   bookRequests?: Prisma.BookRequestUpdateManyWithoutUserNestedInput
   queueEntries?: Prisma.QueueEntryUpdateManyWithoutUserNestedInput
+  readingLists?: Prisma.ReadingListUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutMessagesInput = {
@@ -1620,8 +2134,11 @@ export type UserUncheckedUpdateWithoutMessagesInput = {
   yearGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   borrowLimit?: Prisma.IntFieldUpdateOperationsInput | number
   approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  paused?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isTeacher?: Prisma.BoolFieldUpdateOperationsInput | boolean
   damagedReports?: Prisma.IntFieldUpdateOperationsInput | number
+  nonReturns?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   children?: Prisma.UserUncheckedUpdateManyWithoutParentNestedInput
@@ -1629,10 +2146,12 @@ export type UserUncheckedUpdateWithoutMessagesInput = {
   swapRequests?: Prisma.SwapRequestUncheckedUpdateManyWithoutBorrowerNestedInput
   ratingsGiven?: Prisma.RatingUncheckedUpdateManyWithoutRaterNestedInput
   ratingsReceived?: Prisma.RatingUncheckedUpdateManyWithoutRateeNestedInput
+  bookRatings?: Prisma.BookRatingUncheckedUpdateManyWithoutUserNestedInput
   wishlist?: Prisma.WishlistItemUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   bookRequests?: Prisma.BookRequestUncheckedUpdateManyWithoutUserNestedInput
   queueEntries?: Prisma.QueueEntryUncheckedUpdateManyWithoutUserNestedInput
+  readingLists?: Prisma.ReadingListUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutRatingsGivenInput = {
@@ -1645,19 +2164,24 @@ export type UserCreateWithoutRatingsGivenInput = {
   yearGroup?: number | null
   borrowLimit?: number
   approved?: boolean
+  paused?: boolean
   isAdmin?: boolean
+  isTeacher?: boolean
   damagedReports?: number
+  nonReturns?: number
   createdAt?: Date | string
   parent?: Prisma.UserCreateNestedOneWithoutChildrenInput
   children?: Prisma.UserCreateNestedManyWithoutParentInput
   ownedBooks?: Prisma.BookCreateNestedManyWithoutOwnerInput
   swapRequests?: Prisma.SwapRequestCreateNestedManyWithoutBorrowerInput
   ratingsReceived?: Prisma.RatingCreateNestedManyWithoutRateeInput
+  bookRatings?: Prisma.BookRatingCreateNestedManyWithoutUserInput
   messages?: Prisma.MessageCreateNestedManyWithoutSenderInput
   wishlist?: Prisma.WishlistItemCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   bookRequests?: Prisma.BookRequestCreateNestedManyWithoutUserInput
   queueEntries?: Prisma.QueueEntryCreateNestedManyWithoutUserInput
+  readingLists?: Prisma.ReadingListCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutRatingsGivenInput = {
@@ -1670,19 +2194,24 @@ export type UserUncheckedCreateWithoutRatingsGivenInput = {
   yearGroup?: number | null
   borrowLimit?: number
   approved?: boolean
+  paused?: boolean
   isAdmin?: boolean
+  isTeacher?: boolean
   damagedReports?: number
+  nonReturns?: number
   createdAt?: Date | string
   parentId?: string | null
   children?: Prisma.UserUncheckedCreateNestedManyWithoutParentInput
   ownedBooks?: Prisma.BookUncheckedCreateNestedManyWithoutOwnerInput
   swapRequests?: Prisma.SwapRequestUncheckedCreateNestedManyWithoutBorrowerInput
   ratingsReceived?: Prisma.RatingUncheckedCreateNestedManyWithoutRateeInput
+  bookRatings?: Prisma.BookRatingUncheckedCreateNestedManyWithoutUserInput
   messages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   wishlist?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   bookRequests?: Prisma.BookRequestUncheckedCreateNestedManyWithoutUserInput
   queueEntries?: Prisma.QueueEntryUncheckedCreateNestedManyWithoutUserInput
+  readingLists?: Prisma.ReadingListUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutRatingsGivenInput = {
@@ -1700,19 +2229,24 @@ export type UserCreateWithoutRatingsReceivedInput = {
   yearGroup?: number | null
   borrowLimit?: number
   approved?: boolean
+  paused?: boolean
   isAdmin?: boolean
+  isTeacher?: boolean
   damagedReports?: number
+  nonReturns?: number
   createdAt?: Date | string
   parent?: Prisma.UserCreateNestedOneWithoutChildrenInput
   children?: Prisma.UserCreateNestedManyWithoutParentInput
   ownedBooks?: Prisma.BookCreateNestedManyWithoutOwnerInput
   swapRequests?: Prisma.SwapRequestCreateNestedManyWithoutBorrowerInput
   ratingsGiven?: Prisma.RatingCreateNestedManyWithoutRaterInput
+  bookRatings?: Prisma.BookRatingCreateNestedManyWithoutUserInput
   messages?: Prisma.MessageCreateNestedManyWithoutSenderInput
   wishlist?: Prisma.WishlistItemCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   bookRequests?: Prisma.BookRequestCreateNestedManyWithoutUserInput
   queueEntries?: Prisma.QueueEntryCreateNestedManyWithoutUserInput
+  readingLists?: Prisma.ReadingListCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutRatingsReceivedInput = {
@@ -1725,19 +2259,24 @@ export type UserUncheckedCreateWithoutRatingsReceivedInput = {
   yearGroup?: number | null
   borrowLimit?: number
   approved?: boolean
+  paused?: boolean
   isAdmin?: boolean
+  isTeacher?: boolean
   damagedReports?: number
+  nonReturns?: number
   createdAt?: Date | string
   parentId?: string | null
   children?: Prisma.UserUncheckedCreateNestedManyWithoutParentInput
   ownedBooks?: Prisma.BookUncheckedCreateNestedManyWithoutOwnerInput
   swapRequests?: Prisma.SwapRequestUncheckedCreateNestedManyWithoutBorrowerInput
   ratingsGiven?: Prisma.RatingUncheckedCreateNestedManyWithoutRaterInput
+  bookRatings?: Prisma.BookRatingUncheckedCreateNestedManyWithoutUserInput
   messages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   wishlist?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   bookRequests?: Prisma.BookRequestUncheckedCreateNestedManyWithoutUserInput
   queueEntries?: Prisma.QueueEntryUncheckedCreateNestedManyWithoutUserInput
+  readingLists?: Prisma.ReadingListUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutRatingsReceivedInput = {
@@ -1766,19 +2305,24 @@ export type UserUpdateWithoutRatingsGivenInput = {
   yearGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   borrowLimit?: Prisma.IntFieldUpdateOperationsInput | number
   approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  paused?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isTeacher?: Prisma.BoolFieldUpdateOperationsInput | boolean
   damagedReports?: Prisma.IntFieldUpdateOperationsInput | number
+  nonReturns?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   parent?: Prisma.UserUpdateOneWithoutChildrenNestedInput
   children?: Prisma.UserUpdateManyWithoutParentNestedInput
   ownedBooks?: Prisma.BookUpdateManyWithoutOwnerNestedInput
   swapRequests?: Prisma.SwapRequestUpdateManyWithoutBorrowerNestedInput
   ratingsReceived?: Prisma.RatingUpdateManyWithoutRateeNestedInput
+  bookRatings?: Prisma.BookRatingUpdateManyWithoutUserNestedInput
   messages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   wishlist?: Prisma.WishlistItemUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   bookRequests?: Prisma.BookRequestUpdateManyWithoutUserNestedInput
   queueEntries?: Prisma.QueueEntryUpdateManyWithoutUserNestedInput
+  readingLists?: Prisma.ReadingListUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutRatingsGivenInput = {
@@ -1791,19 +2335,24 @@ export type UserUncheckedUpdateWithoutRatingsGivenInput = {
   yearGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   borrowLimit?: Prisma.IntFieldUpdateOperationsInput | number
   approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  paused?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isTeacher?: Prisma.BoolFieldUpdateOperationsInput | boolean
   damagedReports?: Prisma.IntFieldUpdateOperationsInput | number
+  nonReturns?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   children?: Prisma.UserUncheckedUpdateManyWithoutParentNestedInput
   ownedBooks?: Prisma.BookUncheckedUpdateManyWithoutOwnerNestedInput
   swapRequests?: Prisma.SwapRequestUncheckedUpdateManyWithoutBorrowerNestedInput
   ratingsReceived?: Prisma.RatingUncheckedUpdateManyWithoutRateeNestedInput
+  bookRatings?: Prisma.BookRatingUncheckedUpdateManyWithoutUserNestedInput
   messages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   wishlist?: Prisma.WishlistItemUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   bookRequests?: Prisma.BookRequestUncheckedUpdateManyWithoutUserNestedInput
   queueEntries?: Prisma.QueueEntryUncheckedUpdateManyWithoutUserNestedInput
+  readingLists?: Prisma.ReadingListUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutRatingsReceivedInput = {
@@ -1827,19 +2376,24 @@ export type UserUpdateWithoutRatingsReceivedInput = {
   yearGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   borrowLimit?: Prisma.IntFieldUpdateOperationsInput | number
   approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  paused?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isTeacher?: Prisma.BoolFieldUpdateOperationsInput | boolean
   damagedReports?: Prisma.IntFieldUpdateOperationsInput | number
+  nonReturns?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   parent?: Prisma.UserUpdateOneWithoutChildrenNestedInput
   children?: Prisma.UserUpdateManyWithoutParentNestedInput
   ownedBooks?: Prisma.BookUpdateManyWithoutOwnerNestedInput
   swapRequests?: Prisma.SwapRequestUpdateManyWithoutBorrowerNestedInput
   ratingsGiven?: Prisma.RatingUpdateManyWithoutRaterNestedInput
+  bookRatings?: Prisma.BookRatingUpdateManyWithoutUserNestedInput
   messages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   wishlist?: Prisma.WishlistItemUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   bookRequests?: Prisma.BookRequestUpdateManyWithoutUserNestedInput
   queueEntries?: Prisma.QueueEntryUpdateManyWithoutUserNestedInput
+  readingLists?: Prisma.ReadingListUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutRatingsReceivedInput = {
@@ -1852,19 +2406,24 @@ export type UserUncheckedUpdateWithoutRatingsReceivedInput = {
   yearGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   borrowLimit?: Prisma.IntFieldUpdateOperationsInput | number
   approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  paused?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isTeacher?: Prisma.BoolFieldUpdateOperationsInput | boolean
   damagedReports?: Prisma.IntFieldUpdateOperationsInput | number
+  nonReturns?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   children?: Prisma.UserUncheckedUpdateManyWithoutParentNestedInput
   ownedBooks?: Prisma.BookUncheckedUpdateManyWithoutOwnerNestedInput
   swapRequests?: Prisma.SwapRequestUncheckedUpdateManyWithoutBorrowerNestedInput
   ratingsGiven?: Prisma.RatingUncheckedUpdateManyWithoutRaterNestedInput
+  bookRatings?: Prisma.BookRatingUncheckedUpdateManyWithoutUserNestedInput
   messages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   wishlist?: Prisma.WishlistItemUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   bookRequests?: Prisma.BookRequestUncheckedUpdateManyWithoutUserNestedInput
   queueEntries?: Prisma.QueueEntryUncheckedUpdateManyWithoutUserNestedInput
+  readingLists?: Prisma.ReadingListUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutWishlistInput = {
@@ -1877,8 +2436,11 @@ export type UserCreateWithoutWishlistInput = {
   yearGroup?: number | null
   borrowLimit?: number
   approved?: boolean
+  paused?: boolean
   isAdmin?: boolean
+  isTeacher?: boolean
   damagedReports?: number
+  nonReturns?: number
   createdAt?: Date | string
   parent?: Prisma.UserCreateNestedOneWithoutChildrenInput
   children?: Prisma.UserCreateNestedManyWithoutParentInput
@@ -1886,10 +2448,12 @@ export type UserCreateWithoutWishlistInput = {
   swapRequests?: Prisma.SwapRequestCreateNestedManyWithoutBorrowerInput
   ratingsGiven?: Prisma.RatingCreateNestedManyWithoutRaterInput
   ratingsReceived?: Prisma.RatingCreateNestedManyWithoutRateeInput
+  bookRatings?: Prisma.BookRatingCreateNestedManyWithoutUserInput
   messages?: Prisma.MessageCreateNestedManyWithoutSenderInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   bookRequests?: Prisma.BookRequestCreateNestedManyWithoutUserInput
   queueEntries?: Prisma.QueueEntryCreateNestedManyWithoutUserInput
+  readingLists?: Prisma.ReadingListCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutWishlistInput = {
@@ -1902,8 +2466,11 @@ export type UserUncheckedCreateWithoutWishlistInput = {
   yearGroup?: number | null
   borrowLimit?: number
   approved?: boolean
+  paused?: boolean
   isAdmin?: boolean
+  isTeacher?: boolean
   damagedReports?: number
+  nonReturns?: number
   createdAt?: Date | string
   parentId?: string | null
   children?: Prisma.UserUncheckedCreateNestedManyWithoutParentInput
@@ -1911,10 +2478,12 @@ export type UserUncheckedCreateWithoutWishlistInput = {
   swapRequests?: Prisma.SwapRequestUncheckedCreateNestedManyWithoutBorrowerInput
   ratingsGiven?: Prisma.RatingUncheckedCreateNestedManyWithoutRaterInput
   ratingsReceived?: Prisma.RatingUncheckedCreateNestedManyWithoutRateeInput
+  bookRatings?: Prisma.BookRatingUncheckedCreateNestedManyWithoutUserInput
   messages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   bookRequests?: Prisma.BookRequestUncheckedCreateNestedManyWithoutUserInput
   queueEntries?: Prisma.QueueEntryUncheckedCreateNestedManyWithoutUserInput
+  readingLists?: Prisma.ReadingListUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutWishlistInput = {
@@ -1943,8 +2512,11 @@ export type UserUpdateWithoutWishlistInput = {
   yearGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   borrowLimit?: Prisma.IntFieldUpdateOperationsInput | number
   approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  paused?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isTeacher?: Prisma.BoolFieldUpdateOperationsInput | boolean
   damagedReports?: Prisma.IntFieldUpdateOperationsInput | number
+  nonReturns?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   parent?: Prisma.UserUpdateOneWithoutChildrenNestedInput
   children?: Prisma.UserUpdateManyWithoutParentNestedInput
@@ -1952,10 +2524,12 @@ export type UserUpdateWithoutWishlistInput = {
   swapRequests?: Prisma.SwapRequestUpdateManyWithoutBorrowerNestedInput
   ratingsGiven?: Prisma.RatingUpdateManyWithoutRaterNestedInput
   ratingsReceived?: Prisma.RatingUpdateManyWithoutRateeNestedInput
+  bookRatings?: Prisma.BookRatingUpdateManyWithoutUserNestedInput
   messages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   bookRequests?: Prisma.BookRequestUpdateManyWithoutUserNestedInput
   queueEntries?: Prisma.QueueEntryUpdateManyWithoutUserNestedInput
+  readingLists?: Prisma.ReadingListUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutWishlistInput = {
@@ -1968,8 +2542,11 @@ export type UserUncheckedUpdateWithoutWishlistInput = {
   yearGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   borrowLimit?: Prisma.IntFieldUpdateOperationsInput | number
   approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  paused?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isTeacher?: Prisma.BoolFieldUpdateOperationsInput | boolean
   damagedReports?: Prisma.IntFieldUpdateOperationsInput | number
+  nonReturns?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   children?: Prisma.UserUncheckedUpdateManyWithoutParentNestedInput
@@ -1977,10 +2554,12 @@ export type UserUncheckedUpdateWithoutWishlistInput = {
   swapRequests?: Prisma.SwapRequestUncheckedUpdateManyWithoutBorrowerNestedInput
   ratingsGiven?: Prisma.RatingUncheckedUpdateManyWithoutRaterNestedInput
   ratingsReceived?: Prisma.RatingUncheckedUpdateManyWithoutRateeNestedInput
+  bookRatings?: Prisma.BookRatingUncheckedUpdateManyWithoutUserNestedInput
   messages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   bookRequests?: Prisma.BookRequestUncheckedUpdateManyWithoutUserNestedInput
   queueEntries?: Prisma.QueueEntryUncheckedUpdateManyWithoutUserNestedInput
+  readingLists?: Prisma.ReadingListUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutNotificationsInput = {
@@ -1993,8 +2572,11 @@ export type UserCreateWithoutNotificationsInput = {
   yearGroup?: number | null
   borrowLimit?: number
   approved?: boolean
+  paused?: boolean
   isAdmin?: boolean
+  isTeacher?: boolean
   damagedReports?: number
+  nonReturns?: number
   createdAt?: Date | string
   parent?: Prisma.UserCreateNestedOneWithoutChildrenInput
   children?: Prisma.UserCreateNestedManyWithoutParentInput
@@ -2002,10 +2584,12 @@ export type UserCreateWithoutNotificationsInput = {
   swapRequests?: Prisma.SwapRequestCreateNestedManyWithoutBorrowerInput
   ratingsGiven?: Prisma.RatingCreateNestedManyWithoutRaterInput
   ratingsReceived?: Prisma.RatingCreateNestedManyWithoutRateeInput
+  bookRatings?: Prisma.BookRatingCreateNestedManyWithoutUserInput
   messages?: Prisma.MessageCreateNestedManyWithoutSenderInput
   wishlist?: Prisma.WishlistItemCreateNestedManyWithoutUserInput
   bookRequests?: Prisma.BookRequestCreateNestedManyWithoutUserInput
   queueEntries?: Prisma.QueueEntryCreateNestedManyWithoutUserInput
+  readingLists?: Prisma.ReadingListCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -2018,8 +2602,11 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   yearGroup?: number | null
   borrowLimit?: number
   approved?: boolean
+  paused?: boolean
   isAdmin?: boolean
+  isTeacher?: boolean
   damagedReports?: number
+  nonReturns?: number
   createdAt?: Date | string
   parentId?: string | null
   children?: Prisma.UserUncheckedCreateNestedManyWithoutParentInput
@@ -2027,10 +2614,12 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   swapRequests?: Prisma.SwapRequestUncheckedCreateNestedManyWithoutBorrowerInput
   ratingsGiven?: Prisma.RatingUncheckedCreateNestedManyWithoutRaterInput
   ratingsReceived?: Prisma.RatingUncheckedCreateNestedManyWithoutRateeInput
+  bookRatings?: Prisma.BookRatingUncheckedCreateNestedManyWithoutUserInput
   messages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
   wishlist?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutUserInput
   bookRequests?: Prisma.BookRequestUncheckedCreateNestedManyWithoutUserInput
   queueEntries?: Prisma.QueueEntryUncheckedCreateNestedManyWithoutUserInput
+  readingLists?: Prisma.ReadingListUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -2059,8 +2648,11 @@ export type UserUpdateWithoutNotificationsInput = {
   yearGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   borrowLimit?: Prisma.IntFieldUpdateOperationsInput | number
   approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  paused?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isTeacher?: Prisma.BoolFieldUpdateOperationsInput | boolean
   damagedReports?: Prisma.IntFieldUpdateOperationsInput | number
+  nonReturns?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   parent?: Prisma.UserUpdateOneWithoutChildrenNestedInput
   children?: Prisma.UserUpdateManyWithoutParentNestedInput
@@ -2068,10 +2660,12 @@ export type UserUpdateWithoutNotificationsInput = {
   swapRequests?: Prisma.SwapRequestUpdateManyWithoutBorrowerNestedInput
   ratingsGiven?: Prisma.RatingUpdateManyWithoutRaterNestedInput
   ratingsReceived?: Prisma.RatingUpdateManyWithoutRateeNestedInput
+  bookRatings?: Prisma.BookRatingUpdateManyWithoutUserNestedInput
   messages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   wishlist?: Prisma.WishlistItemUpdateManyWithoutUserNestedInput
   bookRequests?: Prisma.BookRequestUpdateManyWithoutUserNestedInput
   queueEntries?: Prisma.QueueEntryUpdateManyWithoutUserNestedInput
+  readingLists?: Prisma.ReadingListUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -2084,8 +2678,11 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   yearGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   borrowLimit?: Prisma.IntFieldUpdateOperationsInput | number
   approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  paused?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isTeacher?: Prisma.BoolFieldUpdateOperationsInput | boolean
   damagedReports?: Prisma.IntFieldUpdateOperationsInput | number
+  nonReturns?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   children?: Prisma.UserUncheckedUpdateManyWithoutParentNestedInput
@@ -2093,10 +2690,12 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   swapRequests?: Prisma.SwapRequestUncheckedUpdateManyWithoutBorrowerNestedInput
   ratingsGiven?: Prisma.RatingUncheckedUpdateManyWithoutRaterNestedInput
   ratingsReceived?: Prisma.RatingUncheckedUpdateManyWithoutRateeNestedInput
+  bookRatings?: Prisma.BookRatingUncheckedUpdateManyWithoutUserNestedInput
   messages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   wishlist?: Prisma.WishlistItemUncheckedUpdateManyWithoutUserNestedInput
   bookRequests?: Prisma.BookRequestUncheckedUpdateManyWithoutUserNestedInput
   queueEntries?: Prisma.QueueEntryUncheckedUpdateManyWithoutUserNestedInput
+  readingLists?: Prisma.ReadingListUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyParentInput = {
@@ -2109,8 +2708,11 @@ export type UserCreateManyParentInput = {
   yearGroup?: number | null
   borrowLimit?: number
   approved?: boolean
+  paused?: boolean
   isAdmin?: boolean
+  isTeacher?: boolean
   damagedReports?: number
+  nonReturns?: number
   createdAt?: Date | string
 }
 
@@ -2124,19 +2726,24 @@ export type UserUpdateWithoutParentInput = {
   yearGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   borrowLimit?: Prisma.IntFieldUpdateOperationsInput | number
   approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  paused?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isTeacher?: Prisma.BoolFieldUpdateOperationsInput | boolean
   damagedReports?: Prisma.IntFieldUpdateOperationsInput | number
+  nonReturns?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   children?: Prisma.UserUpdateManyWithoutParentNestedInput
   ownedBooks?: Prisma.BookUpdateManyWithoutOwnerNestedInput
   swapRequests?: Prisma.SwapRequestUpdateManyWithoutBorrowerNestedInput
   ratingsGiven?: Prisma.RatingUpdateManyWithoutRaterNestedInput
   ratingsReceived?: Prisma.RatingUpdateManyWithoutRateeNestedInput
+  bookRatings?: Prisma.BookRatingUpdateManyWithoutUserNestedInput
   messages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
   wishlist?: Prisma.WishlistItemUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   bookRequests?: Prisma.BookRequestUpdateManyWithoutUserNestedInput
   queueEntries?: Prisma.QueueEntryUpdateManyWithoutUserNestedInput
+  readingLists?: Prisma.ReadingListUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutParentInput = {
@@ -2149,19 +2756,24 @@ export type UserUncheckedUpdateWithoutParentInput = {
   yearGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   borrowLimit?: Prisma.IntFieldUpdateOperationsInput | number
   approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  paused?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isTeacher?: Prisma.BoolFieldUpdateOperationsInput | boolean
   damagedReports?: Prisma.IntFieldUpdateOperationsInput | number
+  nonReturns?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   children?: Prisma.UserUncheckedUpdateManyWithoutParentNestedInput
   ownedBooks?: Prisma.BookUncheckedUpdateManyWithoutOwnerNestedInput
   swapRequests?: Prisma.SwapRequestUncheckedUpdateManyWithoutBorrowerNestedInput
   ratingsGiven?: Prisma.RatingUncheckedUpdateManyWithoutRaterNestedInput
   ratingsReceived?: Prisma.RatingUncheckedUpdateManyWithoutRateeNestedInput
+  bookRatings?: Prisma.BookRatingUncheckedUpdateManyWithoutUserNestedInput
   messages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
   wishlist?: Prisma.WishlistItemUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   bookRequests?: Prisma.BookRequestUncheckedUpdateManyWithoutUserNestedInput
   queueEntries?: Prisma.QueueEntryUncheckedUpdateManyWithoutUserNestedInput
+  readingLists?: Prisma.ReadingListUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateManyWithoutParentInput = {
@@ -2174,8 +2786,11 @@ export type UserUncheckedUpdateManyWithoutParentInput = {
   yearGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   borrowLimit?: Prisma.IntFieldUpdateOperationsInput | number
   approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  paused?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isTeacher?: Prisma.BoolFieldUpdateOperationsInput | boolean
   damagedReports?: Prisma.IntFieldUpdateOperationsInput | number
+  nonReturns?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -2190,11 +2805,13 @@ export type UserCountOutputType = {
   swapRequests: number
   ratingsGiven: number
   ratingsReceived: number
+  bookRatings: number
   messages: number
   wishlist: number
   notifications: number
   bookRequests: number
   queueEntries: number
+  readingLists: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2203,11 +2820,13 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   swapRequests?: boolean | UserCountOutputTypeCountSwapRequestsArgs
   ratingsGiven?: boolean | UserCountOutputTypeCountRatingsGivenArgs
   ratingsReceived?: boolean | UserCountOutputTypeCountRatingsReceivedArgs
+  bookRatings?: boolean | UserCountOutputTypeCountBookRatingsArgs
   messages?: boolean | UserCountOutputTypeCountMessagesArgs
   wishlist?: boolean | UserCountOutputTypeCountWishlistArgs
   notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
   bookRequests?: boolean | UserCountOutputTypeCountBookRequestsArgs
   queueEntries?: boolean | UserCountOutputTypeCountQueueEntriesArgs
+  readingLists?: boolean | UserCountOutputTypeCountReadingListsArgs
 }
 
 /**
@@ -2258,6 +2877,13 @@ export type UserCountOutputTypeCountRatingsReceivedArgs<ExtArgs extends runtime.
 /**
  * UserCountOutputType without action
  */
+export type UserCountOutputTypeCountBookRatingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.BookRatingWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
 export type UserCountOutputTypeCountMessagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.MessageWhereInput
 }
@@ -2290,6 +2916,13 @@ export type UserCountOutputTypeCountQueueEntriesArgs<ExtArgs extends runtime.Typ
   where?: Prisma.QueueEntryWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountReadingListsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ReadingListWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -2301,8 +2934,11 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   yearGroup?: boolean
   borrowLimit?: boolean
   approved?: boolean
+  paused?: boolean
   isAdmin?: boolean
+  isTeacher?: boolean
   damagedReports?: boolean
+  nonReturns?: boolean
   createdAt?: boolean
   parentId?: boolean
   parent?: boolean | Prisma.User$parentArgs<ExtArgs>
@@ -2311,11 +2947,13 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   swapRequests?: boolean | Prisma.User$swapRequestsArgs<ExtArgs>
   ratingsGiven?: boolean | Prisma.User$ratingsGivenArgs<ExtArgs>
   ratingsReceived?: boolean | Prisma.User$ratingsReceivedArgs<ExtArgs>
+  bookRatings?: boolean | Prisma.User$bookRatingsArgs<ExtArgs>
   messages?: boolean | Prisma.User$messagesArgs<ExtArgs>
   wishlist?: boolean | Prisma.User$wishlistArgs<ExtArgs>
   notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
   bookRequests?: boolean | Prisma.User$bookRequestsArgs<ExtArgs>
   queueEntries?: boolean | Prisma.User$queueEntriesArgs<ExtArgs>
+  readingLists?: boolean | Prisma.User$readingListsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -2329,8 +2967,11 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   yearGroup?: boolean
   borrowLimit?: boolean
   approved?: boolean
+  paused?: boolean
   isAdmin?: boolean
+  isTeacher?: boolean
   damagedReports?: boolean
+  nonReturns?: boolean
   createdAt?: boolean
   parentId?: boolean
   parent?: boolean | Prisma.User$parentArgs<ExtArgs>
@@ -2346,8 +2987,11 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   yearGroup?: boolean
   borrowLimit?: boolean
   approved?: boolean
+  paused?: boolean
   isAdmin?: boolean
+  isTeacher?: boolean
   damagedReports?: boolean
+  nonReturns?: boolean
   createdAt?: boolean
   parentId?: boolean
   parent?: boolean | Prisma.User$parentArgs<ExtArgs>
@@ -2363,13 +3007,16 @@ export type UserSelectScalar = {
   yearGroup?: boolean
   borrowLimit?: boolean
   approved?: boolean
+  paused?: boolean
   isAdmin?: boolean
+  isTeacher?: boolean
   damagedReports?: boolean
+  nonReturns?: boolean
   createdAt?: boolean
   parentId?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "username" | "email" | "passwordHash" | "name" | "profilePhoto" | "yearGroup" | "borrowLimit" | "approved" | "isAdmin" | "damagedReports" | "createdAt" | "parentId", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "username" | "email" | "passwordHash" | "name" | "profilePhoto" | "yearGroup" | "borrowLimit" | "approved" | "paused" | "isAdmin" | "isTeacher" | "damagedReports" | "nonReturns" | "createdAt" | "parentId", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   parent?: boolean | Prisma.User$parentArgs<ExtArgs>
   children?: boolean | Prisma.User$childrenArgs<ExtArgs>
@@ -2377,11 +3024,13 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   swapRequests?: boolean | Prisma.User$swapRequestsArgs<ExtArgs>
   ratingsGiven?: boolean | Prisma.User$ratingsGivenArgs<ExtArgs>
   ratingsReceived?: boolean | Prisma.User$ratingsReceivedArgs<ExtArgs>
+  bookRatings?: boolean | Prisma.User$bookRatingsArgs<ExtArgs>
   messages?: boolean | Prisma.User$messagesArgs<ExtArgs>
   wishlist?: boolean | Prisma.User$wishlistArgs<ExtArgs>
   notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
   bookRequests?: boolean | Prisma.User$bookRequestsArgs<ExtArgs>
   queueEntries?: boolean | Prisma.User$queueEntriesArgs<ExtArgs>
+  readingLists?: boolean | Prisma.User$readingListsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2400,11 +3049,13 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     swapRequests: Prisma.$SwapRequestPayload<ExtArgs>[]
     ratingsGiven: Prisma.$RatingPayload<ExtArgs>[]
     ratingsReceived: Prisma.$RatingPayload<ExtArgs>[]
+    bookRatings: Prisma.$BookRatingPayload<ExtArgs>[]
     messages: Prisma.$MessagePayload<ExtArgs>[]
     wishlist: Prisma.$WishlistItemPayload<ExtArgs>[]
     notifications: Prisma.$NotificationPayload<ExtArgs>[]
     bookRequests: Prisma.$BookRequestPayload<ExtArgs>[]
     queueEntries: Prisma.$QueueEntryPayload<ExtArgs>[]
+    readingLists: Prisma.$ReadingListPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2416,8 +3067,11 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     yearGroup: number | null
     borrowLimit: number
     approved: boolean
+    paused: boolean
     isAdmin: boolean
+    isTeacher: boolean
     damagedReports: number
+    nonReturns: number
     createdAt: Date
     parentId: string | null
   }, ExtArgs["result"]["user"]>
@@ -2820,11 +3474,13 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   swapRequests<T extends Prisma.User$swapRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$swapRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SwapRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   ratingsGiven<T extends Prisma.User$ratingsGivenArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$ratingsGivenArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   ratingsReceived<T extends Prisma.User$ratingsReceivedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$ratingsReceivedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  bookRatings<T extends Prisma.User$bookRatingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$bookRatingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookRatingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   messages<T extends Prisma.User$messagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   wishlist<T extends Prisma.User$wishlistArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$wishlistArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WishlistItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   notifications<T extends Prisma.User$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   bookRequests<T extends Prisma.User$bookRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$bookRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   queueEntries<T extends Prisma.User$queueEntriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$queueEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$QueueEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  readingLists<T extends Prisma.User$readingListsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$readingListsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReadingListPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2863,8 +3519,11 @@ export interface UserFieldRefs {
   readonly yearGroup: Prisma.FieldRef<"User", 'Int'>
   readonly borrowLimit: Prisma.FieldRef<"User", 'Int'>
   readonly approved: Prisma.FieldRef<"User", 'Boolean'>
+  readonly paused: Prisma.FieldRef<"User", 'Boolean'>
   readonly isAdmin: Prisma.FieldRef<"User", 'Boolean'>
+  readonly isTeacher: Prisma.FieldRef<"User", 'Boolean'>
   readonly damagedReports: Prisma.FieldRef<"User", 'Int'>
+  readonly nonReturns: Prisma.FieldRef<"User", 'Int'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly parentId: Prisma.FieldRef<"User", 'String'>
 }
@@ -3405,6 +4064,30 @@ export type User$ratingsReceivedArgs<ExtArgs extends runtime.Types.Extensions.In
 }
 
 /**
+ * User.bookRatings
+ */
+export type User$bookRatingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the BookRating
+   */
+  select?: Prisma.BookRatingSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the BookRating
+   */
+  omit?: Prisma.BookRatingOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BookRatingInclude<ExtArgs> | null
+  where?: Prisma.BookRatingWhereInput
+  orderBy?: Prisma.BookRatingOrderByWithRelationInput | Prisma.BookRatingOrderByWithRelationInput[]
+  cursor?: Prisma.BookRatingWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.BookRatingScalarFieldEnum | Prisma.BookRatingScalarFieldEnum[]
+}
+
+/**
  * User.messages
  */
 export type User$messagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3522,6 +4205,30 @@ export type User$queueEntriesArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.QueueEntryScalarFieldEnum | Prisma.QueueEntryScalarFieldEnum[]
+}
+
+/**
+ * User.readingLists
+ */
+export type User$readingListsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ReadingList
+   */
+  select?: Prisma.ReadingListSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ReadingList
+   */
+  omit?: Prisma.ReadingListOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ReadingListInclude<ExtArgs> | null
+  where?: Prisma.ReadingListWhereInput
+  orderBy?: Prisma.ReadingListOrderByWithRelationInput | Prisma.ReadingListOrderByWithRelationInput[]
+  cursor?: Prisma.ReadingListWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ReadingListScalarFieldEnum | Prisma.ReadingListScalarFieldEnum[]
 }
 
 /**

@@ -53,6 +53,7 @@ export default function SignupForm() {
 
   const age = parseInt(form.age);
   const needsApproval = !isNaN(age) && age < 13;
+  const canLinkParent = !isNaN(age) && age >= 13;
 
   const set = (field: Field) => (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm((f) => ({ ...f, [field]: e.target.value }));
@@ -214,11 +215,27 @@ export default function SignupForm() {
         {needsApproval && (
           <div className="space-y-1.5 rounded-xl bg-amber-50 border border-amber-100 p-4">
             <label htmlFor="parentUsername" className="block text-sm font-medium text-black">
-              Parent or guardian&apos;s username
+              Parent or guardian&apos;s username <span className="text-red-400">*</span>
             </label>
             <p className="text-xs text-amber-700 mb-2">
               Because you&apos;re under 13, a parent or guardian must approve your account.
               Enter their Cloud Library username — they need to have an account already.
+            </p>
+            <input id="parentUsername" type="text" placeholder="parent_username"
+              value={form.parentUsername} onChange={set("parentUsername")}
+              className={inputClass(!!errors.parentUsername)} />
+            {errors.parentUsername && <p className="text-red-500 text-xs">{errors.parentUsername}</p>}
+          </div>
+        )}
+
+        {canLinkParent && (
+          <div className="space-y-1.5 rounded-xl bg-gray-50 border border-gray-200 p-4">
+            <label htmlFor="parentUsername" className="block text-sm font-medium text-black">
+              Parent or guardian&apos;s username <span className="text-gray-400 font-normal">(optional)</span>
+            </label>
+            <p className="text-xs text-gray-500 mb-2">
+              Optionally link your account to a parent so they can monitor your swaps.
+              Leave blank if you don&apos;t need this.
             </p>
             <input id="parentUsername" type="text" placeholder="parent_username"
               value={form.parentUsername} onChange={set("parentUsername")}

@@ -20,15 +20,29 @@ export type BookModel = runtime.Types.Result.DefaultSelection<Prisma.$BookPayloa
 
 export type AggregateBook = {
   _count: BookCountAggregateOutputType | null
+  _avg: BookAvgAggregateOutputType | null
+  _sum: BookSumAggregateOutputType | null
   _min: BookMinAggregateOutputType | null
   _max: BookMaxAggregateOutputType | null
+}
+
+export type BookAvgAggregateOutputType = {
+  seriesNumber: number | null
+}
+
+export type BookSumAggregateOutputType = {
+  seriesNumber: number | null
 }
 
 export type BookMinAggregateOutputType = {
   id: string | null
   title: string | null
   author: string | null
+  series: string | null
+  seriesNumber: number | null
   condition: $Enums.Condition | null
+  labelType: $Enums.LabelType | null
+  tags: string | null
   coverPhoto: string | null
   genres: string | null
   description: string | null
@@ -43,7 +57,11 @@ export type BookMaxAggregateOutputType = {
   id: string | null
   title: string | null
   author: string | null
+  series: string | null
+  seriesNumber: number | null
   condition: $Enums.Condition | null
+  labelType: $Enums.LabelType | null
+  tags: string | null
   coverPhoto: string | null
   genres: string | null
   description: string | null
@@ -58,7 +76,11 @@ export type BookCountAggregateOutputType = {
   id: number
   title: number
   author: number
+  series: number
+  seriesNumber: number
   condition: number
+  labelType: number
+  tags: number
   coverPhoto: number
   genres: number
   description: number
@@ -71,11 +93,23 @@ export type BookCountAggregateOutputType = {
 }
 
 
+export type BookAvgAggregateInputType = {
+  seriesNumber?: true
+}
+
+export type BookSumAggregateInputType = {
+  seriesNumber?: true
+}
+
 export type BookMinAggregateInputType = {
   id?: true
   title?: true
   author?: true
+  series?: true
+  seriesNumber?: true
   condition?: true
+  labelType?: true
+  tags?: true
   coverPhoto?: true
   genres?: true
   description?: true
@@ -90,7 +124,11 @@ export type BookMaxAggregateInputType = {
   id?: true
   title?: true
   author?: true
+  series?: true
+  seriesNumber?: true
   condition?: true
+  labelType?: true
+  tags?: true
   coverPhoto?: true
   genres?: true
   description?: true
@@ -105,7 +143,11 @@ export type BookCountAggregateInputType = {
   id?: true
   title?: true
   author?: true
+  series?: true
+  seriesNumber?: true
   condition?: true
+  labelType?: true
+  tags?: true
   coverPhoto?: true
   genres?: true
   description?: true
@@ -155,6 +197,18 @@ export type BookAggregateArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: BookAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: BookSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: BookMinAggregateInputType
@@ -185,6 +239,8 @@ export type BookGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
   take?: number
   skip?: number
   _count?: BookCountAggregateInputType | true
+  _avg?: BookAvgAggregateInputType
+  _sum?: BookSumAggregateInputType
   _min?: BookMinAggregateInputType
   _max?: BookMaxAggregateInputType
 }
@@ -193,7 +249,11 @@ export type BookGroupByOutputType = {
   id: string
   title: string
   author: string | null
+  series: string | null
+  seriesNumber: number | null
   condition: $Enums.Condition
+  labelType: $Enums.LabelType
+  tags: string
   coverPhoto: string | null
   genres: string
   description: string | null
@@ -203,6 +263,8 @@ export type BookGroupByOutputType = {
   updatedAt: Date
   ownerId: string
   _count: BookCountAggregateOutputType | null
+  _avg: BookAvgAggregateOutputType | null
+  _sum: BookSumAggregateOutputType | null
   _min: BookMinAggregateOutputType | null
   _max: BookMaxAggregateOutputType | null
 }
@@ -229,7 +291,11 @@ export type BookWhereInput = {
   id?: Prisma.StringFilter<"Book"> | string
   title?: Prisma.StringFilter<"Book"> | string
   author?: Prisma.StringNullableFilter<"Book"> | string | null
+  series?: Prisma.StringNullableFilter<"Book"> | string | null
+  seriesNumber?: Prisma.IntNullableFilter<"Book"> | number | null
   condition?: Prisma.EnumConditionFilter<"Book"> | $Enums.Condition
+  labelType?: Prisma.EnumLabelTypeFilter<"Book"> | $Enums.LabelType
+  tags?: Prisma.StringFilter<"Book"> | string
   coverPhoto?: Prisma.StringNullableFilter<"Book"> | string | null
   genres?: Prisma.StringFilter<"Book"> | string
   description?: Prisma.StringNullableFilter<"Book"> | string | null
@@ -242,13 +308,19 @@ export type BookWhereInput = {
   requests?: Prisma.SwapRequestListRelationFilter
   wishlistedBy?: Prisma.WishlistItemListRelationFilter
   queueEntries?: Prisma.QueueEntryListRelationFilter
+  bookRatings?: Prisma.BookRatingListRelationFilter
+  readingListItems?: Prisma.ReadingListItemListRelationFilter
 }
 
 export type BookOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   author?: Prisma.SortOrderInput | Prisma.SortOrder
+  series?: Prisma.SortOrderInput | Prisma.SortOrder
+  seriesNumber?: Prisma.SortOrderInput | Prisma.SortOrder
   condition?: Prisma.SortOrder
+  labelType?: Prisma.SortOrder
+  tags?: Prisma.SortOrder
   coverPhoto?: Prisma.SortOrderInput | Prisma.SortOrder
   genres?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -261,6 +333,8 @@ export type BookOrderByWithRelationInput = {
   requests?: Prisma.SwapRequestOrderByRelationAggregateInput
   wishlistedBy?: Prisma.WishlistItemOrderByRelationAggregateInput
   queueEntries?: Prisma.QueueEntryOrderByRelationAggregateInput
+  bookRatings?: Prisma.BookRatingOrderByRelationAggregateInput
+  readingListItems?: Prisma.ReadingListItemOrderByRelationAggregateInput
 }
 
 export type BookWhereUniqueInput = Prisma.AtLeast<{
@@ -270,7 +344,11 @@ export type BookWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.BookWhereInput | Prisma.BookWhereInput[]
   title?: Prisma.StringFilter<"Book"> | string
   author?: Prisma.StringNullableFilter<"Book"> | string | null
+  series?: Prisma.StringNullableFilter<"Book"> | string | null
+  seriesNumber?: Prisma.IntNullableFilter<"Book"> | number | null
   condition?: Prisma.EnumConditionFilter<"Book"> | $Enums.Condition
+  labelType?: Prisma.EnumLabelTypeFilter<"Book"> | $Enums.LabelType
+  tags?: Prisma.StringFilter<"Book"> | string
   coverPhoto?: Prisma.StringNullableFilter<"Book"> | string | null
   genres?: Prisma.StringFilter<"Book"> | string
   description?: Prisma.StringNullableFilter<"Book"> | string | null
@@ -283,13 +361,19 @@ export type BookWhereUniqueInput = Prisma.AtLeast<{
   requests?: Prisma.SwapRequestListRelationFilter
   wishlistedBy?: Prisma.WishlistItemListRelationFilter
   queueEntries?: Prisma.QueueEntryListRelationFilter
+  bookRatings?: Prisma.BookRatingListRelationFilter
+  readingListItems?: Prisma.ReadingListItemListRelationFilter
 }, "id">
 
 export type BookOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   author?: Prisma.SortOrderInput | Prisma.SortOrder
+  series?: Prisma.SortOrderInput | Prisma.SortOrder
+  seriesNumber?: Prisma.SortOrderInput | Prisma.SortOrder
   condition?: Prisma.SortOrder
+  labelType?: Prisma.SortOrder
+  tags?: Prisma.SortOrder
   coverPhoto?: Prisma.SortOrderInput | Prisma.SortOrder
   genres?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -299,8 +383,10 @@ export type BookOrderByWithAggregationInput = {
   updatedAt?: Prisma.SortOrder
   ownerId?: Prisma.SortOrder
   _count?: Prisma.BookCountOrderByAggregateInput
+  _avg?: Prisma.BookAvgOrderByAggregateInput
   _max?: Prisma.BookMaxOrderByAggregateInput
   _min?: Prisma.BookMinOrderByAggregateInput
+  _sum?: Prisma.BookSumOrderByAggregateInput
 }
 
 export type BookScalarWhereWithAggregatesInput = {
@@ -310,7 +396,11 @@ export type BookScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Book"> | string
   title?: Prisma.StringWithAggregatesFilter<"Book"> | string
   author?: Prisma.StringNullableWithAggregatesFilter<"Book"> | string | null
+  series?: Prisma.StringNullableWithAggregatesFilter<"Book"> | string | null
+  seriesNumber?: Prisma.IntNullableWithAggregatesFilter<"Book"> | number | null
   condition?: Prisma.EnumConditionWithAggregatesFilter<"Book"> | $Enums.Condition
+  labelType?: Prisma.EnumLabelTypeWithAggregatesFilter<"Book"> | $Enums.LabelType
+  tags?: Prisma.StringWithAggregatesFilter<"Book"> | string
   coverPhoto?: Prisma.StringNullableWithAggregatesFilter<"Book"> | string | null
   genres?: Prisma.StringWithAggregatesFilter<"Book"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"Book"> | string | null
@@ -325,7 +415,11 @@ export type BookCreateInput = {
   id?: string
   title: string
   author?: string | null
+  series?: string | null
+  seriesNumber?: number | null
   condition: $Enums.Condition
+  labelType?: $Enums.LabelType
+  tags?: string
   coverPhoto?: string | null
   genres?: string
   description?: string | null
@@ -337,13 +431,19 @@ export type BookCreateInput = {
   requests?: Prisma.SwapRequestCreateNestedManyWithoutBookInput
   wishlistedBy?: Prisma.WishlistItemCreateNestedManyWithoutBookInput
   queueEntries?: Prisma.QueueEntryCreateNestedManyWithoutBookInput
+  bookRatings?: Prisma.BookRatingCreateNestedManyWithoutBookInput
+  readingListItems?: Prisma.ReadingListItemCreateNestedManyWithoutBookInput
 }
 
 export type BookUncheckedCreateInput = {
   id?: string
   title: string
   author?: string | null
+  series?: string | null
+  seriesNumber?: number | null
   condition: $Enums.Condition
+  labelType?: $Enums.LabelType
+  tags?: string
   coverPhoto?: string | null
   genres?: string
   description?: string | null
@@ -355,13 +455,19 @@ export type BookUncheckedCreateInput = {
   requests?: Prisma.SwapRequestUncheckedCreateNestedManyWithoutBookInput
   wishlistedBy?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutBookInput
   queueEntries?: Prisma.QueueEntryUncheckedCreateNestedManyWithoutBookInput
+  bookRatings?: Prisma.BookRatingUncheckedCreateNestedManyWithoutBookInput
+  readingListItems?: Prisma.ReadingListItemUncheckedCreateNestedManyWithoutBookInput
 }
 
 export type BookUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   author?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  series?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seriesNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   condition?: Prisma.EnumConditionFieldUpdateOperationsInput | $Enums.Condition
+  labelType?: Prisma.EnumLabelTypeFieldUpdateOperationsInput | $Enums.LabelType
+  tags?: Prisma.StringFieldUpdateOperationsInput | string
   coverPhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   genres?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -373,13 +479,19 @@ export type BookUpdateInput = {
   requests?: Prisma.SwapRequestUpdateManyWithoutBookNestedInput
   wishlistedBy?: Prisma.WishlistItemUpdateManyWithoutBookNestedInput
   queueEntries?: Prisma.QueueEntryUpdateManyWithoutBookNestedInput
+  bookRatings?: Prisma.BookRatingUpdateManyWithoutBookNestedInput
+  readingListItems?: Prisma.ReadingListItemUpdateManyWithoutBookNestedInput
 }
 
 export type BookUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   author?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  series?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seriesNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   condition?: Prisma.EnumConditionFieldUpdateOperationsInput | $Enums.Condition
+  labelType?: Prisma.EnumLabelTypeFieldUpdateOperationsInput | $Enums.LabelType
+  tags?: Prisma.StringFieldUpdateOperationsInput | string
   coverPhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   genres?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -391,13 +503,19 @@ export type BookUncheckedUpdateInput = {
   requests?: Prisma.SwapRequestUncheckedUpdateManyWithoutBookNestedInput
   wishlistedBy?: Prisma.WishlistItemUncheckedUpdateManyWithoutBookNestedInput
   queueEntries?: Prisma.QueueEntryUncheckedUpdateManyWithoutBookNestedInput
+  bookRatings?: Prisma.BookRatingUncheckedUpdateManyWithoutBookNestedInput
+  readingListItems?: Prisma.ReadingListItemUncheckedUpdateManyWithoutBookNestedInput
 }
 
 export type BookCreateManyInput = {
   id?: string
   title: string
   author?: string | null
+  series?: string | null
+  seriesNumber?: number | null
   condition: $Enums.Condition
+  labelType?: $Enums.LabelType
+  tags?: string
   coverPhoto?: string | null
   genres?: string
   description?: string | null
@@ -412,7 +530,11 @@ export type BookUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   author?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  series?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seriesNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   condition?: Prisma.EnumConditionFieldUpdateOperationsInput | $Enums.Condition
+  labelType?: Prisma.EnumLabelTypeFieldUpdateOperationsInput | $Enums.LabelType
+  tags?: Prisma.StringFieldUpdateOperationsInput | string
   coverPhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   genres?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -426,7 +548,11 @@ export type BookUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   author?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  series?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seriesNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   condition?: Prisma.EnumConditionFieldUpdateOperationsInput | $Enums.Condition
+  labelType?: Prisma.EnumLabelTypeFieldUpdateOperationsInput | $Enums.LabelType
+  tags?: Prisma.StringFieldUpdateOperationsInput | string
   coverPhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   genres?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -451,7 +577,11 @@ export type BookCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   author?: Prisma.SortOrder
+  series?: Prisma.SortOrder
+  seriesNumber?: Prisma.SortOrder
   condition?: Prisma.SortOrder
+  labelType?: Prisma.SortOrder
+  tags?: Prisma.SortOrder
   coverPhoto?: Prisma.SortOrder
   genres?: Prisma.SortOrder
   description?: Prisma.SortOrder
@@ -462,11 +592,19 @@ export type BookCountOrderByAggregateInput = {
   ownerId?: Prisma.SortOrder
 }
 
+export type BookAvgOrderByAggregateInput = {
+  seriesNumber?: Prisma.SortOrder
+}
+
 export type BookMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   author?: Prisma.SortOrder
+  series?: Prisma.SortOrder
+  seriesNumber?: Prisma.SortOrder
   condition?: Prisma.SortOrder
+  labelType?: Prisma.SortOrder
+  tags?: Prisma.SortOrder
   coverPhoto?: Prisma.SortOrder
   genres?: Prisma.SortOrder
   description?: Prisma.SortOrder
@@ -481,7 +619,11 @@ export type BookMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   author?: Prisma.SortOrder
+  series?: Prisma.SortOrder
+  seriesNumber?: Prisma.SortOrder
   condition?: Prisma.SortOrder
+  labelType?: Prisma.SortOrder
+  tags?: Prisma.SortOrder
   coverPhoto?: Prisma.SortOrder
   genres?: Prisma.SortOrder
   description?: Prisma.SortOrder
@@ -490,6 +632,10 @@ export type BookMinOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   ownerId?: Prisma.SortOrder
+}
+
+export type BookSumOrderByAggregateInput = {
+  seriesNumber?: Prisma.SortOrder
 }
 
 export type BookScalarRelationFilter = {
@@ -543,6 +689,38 @@ export type EnumConditionFieldUpdateOperationsInput = {
   set?: $Enums.Condition
 }
 
+export type EnumLabelTypeFieldUpdateOperationsInput = {
+  set?: $Enums.LabelType
+}
+
+export type BookCreateNestedOneWithoutBookRatingsInput = {
+  create?: Prisma.XOR<Prisma.BookCreateWithoutBookRatingsInput, Prisma.BookUncheckedCreateWithoutBookRatingsInput>
+  connectOrCreate?: Prisma.BookCreateOrConnectWithoutBookRatingsInput
+  connect?: Prisma.BookWhereUniqueInput
+}
+
+export type BookUpdateOneRequiredWithoutBookRatingsNestedInput = {
+  create?: Prisma.XOR<Prisma.BookCreateWithoutBookRatingsInput, Prisma.BookUncheckedCreateWithoutBookRatingsInput>
+  connectOrCreate?: Prisma.BookCreateOrConnectWithoutBookRatingsInput
+  upsert?: Prisma.BookUpsertWithoutBookRatingsInput
+  connect?: Prisma.BookWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.BookUpdateToOneWithWhereWithoutBookRatingsInput, Prisma.BookUpdateWithoutBookRatingsInput>, Prisma.BookUncheckedUpdateWithoutBookRatingsInput>
+}
+
+export type BookCreateNestedOneWithoutReadingListItemsInput = {
+  create?: Prisma.XOR<Prisma.BookCreateWithoutReadingListItemsInput, Prisma.BookUncheckedCreateWithoutReadingListItemsInput>
+  connectOrCreate?: Prisma.BookCreateOrConnectWithoutReadingListItemsInput
+  connect?: Prisma.BookWhereUniqueInput
+}
+
+export type BookUpdateOneRequiredWithoutReadingListItemsNestedInput = {
+  create?: Prisma.XOR<Prisma.BookCreateWithoutReadingListItemsInput, Prisma.BookUncheckedCreateWithoutReadingListItemsInput>
+  connectOrCreate?: Prisma.BookCreateOrConnectWithoutReadingListItemsInput
+  upsert?: Prisma.BookUpsertWithoutReadingListItemsInput
+  connect?: Prisma.BookWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.BookUpdateToOneWithWhereWithoutReadingListItemsInput, Prisma.BookUpdateWithoutReadingListItemsInput>, Prisma.BookUncheckedUpdateWithoutReadingListItemsInput>
+}
+
 export type BookCreateNestedOneWithoutQueueEntriesInput = {
   create?: Prisma.XOR<Prisma.BookCreateWithoutQueueEntriesInput, Prisma.BookUncheckedCreateWithoutQueueEntriesInput>
   connectOrCreate?: Prisma.BookCreateOrConnectWithoutQueueEntriesInput
@@ -589,7 +767,11 @@ export type BookCreateWithoutOwnerInput = {
   id?: string
   title: string
   author?: string | null
+  series?: string | null
+  seriesNumber?: number | null
   condition: $Enums.Condition
+  labelType?: $Enums.LabelType
+  tags?: string
   coverPhoto?: string | null
   genres?: string
   description?: string | null
@@ -600,13 +782,19 @@ export type BookCreateWithoutOwnerInput = {
   requests?: Prisma.SwapRequestCreateNestedManyWithoutBookInput
   wishlistedBy?: Prisma.WishlistItemCreateNestedManyWithoutBookInput
   queueEntries?: Prisma.QueueEntryCreateNestedManyWithoutBookInput
+  bookRatings?: Prisma.BookRatingCreateNestedManyWithoutBookInput
+  readingListItems?: Prisma.ReadingListItemCreateNestedManyWithoutBookInput
 }
 
 export type BookUncheckedCreateWithoutOwnerInput = {
   id?: string
   title: string
   author?: string | null
+  series?: string | null
+  seriesNumber?: number | null
   condition: $Enums.Condition
+  labelType?: $Enums.LabelType
+  tags?: string
   coverPhoto?: string | null
   genres?: string
   description?: string | null
@@ -617,6 +805,8 @@ export type BookUncheckedCreateWithoutOwnerInput = {
   requests?: Prisma.SwapRequestUncheckedCreateNestedManyWithoutBookInput
   wishlistedBy?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutBookInput
   queueEntries?: Prisma.QueueEntryUncheckedCreateNestedManyWithoutBookInput
+  bookRatings?: Prisma.BookRatingUncheckedCreateNestedManyWithoutBookInput
+  readingListItems?: Prisma.ReadingListItemUncheckedCreateNestedManyWithoutBookInput
 }
 
 export type BookCreateOrConnectWithoutOwnerInput = {
@@ -651,7 +841,11 @@ export type BookScalarWhereInput = {
   id?: Prisma.StringFilter<"Book"> | string
   title?: Prisma.StringFilter<"Book"> | string
   author?: Prisma.StringNullableFilter<"Book"> | string | null
+  series?: Prisma.StringNullableFilter<"Book"> | string | null
+  seriesNumber?: Prisma.IntNullableFilter<"Book"> | number | null
   condition?: Prisma.EnumConditionFilter<"Book"> | $Enums.Condition
+  labelType?: Prisma.EnumLabelTypeFilter<"Book"> | $Enums.LabelType
+  tags?: Prisma.StringFilter<"Book"> | string
   coverPhoto?: Prisma.StringNullableFilter<"Book"> | string | null
   genres?: Prisma.StringFilter<"Book"> | string
   description?: Prisma.StringNullableFilter<"Book"> | string | null
@@ -662,11 +856,15 @@ export type BookScalarWhereInput = {
   ownerId?: Prisma.StringFilter<"Book"> | string
 }
 
-export type BookCreateWithoutQueueEntriesInput = {
+export type BookCreateWithoutBookRatingsInput = {
   id?: string
   title: string
   author?: string | null
+  series?: string | null
+  seriesNumber?: number | null
   condition: $Enums.Condition
+  labelType?: $Enums.LabelType
+  tags?: string
   coverPhoto?: string | null
   genres?: string
   description?: string | null
@@ -677,13 +875,19 @@ export type BookCreateWithoutQueueEntriesInput = {
   owner: Prisma.UserCreateNestedOneWithoutOwnedBooksInput
   requests?: Prisma.SwapRequestCreateNestedManyWithoutBookInput
   wishlistedBy?: Prisma.WishlistItemCreateNestedManyWithoutBookInput
+  queueEntries?: Prisma.QueueEntryCreateNestedManyWithoutBookInput
+  readingListItems?: Prisma.ReadingListItemCreateNestedManyWithoutBookInput
 }
 
-export type BookUncheckedCreateWithoutQueueEntriesInput = {
+export type BookUncheckedCreateWithoutBookRatingsInput = {
   id?: string
   title: string
   author?: string | null
+  series?: string | null
+  seriesNumber?: number | null
   condition: $Enums.Condition
+  labelType?: $Enums.LabelType
+  tags?: string
   coverPhoto?: string | null
   genres?: string
   description?: string | null
@@ -694,6 +898,224 @@ export type BookUncheckedCreateWithoutQueueEntriesInput = {
   ownerId: string
   requests?: Prisma.SwapRequestUncheckedCreateNestedManyWithoutBookInput
   wishlistedBy?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutBookInput
+  queueEntries?: Prisma.QueueEntryUncheckedCreateNestedManyWithoutBookInput
+  readingListItems?: Prisma.ReadingListItemUncheckedCreateNestedManyWithoutBookInput
+}
+
+export type BookCreateOrConnectWithoutBookRatingsInput = {
+  where: Prisma.BookWhereUniqueInput
+  create: Prisma.XOR<Prisma.BookCreateWithoutBookRatingsInput, Prisma.BookUncheckedCreateWithoutBookRatingsInput>
+}
+
+export type BookUpsertWithoutBookRatingsInput = {
+  update: Prisma.XOR<Prisma.BookUpdateWithoutBookRatingsInput, Prisma.BookUncheckedUpdateWithoutBookRatingsInput>
+  create: Prisma.XOR<Prisma.BookCreateWithoutBookRatingsInput, Prisma.BookUncheckedCreateWithoutBookRatingsInput>
+  where?: Prisma.BookWhereInput
+}
+
+export type BookUpdateToOneWithWhereWithoutBookRatingsInput = {
+  where?: Prisma.BookWhereInput
+  data: Prisma.XOR<Prisma.BookUpdateWithoutBookRatingsInput, Prisma.BookUncheckedUpdateWithoutBookRatingsInput>
+}
+
+export type BookUpdateWithoutBookRatingsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  author?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  series?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seriesNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  condition?: Prisma.EnumConditionFieldUpdateOperationsInput | $Enums.Condition
+  labelType?: Prisma.EnumLabelTypeFieldUpdateOperationsInput | $Enums.LabelType
+  tags?: Prisma.StringFieldUpdateOperationsInput | string
+  coverPhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  genres?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isCurrentlyReading?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  owner?: Prisma.UserUpdateOneRequiredWithoutOwnedBooksNestedInput
+  requests?: Prisma.SwapRequestUpdateManyWithoutBookNestedInput
+  wishlistedBy?: Prisma.WishlistItemUpdateManyWithoutBookNestedInput
+  queueEntries?: Prisma.QueueEntryUpdateManyWithoutBookNestedInput
+  readingListItems?: Prisma.ReadingListItemUpdateManyWithoutBookNestedInput
+}
+
+export type BookUncheckedUpdateWithoutBookRatingsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  author?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  series?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seriesNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  condition?: Prisma.EnumConditionFieldUpdateOperationsInput | $Enums.Condition
+  labelType?: Prisma.EnumLabelTypeFieldUpdateOperationsInput | $Enums.LabelType
+  tags?: Prisma.StringFieldUpdateOperationsInput | string
+  coverPhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  genres?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isCurrentlyReading?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ownerId?: Prisma.StringFieldUpdateOperationsInput | string
+  requests?: Prisma.SwapRequestUncheckedUpdateManyWithoutBookNestedInput
+  wishlistedBy?: Prisma.WishlistItemUncheckedUpdateManyWithoutBookNestedInput
+  queueEntries?: Prisma.QueueEntryUncheckedUpdateManyWithoutBookNestedInput
+  readingListItems?: Prisma.ReadingListItemUncheckedUpdateManyWithoutBookNestedInput
+}
+
+export type BookCreateWithoutReadingListItemsInput = {
+  id?: string
+  title: string
+  author?: string | null
+  series?: string | null
+  seriesNumber?: number | null
+  condition: $Enums.Condition
+  labelType?: $Enums.LabelType
+  tags?: string
+  coverPhoto?: string | null
+  genres?: string
+  description?: string | null
+  isAvailable?: boolean
+  isCurrentlyReading?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  owner: Prisma.UserCreateNestedOneWithoutOwnedBooksInput
+  requests?: Prisma.SwapRequestCreateNestedManyWithoutBookInput
+  wishlistedBy?: Prisma.WishlistItemCreateNestedManyWithoutBookInput
+  queueEntries?: Prisma.QueueEntryCreateNestedManyWithoutBookInput
+  bookRatings?: Prisma.BookRatingCreateNestedManyWithoutBookInput
+}
+
+export type BookUncheckedCreateWithoutReadingListItemsInput = {
+  id?: string
+  title: string
+  author?: string | null
+  series?: string | null
+  seriesNumber?: number | null
+  condition: $Enums.Condition
+  labelType?: $Enums.LabelType
+  tags?: string
+  coverPhoto?: string | null
+  genres?: string
+  description?: string | null
+  isAvailable?: boolean
+  isCurrentlyReading?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  ownerId: string
+  requests?: Prisma.SwapRequestUncheckedCreateNestedManyWithoutBookInput
+  wishlistedBy?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutBookInput
+  queueEntries?: Prisma.QueueEntryUncheckedCreateNestedManyWithoutBookInput
+  bookRatings?: Prisma.BookRatingUncheckedCreateNestedManyWithoutBookInput
+}
+
+export type BookCreateOrConnectWithoutReadingListItemsInput = {
+  where: Prisma.BookWhereUniqueInput
+  create: Prisma.XOR<Prisma.BookCreateWithoutReadingListItemsInput, Prisma.BookUncheckedCreateWithoutReadingListItemsInput>
+}
+
+export type BookUpsertWithoutReadingListItemsInput = {
+  update: Prisma.XOR<Prisma.BookUpdateWithoutReadingListItemsInput, Prisma.BookUncheckedUpdateWithoutReadingListItemsInput>
+  create: Prisma.XOR<Prisma.BookCreateWithoutReadingListItemsInput, Prisma.BookUncheckedCreateWithoutReadingListItemsInput>
+  where?: Prisma.BookWhereInput
+}
+
+export type BookUpdateToOneWithWhereWithoutReadingListItemsInput = {
+  where?: Prisma.BookWhereInput
+  data: Prisma.XOR<Prisma.BookUpdateWithoutReadingListItemsInput, Prisma.BookUncheckedUpdateWithoutReadingListItemsInput>
+}
+
+export type BookUpdateWithoutReadingListItemsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  author?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  series?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seriesNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  condition?: Prisma.EnumConditionFieldUpdateOperationsInput | $Enums.Condition
+  labelType?: Prisma.EnumLabelTypeFieldUpdateOperationsInput | $Enums.LabelType
+  tags?: Prisma.StringFieldUpdateOperationsInput | string
+  coverPhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  genres?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isCurrentlyReading?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  owner?: Prisma.UserUpdateOneRequiredWithoutOwnedBooksNestedInput
+  requests?: Prisma.SwapRequestUpdateManyWithoutBookNestedInput
+  wishlistedBy?: Prisma.WishlistItemUpdateManyWithoutBookNestedInput
+  queueEntries?: Prisma.QueueEntryUpdateManyWithoutBookNestedInput
+  bookRatings?: Prisma.BookRatingUpdateManyWithoutBookNestedInput
+}
+
+export type BookUncheckedUpdateWithoutReadingListItemsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  author?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  series?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seriesNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  condition?: Prisma.EnumConditionFieldUpdateOperationsInput | $Enums.Condition
+  labelType?: Prisma.EnumLabelTypeFieldUpdateOperationsInput | $Enums.LabelType
+  tags?: Prisma.StringFieldUpdateOperationsInput | string
+  coverPhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  genres?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isCurrentlyReading?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ownerId?: Prisma.StringFieldUpdateOperationsInput | string
+  requests?: Prisma.SwapRequestUncheckedUpdateManyWithoutBookNestedInput
+  wishlistedBy?: Prisma.WishlistItemUncheckedUpdateManyWithoutBookNestedInput
+  queueEntries?: Prisma.QueueEntryUncheckedUpdateManyWithoutBookNestedInput
+  bookRatings?: Prisma.BookRatingUncheckedUpdateManyWithoutBookNestedInput
+}
+
+export type BookCreateWithoutQueueEntriesInput = {
+  id?: string
+  title: string
+  author?: string | null
+  series?: string | null
+  seriesNumber?: number | null
+  condition: $Enums.Condition
+  labelType?: $Enums.LabelType
+  tags?: string
+  coverPhoto?: string | null
+  genres?: string
+  description?: string | null
+  isAvailable?: boolean
+  isCurrentlyReading?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  owner: Prisma.UserCreateNestedOneWithoutOwnedBooksInput
+  requests?: Prisma.SwapRequestCreateNestedManyWithoutBookInput
+  wishlistedBy?: Prisma.WishlistItemCreateNestedManyWithoutBookInput
+  bookRatings?: Prisma.BookRatingCreateNestedManyWithoutBookInput
+  readingListItems?: Prisma.ReadingListItemCreateNestedManyWithoutBookInput
+}
+
+export type BookUncheckedCreateWithoutQueueEntriesInput = {
+  id?: string
+  title: string
+  author?: string | null
+  series?: string | null
+  seriesNumber?: number | null
+  condition: $Enums.Condition
+  labelType?: $Enums.LabelType
+  tags?: string
+  coverPhoto?: string | null
+  genres?: string
+  description?: string | null
+  isAvailable?: boolean
+  isCurrentlyReading?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  ownerId: string
+  requests?: Prisma.SwapRequestUncheckedCreateNestedManyWithoutBookInput
+  wishlistedBy?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutBookInput
+  bookRatings?: Prisma.BookRatingUncheckedCreateNestedManyWithoutBookInput
+  readingListItems?: Prisma.ReadingListItemUncheckedCreateNestedManyWithoutBookInput
 }
 
 export type BookCreateOrConnectWithoutQueueEntriesInput = {
@@ -716,7 +1138,11 @@ export type BookUpdateWithoutQueueEntriesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   author?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  series?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seriesNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   condition?: Prisma.EnumConditionFieldUpdateOperationsInput | $Enums.Condition
+  labelType?: Prisma.EnumLabelTypeFieldUpdateOperationsInput | $Enums.LabelType
+  tags?: Prisma.StringFieldUpdateOperationsInput | string
   coverPhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   genres?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -727,13 +1153,19 @@ export type BookUpdateWithoutQueueEntriesInput = {
   owner?: Prisma.UserUpdateOneRequiredWithoutOwnedBooksNestedInput
   requests?: Prisma.SwapRequestUpdateManyWithoutBookNestedInput
   wishlistedBy?: Prisma.WishlistItemUpdateManyWithoutBookNestedInput
+  bookRatings?: Prisma.BookRatingUpdateManyWithoutBookNestedInput
+  readingListItems?: Prisma.ReadingListItemUpdateManyWithoutBookNestedInput
 }
 
 export type BookUncheckedUpdateWithoutQueueEntriesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   author?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  series?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seriesNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   condition?: Prisma.EnumConditionFieldUpdateOperationsInput | $Enums.Condition
+  labelType?: Prisma.EnumLabelTypeFieldUpdateOperationsInput | $Enums.LabelType
+  tags?: Prisma.StringFieldUpdateOperationsInput | string
   coverPhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   genres?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -744,13 +1176,19 @@ export type BookUncheckedUpdateWithoutQueueEntriesInput = {
   ownerId?: Prisma.StringFieldUpdateOperationsInput | string
   requests?: Prisma.SwapRequestUncheckedUpdateManyWithoutBookNestedInput
   wishlistedBy?: Prisma.WishlistItemUncheckedUpdateManyWithoutBookNestedInput
+  bookRatings?: Prisma.BookRatingUncheckedUpdateManyWithoutBookNestedInput
+  readingListItems?: Prisma.ReadingListItemUncheckedUpdateManyWithoutBookNestedInput
 }
 
 export type BookCreateWithoutRequestsInput = {
   id?: string
   title: string
   author?: string | null
+  series?: string | null
+  seriesNumber?: number | null
   condition: $Enums.Condition
+  labelType?: $Enums.LabelType
+  tags?: string
   coverPhoto?: string | null
   genres?: string
   description?: string | null
@@ -761,13 +1199,19 @@ export type BookCreateWithoutRequestsInput = {
   owner: Prisma.UserCreateNestedOneWithoutOwnedBooksInput
   wishlistedBy?: Prisma.WishlistItemCreateNestedManyWithoutBookInput
   queueEntries?: Prisma.QueueEntryCreateNestedManyWithoutBookInput
+  bookRatings?: Prisma.BookRatingCreateNestedManyWithoutBookInput
+  readingListItems?: Prisma.ReadingListItemCreateNestedManyWithoutBookInput
 }
 
 export type BookUncheckedCreateWithoutRequestsInput = {
   id?: string
   title: string
   author?: string | null
+  series?: string | null
+  seriesNumber?: number | null
   condition: $Enums.Condition
+  labelType?: $Enums.LabelType
+  tags?: string
   coverPhoto?: string | null
   genres?: string
   description?: string | null
@@ -778,6 +1222,8 @@ export type BookUncheckedCreateWithoutRequestsInput = {
   ownerId: string
   wishlistedBy?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutBookInput
   queueEntries?: Prisma.QueueEntryUncheckedCreateNestedManyWithoutBookInput
+  bookRatings?: Prisma.BookRatingUncheckedCreateNestedManyWithoutBookInput
+  readingListItems?: Prisma.ReadingListItemUncheckedCreateNestedManyWithoutBookInput
 }
 
 export type BookCreateOrConnectWithoutRequestsInput = {
@@ -800,7 +1246,11 @@ export type BookUpdateWithoutRequestsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   author?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  series?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seriesNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   condition?: Prisma.EnumConditionFieldUpdateOperationsInput | $Enums.Condition
+  labelType?: Prisma.EnumLabelTypeFieldUpdateOperationsInput | $Enums.LabelType
+  tags?: Prisma.StringFieldUpdateOperationsInput | string
   coverPhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   genres?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -811,13 +1261,19 @@ export type BookUpdateWithoutRequestsInput = {
   owner?: Prisma.UserUpdateOneRequiredWithoutOwnedBooksNestedInput
   wishlistedBy?: Prisma.WishlistItemUpdateManyWithoutBookNestedInput
   queueEntries?: Prisma.QueueEntryUpdateManyWithoutBookNestedInput
+  bookRatings?: Prisma.BookRatingUpdateManyWithoutBookNestedInput
+  readingListItems?: Prisma.ReadingListItemUpdateManyWithoutBookNestedInput
 }
 
 export type BookUncheckedUpdateWithoutRequestsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   author?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  series?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seriesNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   condition?: Prisma.EnumConditionFieldUpdateOperationsInput | $Enums.Condition
+  labelType?: Prisma.EnumLabelTypeFieldUpdateOperationsInput | $Enums.LabelType
+  tags?: Prisma.StringFieldUpdateOperationsInput | string
   coverPhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   genres?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -828,13 +1284,19 @@ export type BookUncheckedUpdateWithoutRequestsInput = {
   ownerId?: Prisma.StringFieldUpdateOperationsInput | string
   wishlistedBy?: Prisma.WishlistItemUncheckedUpdateManyWithoutBookNestedInput
   queueEntries?: Prisma.QueueEntryUncheckedUpdateManyWithoutBookNestedInput
+  bookRatings?: Prisma.BookRatingUncheckedUpdateManyWithoutBookNestedInput
+  readingListItems?: Prisma.ReadingListItemUncheckedUpdateManyWithoutBookNestedInput
 }
 
 export type BookCreateWithoutWishlistedByInput = {
   id?: string
   title: string
   author?: string | null
+  series?: string | null
+  seriesNumber?: number | null
   condition: $Enums.Condition
+  labelType?: $Enums.LabelType
+  tags?: string
   coverPhoto?: string | null
   genres?: string
   description?: string | null
@@ -845,13 +1307,19 @@ export type BookCreateWithoutWishlistedByInput = {
   owner: Prisma.UserCreateNestedOneWithoutOwnedBooksInput
   requests?: Prisma.SwapRequestCreateNestedManyWithoutBookInput
   queueEntries?: Prisma.QueueEntryCreateNestedManyWithoutBookInput
+  bookRatings?: Prisma.BookRatingCreateNestedManyWithoutBookInput
+  readingListItems?: Prisma.ReadingListItemCreateNestedManyWithoutBookInput
 }
 
 export type BookUncheckedCreateWithoutWishlistedByInput = {
   id?: string
   title: string
   author?: string | null
+  series?: string | null
+  seriesNumber?: number | null
   condition: $Enums.Condition
+  labelType?: $Enums.LabelType
+  tags?: string
   coverPhoto?: string | null
   genres?: string
   description?: string | null
@@ -862,6 +1330,8 @@ export type BookUncheckedCreateWithoutWishlistedByInput = {
   ownerId: string
   requests?: Prisma.SwapRequestUncheckedCreateNestedManyWithoutBookInput
   queueEntries?: Prisma.QueueEntryUncheckedCreateNestedManyWithoutBookInput
+  bookRatings?: Prisma.BookRatingUncheckedCreateNestedManyWithoutBookInput
+  readingListItems?: Prisma.ReadingListItemUncheckedCreateNestedManyWithoutBookInput
 }
 
 export type BookCreateOrConnectWithoutWishlistedByInput = {
@@ -884,7 +1354,11 @@ export type BookUpdateWithoutWishlistedByInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   author?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  series?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seriesNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   condition?: Prisma.EnumConditionFieldUpdateOperationsInput | $Enums.Condition
+  labelType?: Prisma.EnumLabelTypeFieldUpdateOperationsInput | $Enums.LabelType
+  tags?: Prisma.StringFieldUpdateOperationsInput | string
   coverPhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   genres?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -895,13 +1369,19 @@ export type BookUpdateWithoutWishlistedByInput = {
   owner?: Prisma.UserUpdateOneRequiredWithoutOwnedBooksNestedInput
   requests?: Prisma.SwapRequestUpdateManyWithoutBookNestedInput
   queueEntries?: Prisma.QueueEntryUpdateManyWithoutBookNestedInput
+  bookRatings?: Prisma.BookRatingUpdateManyWithoutBookNestedInput
+  readingListItems?: Prisma.ReadingListItemUpdateManyWithoutBookNestedInput
 }
 
 export type BookUncheckedUpdateWithoutWishlistedByInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   author?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  series?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seriesNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   condition?: Prisma.EnumConditionFieldUpdateOperationsInput | $Enums.Condition
+  labelType?: Prisma.EnumLabelTypeFieldUpdateOperationsInput | $Enums.LabelType
+  tags?: Prisma.StringFieldUpdateOperationsInput | string
   coverPhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   genres?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -912,13 +1392,19 @@ export type BookUncheckedUpdateWithoutWishlistedByInput = {
   ownerId?: Prisma.StringFieldUpdateOperationsInput | string
   requests?: Prisma.SwapRequestUncheckedUpdateManyWithoutBookNestedInput
   queueEntries?: Prisma.QueueEntryUncheckedUpdateManyWithoutBookNestedInput
+  bookRatings?: Prisma.BookRatingUncheckedUpdateManyWithoutBookNestedInput
+  readingListItems?: Prisma.ReadingListItemUncheckedUpdateManyWithoutBookNestedInput
 }
 
 export type BookCreateManyOwnerInput = {
   id?: string
   title: string
   author?: string | null
+  series?: string | null
+  seriesNumber?: number | null
   condition: $Enums.Condition
+  labelType?: $Enums.LabelType
+  tags?: string
   coverPhoto?: string | null
   genres?: string
   description?: string | null
@@ -932,7 +1418,11 @@ export type BookUpdateWithoutOwnerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   author?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  series?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seriesNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   condition?: Prisma.EnumConditionFieldUpdateOperationsInput | $Enums.Condition
+  labelType?: Prisma.EnumLabelTypeFieldUpdateOperationsInput | $Enums.LabelType
+  tags?: Prisma.StringFieldUpdateOperationsInput | string
   coverPhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   genres?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -943,13 +1433,19 @@ export type BookUpdateWithoutOwnerInput = {
   requests?: Prisma.SwapRequestUpdateManyWithoutBookNestedInput
   wishlistedBy?: Prisma.WishlistItemUpdateManyWithoutBookNestedInput
   queueEntries?: Prisma.QueueEntryUpdateManyWithoutBookNestedInput
+  bookRatings?: Prisma.BookRatingUpdateManyWithoutBookNestedInput
+  readingListItems?: Prisma.ReadingListItemUpdateManyWithoutBookNestedInput
 }
 
 export type BookUncheckedUpdateWithoutOwnerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   author?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  series?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seriesNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   condition?: Prisma.EnumConditionFieldUpdateOperationsInput | $Enums.Condition
+  labelType?: Prisma.EnumLabelTypeFieldUpdateOperationsInput | $Enums.LabelType
+  tags?: Prisma.StringFieldUpdateOperationsInput | string
   coverPhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   genres?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -960,13 +1456,19 @@ export type BookUncheckedUpdateWithoutOwnerInput = {
   requests?: Prisma.SwapRequestUncheckedUpdateManyWithoutBookNestedInput
   wishlistedBy?: Prisma.WishlistItemUncheckedUpdateManyWithoutBookNestedInput
   queueEntries?: Prisma.QueueEntryUncheckedUpdateManyWithoutBookNestedInput
+  bookRatings?: Prisma.BookRatingUncheckedUpdateManyWithoutBookNestedInput
+  readingListItems?: Prisma.ReadingListItemUncheckedUpdateManyWithoutBookNestedInput
 }
 
 export type BookUncheckedUpdateManyWithoutOwnerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   author?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  series?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seriesNumber?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   condition?: Prisma.EnumConditionFieldUpdateOperationsInput | $Enums.Condition
+  labelType?: Prisma.EnumLabelTypeFieldUpdateOperationsInput | $Enums.LabelType
+  tags?: Prisma.StringFieldUpdateOperationsInput | string
   coverPhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   genres?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -985,12 +1487,16 @@ export type BookCountOutputType = {
   requests: number
   wishlistedBy: number
   queueEntries: number
+  bookRatings: number
+  readingListItems: number
 }
 
 export type BookCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   requests?: boolean | BookCountOutputTypeCountRequestsArgs
   wishlistedBy?: boolean | BookCountOutputTypeCountWishlistedByArgs
   queueEntries?: boolean | BookCountOutputTypeCountQueueEntriesArgs
+  bookRatings?: boolean | BookCountOutputTypeCountBookRatingsArgs
+  readingListItems?: boolean | BookCountOutputTypeCountReadingListItemsArgs
 }
 
 /**
@@ -1024,12 +1530,30 @@ export type BookCountOutputTypeCountQueueEntriesArgs<ExtArgs extends runtime.Typ
   where?: Prisma.QueueEntryWhereInput
 }
 
+/**
+ * BookCountOutputType without action
+ */
+export type BookCountOutputTypeCountBookRatingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.BookRatingWhereInput
+}
+
+/**
+ * BookCountOutputType without action
+ */
+export type BookCountOutputTypeCountReadingListItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ReadingListItemWhereInput
+}
+
 
 export type BookSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   title?: boolean
   author?: boolean
+  series?: boolean
+  seriesNumber?: boolean
   condition?: boolean
+  labelType?: boolean
+  tags?: boolean
   coverPhoto?: boolean
   genres?: boolean
   description?: boolean
@@ -1042,6 +1566,8 @@ export type BookSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   requests?: boolean | Prisma.Book$requestsArgs<ExtArgs>
   wishlistedBy?: boolean | Prisma.Book$wishlistedByArgs<ExtArgs>
   queueEntries?: boolean | Prisma.Book$queueEntriesArgs<ExtArgs>
+  bookRatings?: boolean | Prisma.Book$bookRatingsArgs<ExtArgs>
+  readingListItems?: boolean | Prisma.Book$readingListItemsArgs<ExtArgs>
   _count?: boolean | Prisma.BookCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["book"]>
 
@@ -1049,7 +1575,11 @@ export type BookSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   id?: boolean
   title?: boolean
   author?: boolean
+  series?: boolean
+  seriesNumber?: boolean
   condition?: boolean
+  labelType?: boolean
+  tags?: boolean
   coverPhoto?: boolean
   genres?: boolean
   description?: boolean
@@ -1065,7 +1595,11 @@ export type BookSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   id?: boolean
   title?: boolean
   author?: boolean
+  series?: boolean
+  seriesNumber?: boolean
   condition?: boolean
+  labelType?: boolean
+  tags?: boolean
   coverPhoto?: boolean
   genres?: boolean
   description?: boolean
@@ -1081,7 +1615,11 @@ export type BookSelectScalar = {
   id?: boolean
   title?: boolean
   author?: boolean
+  series?: boolean
+  seriesNumber?: boolean
   condition?: boolean
+  labelType?: boolean
+  tags?: boolean
   coverPhoto?: boolean
   genres?: boolean
   description?: boolean
@@ -1092,12 +1630,14 @@ export type BookSelectScalar = {
   ownerId?: boolean
 }
 
-export type BookOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "author" | "condition" | "coverPhoto" | "genres" | "description" | "isAvailable" | "isCurrentlyReading" | "createdAt" | "updatedAt" | "ownerId", ExtArgs["result"]["book"]>
+export type BookOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "author" | "series" | "seriesNumber" | "condition" | "labelType" | "tags" | "coverPhoto" | "genres" | "description" | "isAvailable" | "isCurrentlyReading" | "createdAt" | "updatedAt" | "ownerId", ExtArgs["result"]["book"]>
 export type BookInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   requests?: boolean | Prisma.Book$requestsArgs<ExtArgs>
   wishlistedBy?: boolean | Prisma.Book$wishlistedByArgs<ExtArgs>
   queueEntries?: boolean | Prisma.Book$queueEntriesArgs<ExtArgs>
+  bookRatings?: boolean | Prisma.Book$bookRatingsArgs<ExtArgs>
+  readingListItems?: boolean | Prisma.Book$readingListItemsArgs<ExtArgs>
   _count?: boolean | Prisma.BookCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type BookIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1114,12 +1654,18 @@ export type $BookPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     requests: Prisma.$SwapRequestPayload<ExtArgs>[]
     wishlistedBy: Prisma.$WishlistItemPayload<ExtArgs>[]
     queueEntries: Prisma.$QueueEntryPayload<ExtArgs>[]
+    bookRatings: Prisma.$BookRatingPayload<ExtArgs>[]
+    readingListItems: Prisma.$ReadingListItemPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     title: string
     author: string | null
+    series: string | null
+    seriesNumber: number | null
     condition: $Enums.Condition
+    labelType: $Enums.LabelType
+    tags: string
     coverPhoto: string | null
     genres: string
     description: string | null
@@ -1526,6 +2072,8 @@ export interface Prisma__BookClient<T, Null = never, ExtArgs extends runtime.Typ
   requests<T extends Prisma.Book$requestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Book$requestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SwapRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   wishlistedBy<T extends Prisma.Book$wishlistedByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Book$wishlistedByArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WishlistItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   queueEntries<T extends Prisma.Book$queueEntriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Book$queueEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$QueueEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  bookRatings<T extends Prisma.Book$bookRatingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Book$bookRatingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookRatingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  readingListItems<T extends Prisma.Book$readingListItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Book$readingListItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReadingListItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1558,7 +2106,11 @@ export interface BookFieldRefs {
   readonly id: Prisma.FieldRef<"Book", 'String'>
   readonly title: Prisma.FieldRef<"Book", 'String'>
   readonly author: Prisma.FieldRef<"Book", 'String'>
+  readonly series: Prisma.FieldRef<"Book", 'String'>
+  readonly seriesNumber: Prisma.FieldRef<"Book", 'Int'>
   readonly condition: Prisma.FieldRef<"Book", 'Condition'>
+  readonly labelType: Prisma.FieldRef<"Book", 'LabelType'>
+  readonly tags: Prisma.FieldRef<"Book", 'String'>
   readonly coverPhoto: Prisma.FieldRef<"Book", 'String'>
   readonly genres: Prisma.FieldRef<"Book", 'String'>
   readonly description: Prisma.FieldRef<"Book", 'String'>
@@ -2035,6 +2587,54 @@ export type Book$queueEntriesArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.QueueEntryScalarFieldEnum | Prisma.QueueEntryScalarFieldEnum[]
+}
+
+/**
+ * Book.bookRatings
+ */
+export type Book$bookRatingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the BookRating
+   */
+  select?: Prisma.BookRatingSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the BookRating
+   */
+  omit?: Prisma.BookRatingOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BookRatingInclude<ExtArgs> | null
+  where?: Prisma.BookRatingWhereInput
+  orderBy?: Prisma.BookRatingOrderByWithRelationInput | Prisma.BookRatingOrderByWithRelationInput[]
+  cursor?: Prisma.BookRatingWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.BookRatingScalarFieldEnum | Prisma.BookRatingScalarFieldEnum[]
+}
+
+/**
+ * Book.readingListItems
+ */
+export type Book$readingListItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ReadingListItem
+   */
+  select?: Prisma.ReadingListItemSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ReadingListItem
+   */
+  omit?: Prisma.ReadingListItemOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ReadingListItemInclude<ExtArgs> | null
+  where?: Prisma.ReadingListItemWhereInput
+  orderBy?: Prisma.ReadingListItemOrderByWithRelationInput | Prisma.ReadingListItemOrderByWithRelationInput[]
+  cursor?: Prisma.ReadingListItemWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ReadingListItemScalarFieldEnum | Prisma.ReadingListItemScalarFieldEnum[]
 }
 
 /**
