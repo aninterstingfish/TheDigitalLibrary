@@ -201,8 +201,9 @@ export default function SignupForm() {
         {/* Age */}
         <div className="space-y-1.5">
           <label htmlFor="age" className="block text-sm font-medium text-black">Your age</label>
-          <input id="age" type="number" min={5} max={110} placeholder="e.g. 14"
-            value={form.age} onChange={set("age")} className={inputClass(!!errors.age)} />
+          <input id="age" type="text" inputMode="numeric" pattern="[0-9]*" placeholder="e.g. 14"
+            value={form.age} onChange={(e) => { if (/^\d*$/.test(e.target.value)) set("age")(e); }}
+            className={inputClass(!!errors.age)} />
           {errors.age
             ? <p className="text-red-500 text-xs">{errors.age}</p>
             : <p className="text-gray-400 text-xs">Required for GDPR age verification.</p>}

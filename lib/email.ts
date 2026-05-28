@@ -1,14 +1,16 @@
 import nodemailer from "nodemailer";
 
-const transporter = nodemailer.createTransport({
-  host: process.env.EMAIL_HOST,
-  port: parseInt(process.env.EMAIL_PORT ?? "587"),
-  secure: process.env.EMAIL_SECURE === "true",
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-});
+function makeTransporter() {
+  return nodemailer.createTransport({
+    host: process.env.EMAIL_HOST,
+    port: parseInt(process.env.EMAIL_PORT ?? "587"),
+    secure: process.env.EMAIL_SECURE === "true",
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+  });
+}
 
 export async function sendParentalConsentEmail({
   parentEmail,
@@ -98,10 +100,17 @@ export async function sendParentalConsentEmail({
     return;
   }
 
-  await transporter.sendMail({
-    from,
-    to: parentEmail,
-    subject: `Action required: confirm your child's Cloud Library account`,
-    html,
-  });
+  console.log("[email] Sending to", parentEmail, "via", process.env.EMAIL_HOST);
+  try {
+    const info = await makeTransporter().sendMail({
+      from,
+      to: parentEmail,
+      subject: `Action required: confirm your child's Cloud Library account`,
+      html,
+    });
+    console.log("[email] Sent OK — message ID:", info.messageId);
+  } catch (err) {
+    console.error("[email] FAILED to send:", err);
+    throw err;
+  }
 }
