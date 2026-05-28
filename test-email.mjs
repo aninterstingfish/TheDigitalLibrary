@@ -81,7 +81,7 @@ console.log("Sending consent email preview to viraatiyer@gmail.com ...");
 try {
   const info = await transporter.sendMail({
     from: env.EMAIL_FROM,
-    to: "viraatiyer@gmail.com",
+    to: "shaurya.iyer007@gmail.com",
     subject: "Action required: confirm your child's Cloud Library account",
     html,
   });
