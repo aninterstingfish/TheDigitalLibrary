@@ -53,6 +53,7 @@ export default function SignupForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [pendingParentEmail, setPendingParentEmail] = useState("");
+  const [resendState, setResendState] = useState<"idle" | "sending" | "sent" | "error">("idle");
 
   const age = parseInt(form.age);
   const needsParent = !isNaN(age) && age < 13;
@@ -94,6 +95,16 @@ export default function SignupForm() {
     setSubmitted(true);
   };
 
+  const handleResend = async () => {
+    setResendState("sending");
+    const res = await fetch("/api/auth/resend-consent", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: form.email.trim().toLowerCase() }),
+    });
+    setResendState(res.ok ? "sent" : "error");
+  };
+
   if (submitted && pendingParentEmail) {
     return (
       <div className="w-full max-w-[360px] text-center">
@@ -107,13 +118,24 @@ export default function SignupForm() {
           We&apos;ve sent a confirmation email to
         </p>
         <p className="text-black font-semibold text-sm mb-4">{pendingParentEmail}</p>
-        <p className="text-gray-500 text-sm leading-relaxed mb-8">
+        <p className="text-gray-500 text-sm leading-relaxed mb-6">
           Ask your parent or guardian to open it and click <strong className="text-black">Confirm account creation</strong>.
           Once they do, you can sign in here.
         </p>
-        <Link href="/login" className="block w-full bg-black text-white py-3.5 rounded-xl text-sm font-semibold text-center hover:bg-zinc-800 transition-all">
+        <Link href="/login" className="block w-full bg-black text-white py-3.5 rounded-xl text-sm font-semibold text-center hover:bg-zinc-800 transition-all mb-3">
           Go to sign in
         </Link>
+        <button
+          type="button"
+          onClick={handleResend}
+          disabled={resendState === "sending" || resendState === "sent"}
+          className="w-full border border-gray-200 text-black py-3.5 rounded-xl text-sm font-semibold hover:bg-gray-50 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {resendState === "sending" ? <span className="flex items-center justify-center gap-2"><Spinner />Sending…</span>
+            : resendState === "sent" ? "Email sent!"
+            : resendState === "error" ? "Failed — tap to try again"
+            : "Resend email"}
+        </button>
       </div>
     );
   }
