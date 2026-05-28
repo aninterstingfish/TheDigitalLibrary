@@ -105,9 +105,13 @@ export default async function AdminPage() {
                       {child.damagedReports} damage report{child.damagedReports > 1 ? "s" : ""}
                     </span>
                   )}
+                  <Link href={`/admin/history/${child.id}`}
+                    className="text-xs bg-gray-100 text-gray-600 px-3 py-1.5 rounded-lg font-medium hover:bg-gray-200 transition-all">
+                    History
+                  </Link>
                   <Link href={`/admin/list-book/${child.id}`}
                     className="text-xs bg-black text-white px-3 py-1.5 rounded-lg font-medium hover:bg-zinc-800 transition-all">
-                    List a book for them
+                    List a book
                   </Link>
                 </div>
               </div>

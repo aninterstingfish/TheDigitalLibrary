@@ -12,7 +12,7 @@ export default async function EditBookPage({ params }: { params: Promise<{ id: s
 
   const book = await prisma.book.findUnique({
     where: { id },
-    select: { id: true, title: true, author: true, condition: true, genres: true, description: true, coverPhoto: true, ownerId: true },
+    select: { id: true, title: true, author: true, condition: true, genres: true, description: true, coverPhoto: true, ownerId: true, isCurrentlyReading: true },
   });
 
   if (!book) notFound();
@@ -35,6 +35,7 @@ export default async function EditBookPage({ params }: { params: Promise<{ id: s
             genres,
             description: book.description ?? "",
             coverPhoto: book.coverPhoto,
+            isCurrentlyReading: book.isCurrentlyReading,
           }}
         />
       </main>

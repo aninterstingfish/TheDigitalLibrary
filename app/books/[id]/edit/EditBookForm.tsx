@@ -11,7 +11,7 @@ const CONDITIONS = [
   { value: "SEVERE_WEAR", label: "Severe Wear (Pages Missing)" },
 ];
 
-type Initial = { title: string; author: string; condition: string; genres: string[]; description: string; coverPhoto: string | null };
+type Initial = { title: string; author: string; condition: string; genres: string[]; description: string; coverPhoto: string | null; isCurrentlyReading: boolean };
 
 export default function EditBookForm({ id, initial }: { id: string; initial: Initial }) {
   const router = useRouter();
@@ -22,6 +22,7 @@ export default function EditBookForm({ id, initial }: { id: string; initial: Ini
   const [description, setDescription] = useState(initial.description);
   const [coverPreview, setCoverPreview] = useState<string | null>(initial.coverPhoto);
   const [coverFile, setCoverFile] = useState<File | null>(null);
+  const [isCurrentlyReading, setIsCurrentlyReading] = useState(initial.isCurrentlyReading);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -66,6 +67,7 @@ export default function EditBookForm({ id, initial }: { id: string; initial: Ini
         genres,
         description: description.trim() || null,
         ...(coverPhoto !== undefined && { coverPhoto }),
+        isCurrentlyReading,
       }),
     });
     const text = await res.text();
@@ -153,6 +155,23 @@ export default function EditBookForm({ id, initial }: { id: string; initial: Ini
         <label htmlFor="desc" className="block text-sm font-medium text-black mb-1.5">Notes <span className="text-gray-400 font-normal">(optional)</span></label>
         <textarea id="desc" value={description} onChange={(e) => setDescription(e.target.value)} rows={3}
           className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-black text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all resize-none" />
+      </div>
+
+      {/* Currently reading toggle */}
+      <div className="flex items-center justify-between py-3 px-4 bg-gray-50 rounded-xl">
+        <div>
+          <p className="text-sm font-medium text-black">Currently reading</p>
+          <p className="text-xs text-gray-400 mt-0.5">Shows a badge on your listing — others can still request it.</p>
+        </div>
+        <button
+          type="button"
+          onClick={() => setIsCurrentlyReading((v) => !v)}
+          className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${isCurrentlyReading ? "bg-blue-500" : "bg-gray-200"}`}
+          role="switch"
+          aria-checked={isCurrentlyReading}
+        >
+          <span className={`inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform ${isCurrentlyReading ? "translate-x-6" : "translate-x-1"}`} />
+        </button>
       </div>
 
       {errors.form && (

@@ -10,7 +10,7 @@ export default async function CataloguePage() {
 
   const books = await prisma.book.findMany({
     include: {
-      owner: { select: { username: true, name: true } },
+      owner: { select: { username: true, name: true, yearGroup: true } },
       _count: { select: { requests: true } },
       wishlistedBy: { where: { userId: session.userId }, select: { id: true } },
     },
@@ -25,6 +25,7 @@ export default async function CataloguePage() {
     coverPhoto: b.coverPhoto,
     genres: (() => { try { return JSON.parse(b.genres) as string[]; } catch { return []; } })(),
     isAvailable: b.isAvailable,
+    isCurrentlyReading: b.isCurrentlyReading,
     requestCount: b._count.requests,
     owner: b.owner,
     isWishlisted: b.wishlistedBy.length > 0,

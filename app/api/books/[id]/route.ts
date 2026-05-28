@@ -30,6 +30,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
         ...(body.genres !== undefined && { genres: JSON.stringify(body.genres) }),
         ...(body.description !== undefined && { description: (body.description as string)?.trim() || null }),
         ...(body.coverPhoto !== undefined && { coverPhoto: body.coverPhoto as string | null }),
+        ...(body.isCurrentlyReading !== undefined && { isCurrentlyReading: Boolean(body.isCurrentlyReading) }),
       },
     });
     return NextResponse.json({ success: true, id: updated.id });

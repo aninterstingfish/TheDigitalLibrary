@@ -4,6 +4,7 @@ import { redirect, notFound } from "next/navigation";
 import Nav from "@/components/Nav";
 import Link from "next/link";
 import SwapActions from "./SwapActions";
+import SwapChat from "./SwapChat";
 
 const CONDITION_LABELS: Record<string, string> = { NEW: "New", MINOR_WEAR: "Minor Wear", MAJOR_WEAR: "Major Wear", SEVERE_WEAR: "Severe Wear" };
 
@@ -22,7 +23,11 @@ export default async function SwapDetailPage({ params }: { params: Promise<{ id:
     include: {
       book: { select: { id: true, title: true, author: true, coverPhoto: true, condition: true, ownerId: true, owner: { select: { id: true, username: true, name: true } } } },
       borrower: { select: { id: true, username: true, name: true } },
-      swap: { include: { ratings: { select: { raterId: true, stars: true, review: true, role: true } } } },
+      swap: {
+        include: {
+          ratings: { select: { raterId: true, stars: true, review: true, role: true } },
+        },
+      },
     },
   });
 
@@ -103,6 +108,11 @@ export default async function SwapDetailPage({ params }: { params: Promise<{ id:
                 </div>
               )}
             </div>
+          )}
+
+          {/* Chat — only during active loan */}
+          {phase === "ACTIVE" && swap && (
+            <SwapChat swapId={swap.id} currentUserId={session.userId} />
           )}
 
           {/* Actions */}

@@ -4,6 +4,7 @@ import { useState, useMemo } from "react";
 import Link from "next/link";
 
 const GENRES = ["Fiction","Non-Fiction","Science","History","Fantasy","Mystery","Biography","Self-Help","Textbook","Graphic Novel","Poetry","Other"];
+const YEAR_GROUPS = [7,8,9,10,11,12,13];
 
 const CONDITION_LABELS: Record<string, string> = {
   NEW: "New",
@@ -27,8 +28,9 @@ type Book = {
   coverPhoto: string | null;
   genres: string[];
   isAvailable: boolean;
+  isCurrentlyReading: boolean;
   requestCount: number;
-  owner: { username: string; name: string };
+  owner: { username: string; name: string; yearGroup: number | null };
   isWishlisted: boolean;
   isOwnBook: boolean;
 };
@@ -37,6 +39,7 @@ export default function CatalogueClient({ books }: { books: Book[] }) {
   const [query, setQuery] = useState("");
   const [selectedGenre, setSelectedGenre] = useState("");
   const [selectedCondition, setSelectedCondition] = useState("");
+  const [selectedYearGroup, setSelectedYearGroup] = useState<number | null>(null);
   const [sortByRequests, setSortByRequests] = useState(true);
   const [wishlist, setWishlist] = useState<Set<string>>(
     new Set(books.filter((b) => b.isWishlisted).map((b) => b.id))
@@ -46,7 +49,7 @@ export default function CatalogueClient({ books }: { books: Book[] }) {
     let result = books;
     if (query.trim()) {
       const q = query.toLowerCase();
-      result = result.filter((b) => b.title.toLowerCase().includes(q));
+      result = result.filter((b) => b.title.toLowerCase().includes(q) || b.author?.toLowerCase().includes(q));
     }
     if (selectedGenre) {
       result = result.filter((b) => b.genres.includes(selectedGenre));
@@ -54,11 +57,14 @@ export default function CatalogueClient({ books }: { books: Book[] }) {
     if (selectedCondition) {
       result = result.filter((b) => b.condition === selectedCondition);
     }
+    if (selectedYearGroup !== null) {
+      result = result.filter((b) => b.owner.yearGroup === selectedYearGroup);
+    }
     if (sortByRequests) {
       result = [...result].sort((a, b) => b.requestCount - a.requestCount);
     }
     return result;
-  }, [books, query, selectedGenre, selectedCondition, sortByRequests]);
+  }, [books, query, selectedGenre, selectedCondition, selectedYearGroup, sortByRequests]);
 
   async function toggleWishlist(bookId: string) {
     const isInWishlist = wishlist.has(bookId);
@@ -68,6 +74,8 @@ export default function CatalogueClient({ books }: { books: Book[] }) {
     setWishlist(next);
     await fetch(`/api/wishlist/${bookId}`, { method: isInWishlist ? "DELETE" : "POST" });
   }
+
+  const hasYearGroupBooks = books.some((b) => b.owner.yearGroup !== null);
 
   return (
     <main className="max-w-7xl mx-auto px-6 py-8">
@@ -79,7 +87,7 @@ export default function CatalogueClient({ books }: { books: Book[] }) {
           </svg>
           <input
             type="text"
-            placeholder="Search by title…"
+            placeholder="Search by title or author…"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             className="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-xl text-sm text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all"
@@ -104,24 +112,38 @@ export default function CatalogueClient({ books }: { books: Book[] }) {
       </div>
 
       {/* Condition chips */}
-      <div className="flex flex-wrap gap-2 mb-8">
+      <div className="flex flex-wrap gap-2 mb-3">
         <Chip label="Any condition" active={!selectedCondition} onClick={() => setSelectedCondition("")} />
         {Object.entries(CONDITION_LABELS).map(([k, v]) => (
           <Chip key={k} label={v} active={selectedCondition === k} onClick={() => setSelectedCondition(k === selectedCondition ? "" : k)} />
         ))}
       </div>
 
-      <p className="text-xs text-gray-400 mb-5">
+      {/* Year group filter — only shown if any books have year group data */}
+      {hasYearGroupBooks && (
+        <div className="flex flex-wrap gap-2 mb-3">
+          <Chip label="Any year" active={selectedYearGroup === null} onClick={() => setSelectedYearGroup(null)} />
+          {YEAR_GROUPS.map((y) => (
+            <Chip key={y} label={`Year ${y}`} active={selectedYearGroup === y} onClick={() => setSelectedYearGroup(y === selectedYearGroup ? null : y)} />
+          ))}
+        </div>
+      )}
+
+      <p className="text-xs text-gray-400 mb-5 mt-2">
         {filtered.length} {filtered.length === 1 ? "book" : "books"}
         {query.trim() && ` matching "${query.trim()}"`}
         {selectedGenre && ` · ${selectedGenre}`}
         {selectedCondition && ` · ${CONDITION_LABELS[selectedCondition]}`}
+        {selectedYearGroup !== null && ` · Year ${selectedYearGroup}`}
       </p>
 
       {filtered.length === 0 ? (
         <div className="text-center py-28">
           <p className="text-gray-500 text-lg font-medium">No books found</p>
           <p className="text-gray-300 text-sm mt-2">Try adjusting your search or filters.</p>
+          <Link href="/book-requests" className="inline-block mt-4 text-sm text-black font-semibold hover:underline underline-offset-2">
+            Request a book →
+          </Link>
         </div>
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
@@ -154,7 +176,7 @@ function Chip({ label, active, onClick }: { label: string; active: boolean; onCl
 
 function BookCard({ book, isWishlisted, onWishlist }: { book: Book; isWishlisted: boolean; onWishlist: () => void }) {
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-md transition-shadow flex flex-col">
+    <div className={`bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-md transition-shadow flex flex-col ${book.isCurrentlyReading ? "opacity-75" : ""}`}>
       {/* Cover */}
       <div className="relative aspect-[2/3] bg-gray-100">
         {book.coverPhoto ? (
@@ -167,9 +189,15 @@ function BookCard({ book, isWishlisted, onWishlist }: { book: Book; isWishlisted
           </div>
         )}
 
-        {!book.isAvailable && (
+        {!book.isAvailable && !book.isCurrentlyReading && (
           <div className="absolute inset-0 bg-black/55 flex items-center justify-center">
             <span className="bg-white text-black text-xs font-bold px-3 py-1.5 rounded-full tracking-wide">On Loan</span>
+          </div>
+        )}
+
+        {book.isCurrentlyReading && (
+          <div className="absolute bottom-0 left-0 right-0 bg-blue-500/90 py-1.5 text-center">
+            <span className="text-white text-xs font-semibold">Reading now</span>
           </div>
         )}
 
@@ -221,14 +249,16 @@ function BookCard({ book, isWishlisted, onWishlist }: { book: Book; isWishlisted
           </Link>
         ) : (
           <Link
-            href={book.isAvailable ? `/books/${book.id}` : "#"}
+            href={`/books/${book.id}`}
             className={`mt-1 w-full text-center text-xs font-semibold py-2 rounded-xl transition-all ${
               book.isAvailable
                 ? "bg-black text-white hover:bg-zinc-800"
-                : "bg-gray-100 text-gray-400 pointer-events-none"
+                : book.isCurrentlyReading
+                ? "bg-blue-50 text-blue-600 hover:bg-blue-100"
+                : "bg-gray-100 text-gray-500 hover:bg-gray-200"
             }`}
           >
-            {book.isAvailable ? "Request loan" : "On loan"}
+            {book.isAvailable ? "Request loan" : book.isCurrentlyReading ? "View & queue" : "Join queue"}
           </Link>
         )}
       </div>

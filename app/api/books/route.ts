@@ -28,6 +28,32 @@ export async function POST(req: NextRequest) {
         ownerId: session.userId,
       },
     });
+
+    // Notify users who requested this title
+    const matchingRequests = await prisma.bookRequest.findMany({
+      where: {
+        fulfilled: false,
+        title: { contains: title.trim(), mode: "insensitive" },
+        userId: { not: session.userId },
+      },
+      select: { id: true, userId: true },
+    });
+
+    if (matchingRequests.length > 0) {
+      await Promise.all(
+        matchingRequests.map((r) =>
+          prisma.notification.create({
+            data: {
+              userId: r.userId,
+              type: "BOOK_REQUEST_MATCH",
+              message: `A book matching your request "${title.trim()}" has been listed!`,
+              link: `/books/${book.id}`,
+            },
+          })
+        )
+      );
+    }
+
     return NextResponse.json({ success: true, id: book.id });
   } catch (err) {
     console.error("[books/create]", err);

@@ -15,7 +15,7 @@ export default async function ProfilePage({ params }: { params: Promise<{ userna
   const user = await prisma.user.findUnique({
     where: { username },
     select: {
-      id: true, name: true, username: true, profilePhoto: true, yearGroup: true, borrowLimit: true, createdAt: true,
+      id: true, name: true, username: true, profilePhoto: true, yearGroup: true, borrowLimit: true, createdAt: true, damagedReports: true,
       ownedBooks: {
         where: { isAvailable: true },
         select: { id: true, title: true, author: true, condition: true, coverPhoto: true, genres: true },
@@ -29,6 +29,11 @@ export default async function ProfilePage({ params }: { params: Promise<{ userna
   const completedSwaps = await prisma.swap.count({ where: { request: { book: { ownerId: user.id } }, ownerConfirmedReturn: true } });
   const avgRating = user.ratingsReceived.length
     ? user.ratingsReceived.reduce((s, r) => s + r.stars, 0) / user.ratingsReceived.length
+    : null;
+
+  // Trust score: based on avg rating (0–5 → 0–100) minus damage penalty
+  const trustScore = avgRating !== null
+    ? Math.max(0, Math.round((avgRating / 5) * 100) - user.damagedReports * 5)
     : null;
 
   const isOwnProfile = session.userId === user.id;
@@ -49,21 +54,33 @@ export default async function ProfilePage({ params }: { params: Promise<{ userna
           <div className="flex-1">
             <h1 className="text-2xl font-bold text-black">{user.name}</h1>
             <p className="text-gray-400 text-sm">@{user.username}{user.yearGroup ? ` · Year ${user.yearGroup}` : ""}</p>
-            <div className="flex items-center gap-5 mt-3">
+            <div className="flex items-center gap-5 mt-3 flex-wrap">
+              {trustScore !== null && (
+                <div className="text-center">
+                  <p className={`text-lg font-bold ${trustScore >= 80 ? "text-green-600" : trustScore >= 50 ? "text-amber-500" : "text-red-500"}`}>{trustScore}%</p>
+                  <p className="text-xs text-gray-400">trust score</p>
+                </div>
+              )}
               {avgRating !== null && (
                 <div className="text-center">
-                  <p className="text-lg font-bold text-black">{"★".repeat(Math.round(avgRating))}<span className="text-gray-200">{"★".repeat(5 - Math.round(avgRating))}</span></p>
-                  <p className="text-xs text-gray-400">{avgRating.toFixed(1)} avg · {user.ratingsReceived.length} ratings</p>
+                  <p className="text-lg font-bold text-black">{avgRating.toFixed(1)}</p>
+                  <p className="text-xs text-gray-400">{user.ratingsReceived.length} ratings</p>
                 </div>
               )}
               <div className="text-center">
                 <p className="text-lg font-bold text-black">{completedSwaps}</p>
-                <p className="text-xs text-gray-400">swaps completed</p>
+                <p className="text-xs text-gray-400">swaps done</p>
               </div>
               <div className="text-center">
                 <p className="text-lg font-bold text-black">{user.ownedBooks.length}</p>
                 <p className="text-xs text-gray-400">books listed</p>
               </div>
+              {user.damagedReports > 0 && (
+                <div className="text-center">
+                  <p className="text-lg font-bold text-red-500">{user.damagedReports}</p>
+                  <p className="text-xs text-gray-400">damage {user.damagedReports === 1 ? "report" : "reports"}</p>
+                </div>
+              )}
             </div>
           </div>
           {isOwnProfile && (
