@@ -66,33 +66,38 @@ export default function SignupForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const errs = validateForm(form);
-    if (Object.keys(errs).length > 0) { setErrors(errs); return; }
+    if (Object.keys(errs).length > 0) { setErrors(errs); window.scrollTo({ top: 0, behavior: "smooth" }); return; }
 
     setIsLoading(true);
-    const res = await fetch("/api/auth/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name: form.name.trim(),
-        username: form.username.trim(),
-        email: form.email.trim().toLowerCase(),
-        password: form.password,
-        age: parseInt(form.age),
-        ...(needsParent && { parentEmail: form.parentEmail.trim() }),
-      }),
-    });
-    const text = await res.text();
-    const data = text ? JSON.parse(text) : {};
-    if (!res.ok) {
-      setErrors({ [data.field ?? "email"]: data.error });
+    try {
+      const res = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.name.trim(),
+          username: form.username.trim(),
+          email: form.email.trim().toLowerCase(),
+          password: form.password,
+          age: parseInt(form.age),
+          ...(needsParent && { parentEmail: form.parentEmail.trim() }),
+        }),
+      });
+      const text = await res.text();
+      const data = text ? JSON.parse(text) : {};
+      if (!res.ok) {
+        setErrors({ [data.field ?? "email"]: data.error });
+        setIsLoading(false);
+        return;
+      }
       setIsLoading(false);
-      return;
+      if (data.pendingApproval) {
+        setPendingParentEmail(data.parentEmail);
+      }
+      setSubmitted(true);
+    } catch {
+      setErrors({ email: "Network error — please check your connection and try again." });
+      setIsLoading(false);
     }
-    setIsLoading(false);
-    if (data.pendingApproval) {
-      setPendingParentEmail(data.parentEmail);
-    }
-    setSubmitted(true);
   };
 
   const handleResend = async () => {
