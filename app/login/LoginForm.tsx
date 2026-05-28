@@ -9,6 +9,8 @@ export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [isPending, setIsPending] = useState(false);
+  const [resendState, setResendState] = useState<"idle" | "sending" | "sent" | "error">("idle");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,6 +22,8 @@ export default function LoginForm() {
     }
 
     setIsLoading(true);
+    setIsPending(false);
+    setResendState("idle");
     const res = await fetch("/api/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -29,6 +33,7 @@ export default function LoginForm() {
     const data = text ? JSON.parse(text) : {};
     if (!res.ok) {
       setError(data.error || "Sign in failed.");
+      if (res.status === 403) setIsPending(true);
       setIsLoading(false);
       return;
     }
@@ -94,12 +99,32 @@ export default function LoginForm() {
         </div>
 
         {error && (
-          <div
-            role="alert"
-            className="flex items-start gap-3 bg-red-50 border border-red-100 text-red-600 text-sm px-4 py-3 rounded-xl"
-          >
-            <span className="mt-px shrink-0">⚠</span>
-            <span>{error}</span>
+          <div role="alert" className="bg-red-50 border border-red-100 rounded-xl px-4 py-3 space-y-2">
+            <div className="flex items-start gap-3 text-red-600 text-sm">
+              <span className="mt-px shrink-0">⚠</span>
+              <span>{error}</span>
+            </div>
+            {isPending && (
+              <button
+                type="button"
+                onClick={async () => {
+                  setResendState("sending");
+                  const res = await fetch("/api/auth/resend-consent", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ identifier: username.trim() }),
+                  });
+                  setResendState(res.ok ? "sent" : "error");
+                }}
+                disabled={resendState === "sending" || resendState === "sent"}
+                className="w-full bg-white border border-red-200 text-red-600 text-xs font-semibold py-2 rounded-lg hover:bg-red-50 transition-all disabled:opacity-50"
+              >
+                {resendState === "sending" ? "Sending…"
+                  : resendState === "sent" ? "Email sent!"
+                  : resendState === "error" ? "Failed — tap to try again"
+                  : "Resend consent email"}
+              </button>
+            )}
           </div>
         )}
 

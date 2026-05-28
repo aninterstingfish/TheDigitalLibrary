@@ -4,41 +4,35 @@ import { sendParentalConsentEmail } from "@/lib/email";
 import { randomBytes } from "crypto";
 
 export async function POST(req: NextRequest) {
-  let body: { email?: string };
+  let body: { email?: string; identifier?: string };
   try {
     body = await req.json();
   } catch {
     return NextResponse.json({ error: "Invalid request body." }, { status: 400 });
   }
 
-  const { email } = body;
-  if (!email?.trim()) {
-    return NextResponse.json({ error: "Email is required." }, { status: 400 });
-  }
+  const raw = (body.identifier ?? body.email ?? "").trim();
+  if (!raw) return NextResponse.json({ success: true });
 
+  const isEmail = raw.includes("@");
   const user = await prisma.user.findFirst({
-    where: { email: email.trim().toLowerCase(), approved: false },
+    where: {
+      approved: false,
+      ...(isEmail ? { email: raw.toLowerCase() } : { username: raw }),
+    },
   });
 
-  // Always return 200 to avoid leaking whether an account exists
-  if (!user || !user.parentEmail) {
-    return NextResponse.json({ success: true });
-  }
+  if (!user || !user.parentEmail) return NextResponse.json({ success: true });
 
   const newToken = randomBytes(32).toString("hex");
-  await prisma.user.update({
-    where: { id: user.id },
-    data: { parentToken: newToken },
-  });
+  await prisma.user.update({ where: { id: user.id }, data: { parentToken: newToken } });
 
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
-  const approvalUrl = `${appUrl}/approve-account?token=${newToken}`;
-
   await sendParentalConsentEmail({
     parentEmail: user.parentEmail,
     childName: user.name,
     childUsername: user.username,
-    approvalUrl,
+    approvalUrl: `${appUrl}/approve-account?token=${newToken}`,
   });
 
   return NextResponse.json({ success: true });
