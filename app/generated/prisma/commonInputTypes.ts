@@ -190,6 +190,23 @@ export type EnumConditionWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumConditionFilter<$PrismaModel>
 }
 
+export type EnumQueueStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.QueueStatus | Prisma.EnumQueueStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.QueueStatus[]
+  notIn?: $Enums.QueueStatus[]
+  not?: Prisma.NestedEnumQueueStatusFilter<$PrismaModel> | $Enums.QueueStatus
+}
+
+export type EnumQueueStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.QueueStatus | Prisma.EnumQueueStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.QueueStatus[]
+  notIn?: $Enums.QueueStatus[]
+  not?: Prisma.NestedEnumQueueStatusWithAggregatesFilter<$PrismaModel> | $Enums.QueueStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumQueueStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumQueueStatusFilter<$PrismaModel>
+}
+
 export type DateTimeNullableFilter<$PrismaModel = never> = {
   equals?: Date | string | Prisma.DateTimeFieldRefInput<$PrismaModel> | null
   in?: Date[] | string[] | null
@@ -474,6 +491,23 @@ export type NestedEnumConditionWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumConditionFilter<$PrismaModel>
   _max?: Prisma.NestedEnumConditionFilter<$PrismaModel>
+}
+
+export type NestedEnumQueueStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.QueueStatus | Prisma.EnumQueueStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.QueueStatus[]
+  notIn?: $Enums.QueueStatus[]
+  not?: Prisma.NestedEnumQueueStatusFilter<$PrismaModel> | $Enums.QueueStatus
+}
+
+export type NestedEnumQueueStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.QueueStatus | Prisma.EnumQueueStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.QueueStatus[]
+  notIn?: $Enums.QueueStatus[]
+  not?: Prisma.NestedEnumQueueStatusWithAggregatesFilter<$PrismaModel> | $Enums.QueueStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumQueueStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumQueueStatusFilter<$PrismaModel>
 }
 
 export type NestedDateTimeNullableFilter<$PrismaModel = never> = {

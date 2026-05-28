@@ -39,6 +39,7 @@ export type RatingMinAggregateOutputType = {
   stars: number | null
   review: string | null
   role: $Enums.RaterRole | null
+  damaged: boolean | null
   createdAt: Date | null
   swapId: string | null
   raterId: string | null
@@ -50,6 +51,7 @@ export type RatingMaxAggregateOutputType = {
   stars: number | null
   review: string | null
   role: $Enums.RaterRole | null
+  damaged: boolean | null
   createdAt: Date | null
   swapId: string | null
   raterId: string | null
@@ -61,6 +63,7 @@ export type RatingCountAggregateOutputType = {
   stars: number
   review: number
   role: number
+  damaged: number
   createdAt: number
   swapId: number
   raterId: number
@@ -82,6 +85,7 @@ export type RatingMinAggregateInputType = {
   stars?: true
   review?: true
   role?: true
+  damaged?: true
   createdAt?: true
   swapId?: true
   raterId?: true
@@ -93,6 +97,7 @@ export type RatingMaxAggregateInputType = {
   stars?: true
   review?: true
   role?: true
+  damaged?: true
   createdAt?: true
   swapId?: true
   raterId?: true
@@ -104,6 +109,7 @@ export type RatingCountAggregateInputType = {
   stars?: true
   review?: true
   role?: true
+  damaged?: true
   createdAt?: true
   swapId?: true
   raterId?: true
@@ -202,6 +208,7 @@ export type RatingGroupByOutputType = {
   stars: number
   review: string | null
   role: $Enums.RaterRole
+  damaged: boolean
   createdAt: Date
   swapId: string
   raterId: string
@@ -236,6 +243,7 @@ export type RatingWhereInput = {
   stars?: Prisma.IntFilter<"Rating"> | number
   review?: Prisma.StringNullableFilter<"Rating"> | string | null
   role?: Prisma.EnumRaterRoleFilter<"Rating"> | $Enums.RaterRole
+  damaged?: Prisma.BoolFilter<"Rating"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Rating"> | Date | string
   swapId?: Prisma.StringFilter<"Rating"> | string
   raterId?: Prisma.StringFilter<"Rating"> | string
@@ -250,6 +258,7 @@ export type RatingOrderByWithRelationInput = {
   stars?: Prisma.SortOrder
   review?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrder
+  damaged?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   swapId?: Prisma.SortOrder
   raterId?: Prisma.SortOrder
@@ -268,6 +277,7 @@ export type RatingWhereUniqueInput = Prisma.AtLeast<{
   stars?: Prisma.IntFilter<"Rating"> | number
   review?: Prisma.StringNullableFilter<"Rating"> | string | null
   role?: Prisma.EnumRaterRoleFilter<"Rating"> | $Enums.RaterRole
+  damaged?: Prisma.BoolFilter<"Rating"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Rating"> | Date | string
   swapId?: Prisma.StringFilter<"Rating"> | string
   raterId?: Prisma.StringFilter<"Rating"> | string
@@ -282,6 +292,7 @@ export type RatingOrderByWithAggregationInput = {
   stars?: Prisma.SortOrder
   review?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrder
+  damaged?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   swapId?: Prisma.SortOrder
   raterId?: Prisma.SortOrder
@@ -301,6 +312,7 @@ export type RatingScalarWhereWithAggregatesInput = {
   stars?: Prisma.IntWithAggregatesFilter<"Rating"> | number
   review?: Prisma.StringNullableWithAggregatesFilter<"Rating"> | string | null
   role?: Prisma.EnumRaterRoleWithAggregatesFilter<"Rating"> | $Enums.RaterRole
+  damaged?: Prisma.BoolWithAggregatesFilter<"Rating"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Rating"> | Date | string
   swapId?: Prisma.StringWithAggregatesFilter<"Rating"> | string
   raterId?: Prisma.StringWithAggregatesFilter<"Rating"> | string
@@ -312,6 +324,7 @@ export type RatingCreateInput = {
   stars: number
   review?: string | null
   role: $Enums.RaterRole
+  damaged?: boolean
   createdAt?: Date | string
   swap: Prisma.SwapCreateNestedOneWithoutRatingsInput
   rater: Prisma.UserCreateNestedOneWithoutRatingsGivenInput
@@ -323,6 +336,7 @@ export type RatingUncheckedCreateInput = {
   stars: number
   review?: string | null
   role: $Enums.RaterRole
+  damaged?: boolean
   createdAt?: Date | string
   swapId: string
   raterId: string
@@ -334,6 +348,7 @@ export type RatingUpdateInput = {
   stars?: Prisma.IntFieldUpdateOperationsInput | number
   review?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRaterRoleFieldUpdateOperationsInput | $Enums.RaterRole
+  damaged?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   swap?: Prisma.SwapUpdateOneRequiredWithoutRatingsNestedInput
   rater?: Prisma.UserUpdateOneRequiredWithoutRatingsGivenNestedInput
@@ -345,6 +360,7 @@ export type RatingUncheckedUpdateInput = {
   stars?: Prisma.IntFieldUpdateOperationsInput | number
   review?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRaterRoleFieldUpdateOperationsInput | $Enums.RaterRole
+  damaged?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   swapId?: Prisma.StringFieldUpdateOperationsInput | string
   raterId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -356,6 +372,7 @@ export type RatingCreateManyInput = {
   stars: number
   review?: string | null
   role: $Enums.RaterRole
+  damaged?: boolean
   createdAt?: Date | string
   swapId: string
   raterId: string
@@ -367,6 +384,7 @@ export type RatingUpdateManyMutationInput = {
   stars?: Prisma.IntFieldUpdateOperationsInput | number
   review?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRaterRoleFieldUpdateOperationsInput | $Enums.RaterRole
+  damaged?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -375,6 +393,7 @@ export type RatingUncheckedUpdateManyInput = {
   stars?: Prisma.IntFieldUpdateOperationsInput | number
   review?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRaterRoleFieldUpdateOperationsInput | $Enums.RaterRole
+  damaged?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   swapId?: Prisma.StringFieldUpdateOperationsInput | string
   raterId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -401,6 +420,7 @@ export type RatingCountOrderByAggregateInput = {
   stars?: Prisma.SortOrder
   review?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  damaged?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   swapId?: Prisma.SortOrder
   raterId?: Prisma.SortOrder
@@ -416,6 +436,7 @@ export type RatingMaxOrderByAggregateInput = {
   stars?: Prisma.SortOrder
   review?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  damaged?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   swapId?: Prisma.SortOrder
   raterId?: Prisma.SortOrder
@@ -427,6 +448,7 @@ export type RatingMinOrderByAggregateInput = {
   stars?: Prisma.SortOrder
   review?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  damaged?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   swapId?: Prisma.SortOrder
   raterId?: Prisma.SortOrder
@@ -572,6 +594,7 @@ export type RatingCreateWithoutRaterInput = {
   stars: number
   review?: string | null
   role: $Enums.RaterRole
+  damaged?: boolean
   createdAt?: Date | string
   swap: Prisma.SwapCreateNestedOneWithoutRatingsInput
   ratee: Prisma.UserCreateNestedOneWithoutRatingsReceivedInput
@@ -582,6 +605,7 @@ export type RatingUncheckedCreateWithoutRaterInput = {
   stars: number
   review?: string | null
   role: $Enums.RaterRole
+  damaged?: boolean
   createdAt?: Date | string
   swapId: string
   rateeId: string
@@ -601,6 +625,7 @@ export type RatingCreateWithoutRateeInput = {
   stars: number
   review?: string | null
   role: $Enums.RaterRole
+  damaged?: boolean
   createdAt?: Date | string
   swap: Prisma.SwapCreateNestedOneWithoutRatingsInput
   rater: Prisma.UserCreateNestedOneWithoutRatingsGivenInput
@@ -611,6 +636,7 @@ export type RatingUncheckedCreateWithoutRateeInput = {
   stars: number
   review?: string | null
   role: $Enums.RaterRole
+  damaged?: boolean
   createdAt?: Date | string
   swapId: string
   raterId: string
@@ -649,6 +675,7 @@ export type RatingScalarWhereInput = {
   stars?: Prisma.IntFilter<"Rating"> | number
   review?: Prisma.StringNullableFilter<"Rating"> | string | null
   role?: Prisma.EnumRaterRoleFilter<"Rating"> | $Enums.RaterRole
+  damaged?: Prisma.BoolFilter<"Rating"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Rating"> | Date | string
   swapId?: Prisma.StringFilter<"Rating"> | string
   raterId?: Prisma.StringFilter<"Rating"> | string
@@ -676,6 +703,7 @@ export type RatingCreateWithoutSwapInput = {
   stars: number
   review?: string | null
   role: $Enums.RaterRole
+  damaged?: boolean
   createdAt?: Date | string
   rater: Prisma.UserCreateNestedOneWithoutRatingsGivenInput
   ratee: Prisma.UserCreateNestedOneWithoutRatingsReceivedInput
@@ -686,6 +714,7 @@ export type RatingUncheckedCreateWithoutSwapInput = {
   stars: number
   review?: string | null
   role: $Enums.RaterRole
+  damaged?: boolean
   createdAt?: Date | string
   raterId: string
   rateeId: string
@@ -721,6 +750,7 @@ export type RatingCreateManyRaterInput = {
   stars: number
   review?: string | null
   role: $Enums.RaterRole
+  damaged?: boolean
   createdAt?: Date | string
   swapId: string
   rateeId: string
@@ -731,6 +761,7 @@ export type RatingCreateManyRateeInput = {
   stars: number
   review?: string | null
   role: $Enums.RaterRole
+  damaged?: boolean
   createdAt?: Date | string
   swapId: string
   raterId: string
@@ -741,6 +772,7 @@ export type RatingUpdateWithoutRaterInput = {
   stars?: Prisma.IntFieldUpdateOperationsInput | number
   review?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRaterRoleFieldUpdateOperationsInput | $Enums.RaterRole
+  damaged?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   swap?: Prisma.SwapUpdateOneRequiredWithoutRatingsNestedInput
   ratee?: Prisma.UserUpdateOneRequiredWithoutRatingsReceivedNestedInput
@@ -751,6 +783,7 @@ export type RatingUncheckedUpdateWithoutRaterInput = {
   stars?: Prisma.IntFieldUpdateOperationsInput | number
   review?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRaterRoleFieldUpdateOperationsInput | $Enums.RaterRole
+  damaged?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   swapId?: Prisma.StringFieldUpdateOperationsInput | string
   rateeId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -761,6 +794,7 @@ export type RatingUncheckedUpdateManyWithoutRaterInput = {
   stars?: Prisma.IntFieldUpdateOperationsInput | number
   review?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRaterRoleFieldUpdateOperationsInput | $Enums.RaterRole
+  damaged?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   swapId?: Prisma.StringFieldUpdateOperationsInput | string
   rateeId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -771,6 +805,7 @@ export type RatingUpdateWithoutRateeInput = {
   stars?: Prisma.IntFieldUpdateOperationsInput | number
   review?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRaterRoleFieldUpdateOperationsInput | $Enums.RaterRole
+  damaged?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   swap?: Prisma.SwapUpdateOneRequiredWithoutRatingsNestedInput
   rater?: Prisma.UserUpdateOneRequiredWithoutRatingsGivenNestedInput
@@ -781,6 +816,7 @@ export type RatingUncheckedUpdateWithoutRateeInput = {
   stars?: Prisma.IntFieldUpdateOperationsInput | number
   review?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRaterRoleFieldUpdateOperationsInput | $Enums.RaterRole
+  damaged?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   swapId?: Prisma.StringFieldUpdateOperationsInput | string
   raterId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -791,6 +827,7 @@ export type RatingUncheckedUpdateManyWithoutRateeInput = {
   stars?: Prisma.IntFieldUpdateOperationsInput | number
   review?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRaterRoleFieldUpdateOperationsInput | $Enums.RaterRole
+  damaged?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   swapId?: Prisma.StringFieldUpdateOperationsInput | string
   raterId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -801,6 +838,7 @@ export type RatingCreateManySwapInput = {
   stars: number
   review?: string | null
   role: $Enums.RaterRole
+  damaged?: boolean
   createdAt?: Date | string
   raterId: string
   rateeId: string
@@ -811,6 +849,7 @@ export type RatingUpdateWithoutSwapInput = {
   stars?: Prisma.IntFieldUpdateOperationsInput | number
   review?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRaterRoleFieldUpdateOperationsInput | $Enums.RaterRole
+  damaged?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   rater?: Prisma.UserUpdateOneRequiredWithoutRatingsGivenNestedInput
   ratee?: Prisma.UserUpdateOneRequiredWithoutRatingsReceivedNestedInput
@@ -821,6 +860,7 @@ export type RatingUncheckedUpdateWithoutSwapInput = {
   stars?: Prisma.IntFieldUpdateOperationsInput | number
   review?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRaterRoleFieldUpdateOperationsInput | $Enums.RaterRole
+  damaged?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   raterId?: Prisma.StringFieldUpdateOperationsInput | string
   rateeId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -831,6 +871,7 @@ export type RatingUncheckedUpdateManyWithoutSwapInput = {
   stars?: Prisma.IntFieldUpdateOperationsInput | number
   review?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumRaterRoleFieldUpdateOperationsInput | $Enums.RaterRole
+  damaged?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   raterId?: Prisma.StringFieldUpdateOperationsInput | string
   rateeId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -843,6 +884,7 @@ export type RatingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   stars?: boolean
   review?: boolean
   role?: boolean
+  damaged?: boolean
   createdAt?: boolean
   swapId?: boolean
   raterId?: boolean
@@ -857,6 +899,7 @@ export type RatingSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   stars?: boolean
   review?: boolean
   role?: boolean
+  damaged?: boolean
   createdAt?: boolean
   swapId?: boolean
   raterId?: boolean
@@ -871,6 +914,7 @@ export type RatingSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   stars?: boolean
   review?: boolean
   role?: boolean
+  damaged?: boolean
   createdAt?: boolean
   swapId?: boolean
   raterId?: boolean
@@ -885,13 +929,14 @@ export type RatingSelectScalar = {
   stars?: boolean
   review?: boolean
   role?: boolean
+  damaged?: boolean
   createdAt?: boolean
   swapId?: boolean
   raterId?: boolean
   rateeId?: boolean
 }
 
-export type RatingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "stars" | "review" | "role" | "createdAt" | "swapId" | "raterId" | "rateeId", ExtArgs["result"]["rating"]>
+export type RatingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "stars" | "review" | "role" | "damaged" | "createdAt" | "swapId" | "raterId" | "rateeId", ExtArgs["result"]["rating"]>
 export type RatingInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   swap?: boolean | Prisma.SwapDefaultArgs<ExtArgs>
   rater?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -920,6 +965,7 @@ export type $RatingPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     stars: number
     review: string | null
     role: $Enums.RaterRole
+    damaged: boolean
     createdAt: Date
     swapId: string
     raterId: string
@@ -1354,6 +1400,7 @@ export interface RatingFieldRefs {
   readonly stars: Prisma.FieldRef<"Rating", 'Int'>
   readonly review: Prisma.FieldRef<"Rating", 'String'>
   readonly role: Prisma.FieldRef<"Rating", 'RaterRole'>
+  readonly damaged: Prisma.FieldRef<"Rating", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Rating", 'DateTime'>
   readonly swapId: Prisma.FieldRef<"Rating", 'String'>
   readonly raterId: Prisma.FieldRef<"Rating", 'String'>

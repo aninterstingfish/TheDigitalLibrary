@@ -6,13 +6,13 @@ import { createSession } from "@/lib/session";
 const USERNAME_RE = /^[a-zA-Z0-9_@#!$%^&*:"<>?{}+=.\-]{3,30}$/;
 
 export async function POST(req: NextRequest) {
-  let body: { name?: string; username?: string; email?: string; password?: string; age?: number };
+  let body: { name?: string; username?: string; email?: string; password?: string; age?: number; parentUsername?: string };
   try {
     body = await req.json();
   } catch {
     return NextResponse.json({ error: "Invalid request body." }, { status: 400 });
   }
-  const { name, username, email, password, age } = body;
+  const { name, username, email, password, age, parentUsername } = body;
 
   if (!name?.trim() || !username?.trim() || !email?.trim() || !password) {
     return NextResponse.json({ error: "Please fill in all fields." }, { status: 400 });
@@ -22,6 +22,9 @@ export async function POST(req: NextRequest) {
   }
   if (age < 5 || age > 110) {
     return NextResponse.json({ error: "Please enter a valid age.", field: "age" }, { status: 400 });
+  }
+  if (age < 13 && !parentUsername?.trim()) {
+    return NextResponse.json({ error: "Please enter your parent's username.", field: "parentUsername" }, { status: 400 });
   }
   if (!/^[a-zA-Z\s]+$/.test(name.trim())) {
     return NextResponse.json({ error: "Name can only contain letters and spaces.", field: "name" }, { status: 400 });
@@ -48,10 +51,28 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "An account with that email already exists.", field: "email" }, { status: 400 });
   }
 
+  const needsApproval = age < 13;
+  let parentId: string | null = null;
+
+  if (needsApproval) {
+    const parent = await prisma.user.findFirst({ where: { username: parentUsername!.trim() } });
+    if (!parent) {
+      return NextResponse.json({ error: "Parent account not found.", code: "PARENT_NOT_FOUND" }, { status: 404 });
+    }
+    parentId = parent.id;
+    // Notify the parent
+    await prisma.notification.create({
+      data: {
+        userId: parent.id,
+        type: "APPROVAL_NEEDED",
+        message: `${name.trim()} has signed up and needs your approval. Visit your Admin panel to approve their account.`,
+        link: "/admin",
+      },
+    });
+  }
+
   try {
     const passwordHash = await bcrypt.hash(password, 12);
-    const needsApproval = age < 13;
-
     const user = await prisma.user.create({
       data: {
         name: name.trim(),
@@ -59,12 +80,11 @@ export async function POST(req: NextRequest) {
         email: email.trim().toLowerCase(),
         passwordHash,
         approved: !needsApproval,
+        ...(parentId && { parentId }),
       },
     });
 
-    if (needsApproval) {
-      return NextResponse.json({ pendingApproval: true });
-    }
+    if (needsApproval) return NextResponse.json({ pendingApproval: true });
 
     await createSession(user.id);
     return NextResponse.json({ success: true });

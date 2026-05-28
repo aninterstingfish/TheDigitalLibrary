@@ -18,9 +18,12 @@ model User {
   borrowLimit    Int      @default(5)
   approved       Boolean  @default(true)
   isAdmin        Boolean  @default(false)
-  parentEmail    String?
-  parentToken    String?  @unique
+  damagedReports Int      @default(0)
   createdAt      DateTime @default(now())
+
+  parentId  String?
+  parent    User?   @relation("ParentChildren", fields: [parentId], references: [id])
+  children  User[]  @relation("ParentChildren")
 
   ownedBooks      Book[]
   swapRequests    SwapRequest[] @relation("BorrowerRequests")
@@ -29,24 +32,54 @@ model User {
   messages        Message[]
   wishlist        WishlistItem[]
   notifications   Notification[]
+  bookRequests    BookRequest[]
+  queueEntries    QueueEntry[]
 }
 
 model Book {
-  id          String    @id @default(cuid())
-  title       String
-  author      String?
-  condition   Condition
-  coverPhoto  String?
-  genres      String    @default("[]")
-  description String?
-  isAvailable Boolean   @default(true)
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  id               String    @id @default(cuid())
+  title            String
+  author           String?
+  condition        Condition
+  coverPhoto       String?
+  genres           String    @default("[]")
+  description      String?
+  isAvailable      Boolean   @default(true)
+  isCurrentlyReading Boolean @default(false)
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
 
   owner        User          @relation(fields: [ownerId], references: [id])
   ownerId      String
   requests     SwapRequest[]
   wishlistedBy WishlistItem[]
+  queueEntries QueueEntry[]
+}
+
+model BookRequest {
+  id        String   @id @default(cuid())
+  title     String
+  author    String?
+  fulfilled Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+}
+
+model QueueEntry {
+  id        String      @id @default(cuid())
+  position  Int
+  status    QueueStatus @default(WAITING)
+  note      String?
+  createdAt DateTime    @default(now())
+
+  book   Book   @relation(fields: [bookId], references: [id])
+  bookId String
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  @@unique([bookId, userId])
 }
 
 model SwapRequest {
@@ -80,11 +113,11 @@ model Swap {
   borrowerConfirmedReturn Boolean   @default(false)
   returnConfirmedAt       DateTime?
 
-  request    SwapRequest @relation(fields: [requestId], references: [id])
-  requestId  String      @unique
+  request   SwapRequest @relation(fields: [requestId], references: [id])
+  requestId String      @unique
 
-  messages   Message[]
-  ratings    Rating[]
+  messages  Message[]
+  ratings   Rating[]
 }
 
 model Message {
@@ -92,10 +125,10 @@ model Message {
   content   String
   createdAt DateTime @default(now())
 
-  swap      Swap   @relation(fields: [swapId], references: [id])
-  swapId    String
-  sender    User   @relation(fields: [senderId], references: [id])
-  senderId  String
+  swap     Swap   @relation(fields: [swapId], references: [id])
+  swapId   String
+  sender   User   @relation(fields: [senderId], references: [id])
+  senderId String
 }
 
 model Rating {
@@ -103,14 +136,15 @@ model Rating {
   stars     Int
   review    String?
   role      RaterRole
+  damaged   Boolean   @default(false)
   createdAt DateTime  @default(now())
 
-  swap      Swap   @relation(fields: [swapId], references: [id])
-  swapId    String
-  rater     User   @relation("RatingsGiven", fields: [raterId], references: [id])
-  raterId   String
-  ratee     User   @relation("RatingsReceived", fields: [rateeId], references: [id])
-  rateeId   String
+  swap    Swap   @relation(fields: [swapId], references: [id])
+  swapId  String
+  rater   User   @relation("RatingsGiven", fields: [raterId], references: [id])
+  raterId String
+  ratee   User   @relation("RatingsReceived", fields: [rateeId], references: [id])
+  rateeId String
 
   @@unique([swapId, raterId])
 }
@@ -119,12 +153,24 @@ model WishlistItem {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
 
-  user      User   @relation(fields: [userId], references: [id])
-  userId    String
-  book      Book   @relation(fields: [bookId], references: [id])
-  bookId    String
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+  book   Book   @relation(fields: [bookId], references: [id])
+  bookId String
 
   @@unique([userId, bookId])
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  type      String
+  message   String
+  link      String?
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
 }
 
 enum Condition {
@@ -153,14 +199,8 @@ enum LoanMode {
   READ_TILL_FINISH
 }
 
-model Notification {
-  id        String   @id @default(cuid())
-  type      String
-  message   String
-  link      String?
-  read      Boolean  @default(false)
-  createdAt DateTime @default(now())
-
-  user      User   @relation(fields: [userId], references: [id])
-  userId    String
+enum QueueStatus {
+  WAITING
+  OFFERED
+  DECLINED
 }

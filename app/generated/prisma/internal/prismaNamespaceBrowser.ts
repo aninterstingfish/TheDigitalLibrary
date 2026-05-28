@@ -53,6 +53,8 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   User: 'User',
   Book: 'Book',
+  BookRequest: 'BookRequest',
+  QueueEntry: 'QueueEntry',
   SwapRequest: 'SwapRequest',
   Swap: 'Swap',
   Message: 'Message',
@@ -85,9 +87,9 @@ export const UserScalarFieldEnum = {
   borrowLimit: 'borrowLimit',
   approved: 'approved',
   isAdmin: 'isAdmin',
-  parentEmail: 'parentEmail',
-  parentToken: 'parentToken',
-  createdAt: 'createdAt'
+  damagedReports: 'damagedReports',
+  createdAt: 'createdAt',
+  parentId: 'parentId'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -102,12 +104,38 @@ export const BookScalarFieldEnum = {
   genres: 'genres',
   description: 'description',
   isAvailable: 'isAvailable',
+  isCurrentlyReading: 'isCurrentlyReading',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   ownerId: 'ownerId'
 } as const
 
 export type BookScalarFieldEnum = (typeof BookScalarFieldEnum)[keyof typeof BookScalarFieldEnum]
+
+
+export const BookRequestScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  author: 'author',
+  fulfilled: 'fulfilled',
+  createdAt: 'createdAt',
+  userId: 'userId'
+} as const
+
+export type BookRequestScalarFieldEnum = (typeof BookRequestScalarFieldEnum)[keyof typeof BookRequestScalarFieldEnum]
+
+
+export const QueueEntryScalarFieldEnum = {
+  id: 'id',
+  position: 'position',
+  status: 'status',
+  note: 'note',
+  createdAt: 'createdAt',
+  bookId: 'bookId',
+  userId: 'userId'
+} as const
+
+export type QueueEntryScalarFieldEnum = (typeof QueueEntryScalarFieldEnum)[keyof typeof QueueEntryScalarFieldEnum]
 
 
 export const SwapRequestScalarFieldEnum = {
@@ -160,6 +188,7 @@ export const RatingScalarFieldEnum = {
   stars: 'stars',
   review: 'review',
   role: 'role',
+  damaged: 'damaged',
   createdAt: 'createdAt',
   swapId: 'swapId',
   raterId: 'raterId',

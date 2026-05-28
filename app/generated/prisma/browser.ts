@@ -28,6 +28,16 @@ export type User = Prisma.UserModel
  */
 export type Book = Prisma.BookModel
 /**
+ * Model BookRequest
+ * 
+ */
+export type BookRequest = Prisma.BookRequestModel
+/**
+ * Model QueueEntry
+ * 
+ */
+export type QueueEntry = Prisma.QueueEntryModel
+/**
  * Model SwapRequest
  * 
  */

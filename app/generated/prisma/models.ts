@@ -10,6 +10,8 @@
  */
 export type * from './models/User'
 export type * from './models/Book'
+export type * from './models/BookRequest'
+export type * from './models/QueueEntry'
 export type * from './models/SwapRequest'
 export type * from './models/Swap'
 export type * from './models/Message'

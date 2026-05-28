@@ -45,3 +45,12 @@ export const LoanMode = {
 } as const
 
 export type LoanMode = (typeof LoanMode)[keyof typeof LoanMode]
+
+
+export const QueueStatus = {
+  WAITING: 'WAITING',
+  OFFERED: 'OFFERED',
+  DECLINED: 'DECLINED'
+} as const
+
+export type QueueStatus = (typeof QueueStatus)[keyof typeof QueueStatus]

@@ -3,13 +3,13 @@
 import { useState } from "react";
 import Link from "next/link";
 
-type Field = "name" | "username" | "email" | "password" | "confirm" | "age";
-interface FormState { name: string; username: string; email: string; password: string; confirm: string; age: string; }
+type Field = "name" | "username" | "email" | "password" | "confirm" | "age" | "parentUsername";
+interface FormState { name: string; username: string; email: string; password: string; confirm: string; age: string; parentUsername: string; }
 interface Errors extends Partial<Record<Field, string>> {}
 
 const USERNAME_RE = /^[a-zA-Z0-9_@#!$%^&*:"<>?{}+=.\-]{3,30}$/;
 
-function validateForm(form: FormState): Errors {
+function validateForm(form: FormState, needsApproval: boolean): Errors {
   const e: Errors = {};
   const age = parseInt(form.age);
 
@@ -37,16 +37,19 @@ function validateForm(form: FormState): Errors {
   if (!form.age) e.age = "Please enter your age.";
   else if (isNaN(age) || age < 5 || age > 110) e.age = "Please enter a valid age.";
 
+  if (needsApproval && !form.parentUsername.trim()) e.parentUsername = "Please enter your parent or guardian's username.";
+
   return e;
 }
 
 export default function SignupForm() {
-  const [form, setForm] = useState<FormState>({ name: "", username: "", email: "", password: "", confirm: "", age: "" });
+  const [form, setForm] = useState<FormState>({ name: "", username: "", email: "", password: "", confirm: "", age: "", parentUsername: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState<Errors>({});
   const [isLoading, setIsLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [pendingApproval, setPendingApproval] = useState(false);
+  const [parentNotFound, setParentNotFound] = useState(false);
 
   const age = parseInt(form.age);
   const needsApproval = !isNaN(age) && age < 13;
@@ -54,14 +57,16 @@ export default function SignupForm() {
   const set = (field: Field) => (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm((f) => ({ ...f, [field]: e.target.value }));
     setErrors((err) => ({ ...err, [field]: undefined }));
+    if (field === "parentUsername") setParentNotFound(false);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const errs = validateForm(form);
+    const errs = validateForm(form, needsApproval);
     if (Object.keys(errs).length > 0) { setErrors(errs); window.scrollTo({ top: 0, behavior: "smooth" }); return; }
 
     setIsLoading(true);
+    setParentNotFound(false);
     try {
       const res = await fetch("/api/auth/register", {
         method: "POST",
@@ -72,11 +77,13 @@ export default function SignupForm() {
           email: form.email.trim().toLowerCase(),
           password: form.password,
           age: parseInt(form.age),
+          ...(needsApproval && { parentUsername: form.parentUsername.trim() }),
         }),
       });
       const text = await res.text();
       const data = text ? JSON.parse(text) : {};
       if (!res.ok) {
+        if (data.code === "PARENT_NOT_FOUND") { setParentNotFound(true); setIsLoading(false); return; }
         setErrors({ [data.field ?? "email"]: data.error });
         setIsLoading(false);
         return;
@@ -90,6 +97,29 @@ export default function SignupForm() {
     }
   };
 
+  if (parentNotFound) {
+    return (
+      <div className="w-full max-w-[360px] text-center">
+        <div className="w-14 h-14 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-6">
+          <svg className="w-7 h-7 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <h2 className="text-2xl font-bold text-black mb-2">Parent account not found</h2>
+        <p className="text-gray-500 text-sm leading-relaxed mb-4">
+          No account with the username <strong className="text-black">@{form.parentUsername}</strong> exists yet.
+        </p>
+        <p className="text-gray-500 text-sm leading-relaxed mb-8">
+          Ask your parent or guardian to <strong className="text-black">create an account first</strong>, then come back and sign up.
+        </p>
+        <button onClick={() => setParentNotFound(false)}
+          className="block w-full bg-black text-white py-3.5 rounded-xl text-sm font-semibold text-center hover:bg-zinc-800 transition-all">
+          Go back
+        </button>
+      </div>
+    );
+  }
+
   if (submitted && pendingApproval) {
     return (
       <div className="w-full max-w-[360px] text-center">
@@ -100,10 +130,11 @@ export default function SignupForm() {
         </div>
         <h2 className="text-2xl font-bold text-black mb-2">Awaiting approval</h2>
         <p className="text-gray-500 text-sm leading-relaxed mb-4">
-          Because you&apos;re under 13, your account needs to be approved by a parent or guardian before you can sign in.
+          Your account has been linked to <strong className="text-black">@{form.parentUsername}</strong>.
         </p>
         <p className="text-gray-500 text-sm leading-relaxed mb-8">
-          Ask them to <strong className="text-black">create an account</strong> on Cloud Library and they&apos;ll be able to approve yours from their dashboard.
+          Ask them to log in and approve your account from their <strong className="text-black">Admin panel</strong>.
+          Once approved you can sign in here.
         </p>
         <Link href="/login" className="block w-full bg-black text-white py-3.5 rounded-xl text-sm font-semibold text-center hover:bg-zinc-800 transition-all">
           Go to sign in
@@ -181,10 +212,18 @@ export default function SignupForm() {
         </div>
 
         {needsApproval && (
-          <div className="rounded-xl bg-amber-50 border border-amber-100 p-4">
-            <p className="text-xs text-amber-700 leading-relaxed">
-              Because you&apos;re under 13, your account will need approval from a parent or guardian before you can sign in.
+          <div className="space-y-1.5 rounded-xl bg-amber-50 border border-amber-100 p-4">
+            <label htmlFor="parentUsername" className="block text-sm font-medium text-black">
+              Parent or guardian&apos;s username
+            </label>
+            <p className="text-xs text-amber-700 mb-2">
+              Because you&apos;re under 13, a parent or guardian must approve your account.
+              Enter their Cloud Library username — they need to have an account already.
             </p>
+            <input id="parentUsername" type="text" placeholder="parent_username"
+              value={form.parentUsername} onChange={set("parentUsername")}
+              className={inputClass(!!errors.parentUsername)} />
+            {errors.parentUsername && <p className="text-red-500 text-xs">{errors.parentUsername}</p>}
           </div>
         )}
 

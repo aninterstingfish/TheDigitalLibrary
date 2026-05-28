@@ -33,6 +33,7 @@ export type BookMinAggregateOutputType = {
   genres: string | null
   description: string | null
   isAvailable: boolean | null
+  isCurrentlyReading: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
   ownerId: string | null
@@ -47,6 +48,7 @@ export type BookMaxAggregateOutputType = {
   genres: string | null
   description: string | null
   isAvailable: boolean | null
+  isCurrentlyReading: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
   ownerId: string | null
@@ -61,6 +63,7 @@ export type BookCountAggregateOutputType = {
   genres: number
   description: number
   isAvailable: number
+  isCurrentlyReading: number
   createdAt: number
   updatedAt: number
   ownerId: number
@@ -77,6 +80,7 @@ export type BookMinAggregateInputType = {
   genres?: true
   description?: true
   isAvailable?: true
+  isCurrentlyReading?: true
   createdAt?: true
   updatedAt?: true
   ownerId?: true
@@ -91,6 +95,7 @@ export type BookMaxAggregateInputType = {
   genres?: true
   description?: true
   isAvailable?: true
+  isCurrentlyReading?: true
   createdAt?: true
   updatedAt?: true
   ownerId?: true
@@ -105,6 +110,7 @@ export type BookCountAggregateInputType = {
   genres?: true
   description?: true
   isAvailable?: true
+  isCurrentlyReading?: true
   createdAt?: true
   updatedAt?: true
   ownerId?: true
@@ -192,6 +198,7 @@ export type BookGroupByOutputType = {
   genres: string
   description: string | null
   isAvailable: boolean
+  isCurrentlyReading: boolean
   createdAt: Date
   updatedAt: Date
   ownerId: string
@@ -227,12 +234,14 @@ export type BookWhereInput = {
   genres?: Prisma.StringFilter<"Book"> | string
   description?: Prisma.StringNullableFilter<"Book"> | string | null
   isAvailable?: Prisma.BoolFilter<"Book"> | boolean
+  isCurrentlyReading?: Prisma.BoolFilter<"Book"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Book"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Book"> | Date | string
   ownerId?: Prisma.StringFilter<"Book"> | string
   owner?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   requests?: Prisma.SwapRequestListRelationFilter
   wishlistedBy?: Prisma.WishlistItemListRelationFilter
+  queueEntries?: Prisma.QueueEntryListRelationFilter
 }
 
 export type BookOrderByWithRelationInput = {
@@ -244,12 +253,14 @@ export type BookOrderByWithRelationInput = {
   genres?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   isAvailable?: Prisma.SortOrder
+  isCurrentlyReading?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   ownerId?: Prisma.SortOrder
   owner?: Prisma.UserOrderByWithRelationInput
   requests?: Prisma.SwapRequestOrderByRelationAggregateInput
   wishlistedBy?: Prisma.WishlistItemOrderByRelationAggregateInput
+  queueEntries?: Prisma.QueueEntryOrderByRelationAggregateInput
 }
 
 export type BookWhereUniqueInput = Prisma.AtLeast<{
@@ -264,12 +275,14 @@ export type BookWhereUniqueInput = Prisma.AtLeast<{
   genres?: Prisma.StringFilter<"Book"> | string
   description?: Prisma.StringNullableFilter<"Book"> | string | null
   isAvailable?: Prisma.BoolFilter<"Book"> | boolean
+  isCurrentlyReading?: Prisma.BoolFilter<"Book"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Book"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Book"> | Date | string
   ownerId?: Prisma.StringFilter<"Book"> | string
   owner?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   requests?: Prisma.SwapRequestListRelationFilter
   wishlistedBy?: Prisma.WishlistItemListRelationFilter
+  queueEntries?: Prisma.QueueEntryListRelationFilter
 }, "id">
 
 export type BookOrderByWithAggregationInput = {
@@ -281,6 +294,7 @@ export type BookOrderByWithAggregationInput = {
   genres?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   isAvailable?: Prisma.SortOrder
+  isCurrentlyReading?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   ownerId?: Prisma.SortOrder
@@ -301,6 +315,7 @@ export type BookScalarWhereWithAggregatesInput = {
   genres?: Prisma.StringWithAggregatesFilter<"Book"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"Book"> | string | null
   isAvailable?: Prisma.BoolWithAggregatesFilter<"Book"> | boolean
+  isCurrentlyReading?: Prisma.BoolWithAggregatesFilter<"Book"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Book"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Book"> | Date | string
   ownerId?: Prisma.StringWithAggregatesFilter<"Book"> | string
@@ -315,11 +330,13 @@ export type BookCreateInput = {
   genres?: string
   description?: string | null
   isAvailable?: boolean
+  isCurrentlyReading?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   owner: Prisma.UserCreateNestedOneWithoutOwnedBooksInput
   requests?: Prisma.SwapRequestCreateNestedManyWithoutBookInput
   wishlistedBy?: Prisma.WishlistItemCreateNestedManyWithoutBookInput
+  queueEntries?: Prisma.QueueEntryCreateNestedManyWithoutBookInput
 }
 
 export type BookUncheckedCreateInput = {
@@ -331,11 +348,13 @@ export type BookUncheckedCreateInput = {
   genres?: string
   description?: string | null
   isAvailable?: boolean
+  isCurrentlyReading?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   ownerId: string
   requests?: Prisma.SwapRequestUncheckedCreateNestedManyWithoutBookInput
   wishlistedBy?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutBookInput
+  queueEntries?: Prisma.QueueEntryUncheckedCreateNestedManyWithoutBookInput
 }
 
 export type BookUpdateInput = {
@@ -347,11 +366,13 @@ export type BookUpdateInput = {
   genres?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isCurrentlyReading?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   owner?: Prisma.UserUpdateOneRequiredWithoutOwnedBooksNestedInput
   requests?: Prisma.SwapRequestUpdateManyWithoutBookNestedInput
   wishlistedBy?: Prisma.WishlistItemUpdateManyWithoutBookNestedInput
+  queueEntries?: Prisma.QueueEntryUpdateManyWithoutBookNestedInput
 }
 
 export type BookUncheckedUpdateInput = {
@@ -363,11 +384,13 @@ export type BookUncheckedUpdateInput = {
   genres?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isCurrentlyReading?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ownerId?: Prisma.StringFieldUpdateOperationsInput | string
   requests?: Prisma.SwapRequestUncheckedUpdateManyWithoutBookNestedInput
   wishlistedBy?: Prisma.WishlistItemUncheckedUpdateManyWithoutBookNestedInput
+  queueEntries?: Prisma.QueueEntryUncheckedUpdateManyWithoutBookNestedInput
 }
 
 export type BookCreateManyInput = {
@@ -379,6 +402,7 @@ export type BookCreateManyInput = {
   genres?: string
   description?: string | null
   isAvailable?: boolean
+  isCurrentlyReading?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   ownerId: string
@@ -393,6 +417,7 @@ export type BookUpdateManyMutationInput = {
   genres?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isCurrentlyReading?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -406,6 +431,7 @@ export type BookUncheckedUpdateManyInput = {
   genres?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isCurrentlyReading?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ownerId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -430,6 +456,7 @@ export type BookCountOrderByAggregateInput = {
   genres?: Prisma.SortOrder
   description?: Prisma.SortOrder
   isAvailable?: Prisma.SortOrder
+  isCurrentlyReading?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   ownerId?: Prisma.SortOrder
@@ -444,6 +471,7 @@ export type BookMaxOrderByAggregateInput = {
   genres?: Prisma.SortOrder
   description?: Prisma.SortOrder
   isAvailable?: Prisma.SortOrder
+  isCurrentlyReading?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   ownerId?: Prisma.SortOrder
@@ -458,6 +486,7 @@ export type BookMinOrderByAggregateInput = {
   genres?: Prisma.SortOrder
   description?: Prisma.SortOrder
   isAvailable?: Prisma.SortOrder
+  isCurrentlyReading?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   ownerId?: Prisma.SortOrder
@@ -514,6 +543,20 @@ export type EnumConditionFieldUpdateOperationsInput = {
   set?: $Enums.Condition
 }
 
+export type BookCreateNestedOneWithoutQueueEntriesInput = {
+  create?: Prisma.XOR<Prisma.BookCreateWithoutQueueEntriesInput, Prisma.BookUncheckedCreateWithoutQueueEntriesInput>
+  connectOrCreate?: Prisma.BookCreateOrConnectWithoutQueueEntriesInput
+  connect?: Prisma.BookWhereUniqueInput
+}
+
+export type BookUpdateOneRequiredWithoutQueueEntriesNestedInput = {
+  create?: Prisma.XOR<Prisma.BookCreateWithoutQueueEntriesInput, Prisma.BookUncheckedCreateWithoutQueueEntriesInput>
+  connectOrCreate?: Prisma.BookCreateOrConnectWithoutQueueEntriesInput
+  upsert?: Prisma.BookUpsertWithoutQueueEntriesInput
+  connect?: Prisma.BookWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.BookUpdateToOneWithWhereWithoutQueueEntriesInput, Prisma.BookUpdateWithoutQueueEntriesInput>, Prisma.BookUncheckedUpdateWithoutQueueEntriesInput>
+}
+
 export type BookCreateNestedOneWithoutRequestsInput = {
   create?: Prisma.XOR<Prisma.BookCreateWithoutRequestsInput, Prisma.BookUncheckedCreateWithoutRequestsInput>
   connectOrCreate?: Prisma.BookCreateOrConnectWithoutRequestsInput
@@ -551,10 +594,12 @@ export type BookCreateWithoutOwnerInput = {
   genres?: string
   description?: string | null
   isAvailable?: boolean
+  isCurrentlyReading?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   requests?: Prisma.SwapRequestCreateNestedManyWithoutBookInput
   wishlistedBy?: Prisma.WishlistItemCreateNestedManyWithoutBookInput
+  queueEntries?: Prisma.QueueEntryCreateNestedManyWithoutBookInput
 }
 
 export type BookUncheckedCreateWithoutOwnerInput = {
@@ -566,10 +611,12 @@ export type BookUncheckedCreateWithoutOwnerInput = {
   genres?: string
   description?: string | null
   isAvailable?: boolean
+  isCurrentlyReading?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   requests?: Prisma.SwapRequestUncheckedCreateNestedManyWithoutBookInput
   wishlistedBy?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutBookInput
+  queueEntries?: Prisma.QueueEntryUncheckedCreateNestedManyWithoutBookInput
 }
 
 export type BookCreateOrConnectWithoutOwnerInput = {
@@ -609,9 +656,94 @@ export type BookScalarWhereInput = {
   genres?: Prisma.StringFilter<"Book"> | string
   description?: Prisma.StringNullableFilter<"Book"> | string | null
   isAvailable?: Prisma.BoolFilter<"Book"> | boolean
+  isCurrentlyReading?: Prisma.BoolFilter<"Book"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Book"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Book"> | Date | string
   ownerId?: Prisma.StringFilter<"Book"> | string
+}
+
+export type BookCreateWithoutQueueEntriesInput = {
+  id?: string
+  title: string
+  author?: string | null
+  condition: $Enums.Condition
+  coverPhoto?: string | null
+  genres?: string
+  description?: string | null
+  isAvailable?: boolean
+  isCurrentlyReading?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  owner: Prisma.UserCreateNestedOneWithoutOwnedBooksInput
+  requests?: Prisma.SwapRequestCreateNestedManyWithoutBookInput
+  wishlistedBy?: Prisma.WishlistItemCreateNestedManyWithoutBookInput
+}
+
+export type BookUncheckedCreateWithoutQueueEntriesInput = {
+  id?: string
+  title: string
+  author?: string | null
+  condition: $Enums.Condition
+  coverPhoto?: string | null
+  genres?: string
+  description?: string | null
+  isAvailable?: boolean
+  isCurrentlyReading?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  ownerId: string
+  requests?: Prisma.SwapRequestUncheckedCreateNestedManyWithoutBookInput
+  wishlistedBy?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutBookInput
+}
+
+export type BookCreateOrConnectWithoutQueueEntriesInput = {
+  where: Prisma.BookWhereUniqueInput
+  create: Prisma.XOR<Prisma.BookCreateWithoutQueueEntriesInput, Prisma.BookUncheckedCreateWithoutQueueEntriesInput>
+}
+
+export type BookUpsertWithoutQueueEntriesInput = {
+  update: Prisma.XOR<Prisma.BookUpdateWithoutQueueEntriesInput, Prisma.BookUncheckedUpdateWithoutQueueEntriesInput>
+  create: Prisma.XOR<Prisma.BookCreateWithoutQueueEntriesInput, Prisma.BookUncheckedCreateWithoutQueueEntriesInput>
+  where?: Prisma.BookWhereInput
+}
+
+export type BookUpdateToOneWithWhereWithoutQueueEntriesInput = {
+  where?: Prisma.BookWhereInput
+  data: Prisma.XOR<Prisma.BookUpdateWithoutQueueEntriesInput, Prisma.BookUncheckedUpdateWithoutQueueEntriesInput>
+}
+
+export type BookUpdateWithoutQueueEntriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  author?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  condition?: Prisma.EnumConditionFieldUpdateOperationsInput | $Enums.Condition
+  coverPhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  genres?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isCurrentlyReading?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  owner?: Prisma.UserUpdateOneRequiredWithoutOwnedBooksNestedInput
+  requests?: Prisma.SwapRequestUpdateManyWithoutBookNestedInput
+  wishlistedBy?: Prisma.WishlistItemUpdateManyWithoutBookNestedInput
+}
+
+export type BookUncheckedUpdateWithoutQueueEntriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  author?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  condition?: Prisma.EnumConditionFieldUpdateOperationsInput | $Enums.Condition
+  coverPhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  genres?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isCurrentlyReading?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ownerId?: Prisma.StringFieldUpdateOperationsInput | string
+  requests?: Prisma.SwapRequestUncheckedUpdateManyWithoutBookNestedInput
+  wishlistedBy?: Prisma.WishlistItemUncheckedUpdateManyWithoutBookNestedInput
 }
 
 export type BookCreateWithoutRequestsInput = {
@@ -623,10 +755,12 @@ export type BookCreateWithoutRequestsInput = {
   genres?: string
   description?: string | null
   isAvailable?: boolean
+  isCurrentlyReading?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   owner: Prisma.UserCreateNestedOneWithoutOwnedBooksInput
   wishlistedBy?: Prisma.WishlistItemCreateNestedManyWithoutBookInput
+  queueEntries?: Prisma.QueueEntryCreateNestedManyWithoutBookInput
 }
 
 export type BookUncheckedCreateWithoutRequestsInput = {
@@ -638,10 +772,12 @@ export type BookUncheckedCreateWithoutRequestsInput = {
   genres?: string
   description?: string | null
   isAvailable?: boolean
+  isCurrentlyReading?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   ownerId: string
   wishlistedBy?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutBookInput
+  queueEntries?: Prisma.QueueEntryUncheckedCreateNestedManyWithoutBookInput
 }
 
 export type BookCreateOrConnectWithoutRequestsInput = {
@@ -669,10 +805,12 @@ export type BookUpdateWithoutRequestsInput = {
   genres?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isCurrentlyReading?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   owner?: Prisma.UserUpdateOneRequiredWithoutOwnedBooksNestedInput
   wishlistedBy?: Prisma.WishlistItemUpdateManyWithoutBookNestedInput
+  queueEntries?: Prisma.QueueEntryUpdateManyWithoutBookNestedInput
 }
 
 export type BookUncheckedUpdateWithoutRequestsInput = {
@@ -684,10 +822,12 @@ export type BookUncheckedUpdateWithoutRequestsInput = {
   genres?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isCurrentlyReading?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ownerId?: Prisma.StringFieldUpdateOperationsInput | string
   wishlistedBy?: Prisma.WishlistItemUncheckedUpdateManyWithoutBookNestedInput
+  queueEntries?: Prisma.QueueEntryUncheckedUpdateManyWithoutBookNestedInput
 }
 
 export type BookCreateWithoutWishlistedByInput = {
@@ -699,10 +839,12 @@ export type BookCreateWithoutWishlistedByInput = {
   genres?: string
   description?: string | null
   isAvailable?: boolean
+  isCurrentlyReading?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   owner: Prisma.UserCreateNestedOneWithoutOwnedBooksInput
   requests?: Prisma.SwapRequestCreateNestedManyWithoutBookInput
+  queueEntries?: Prisma.QueueEntryCreateNestedManyWithoutBookInput
 }
 
 export type BookUncheckedCreateWithoutWishlistedByInput = {
@@ -714,10 +856,12 @@ export type BookUncheckedCreateWithoutWishlistedByInput = {
   genres?: string
   description?: string | null
   isAvailable?: boolean
+  isCurrentlyReading?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   ownerId: string
   requests?: Prisma.SwapRequestUncheckedCreateNestedManyWithoutBookInput
+  queueEntries?: Prisma.QueueEntryUncheckedCreateNestedManyWithoutBookInput
 }
 
 export type BookCreateOrConnectWithoutWishlistedByInput = {
@@ -745,10 +889,12 @@ export type BookUpdateWithoutWishlistedByInput = {
   genres?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isCurrentlyReading?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   owner?: Prisma.UserUpdateOneRequiredWithoutOwnedBooksNestedInput
   requests?: Prisma.SwapRequestUpdateManyWithoutBookNestedInput
+  queueEntries?: Prisma.QueueEntryUpdateManyWithoutBookNestedInput
 }
 
 export type BookUncheckedUpdateWithoutWishlistedByInput = {
@@ -760,10 +906,12 @@ export type BookUncheckedUpdateWithoutWishlistedByInput = {
   genres?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isCurrentlyReading?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ownerId?: Prisma.StringFieldUpdateOperationsInput | string
   requests?: Prisma.SwapRequestUncheckedUpdateManyWithoutBookNestedInput
+  queueEntries?: Prisma.QueueEntryUncheckedUpdateManyWithoutBookNestedInput
 }
 
 export type BookCreateManyOwnerInput = {
@@ -775,6 +923,7 @@ export type BookCreateManyOwnerInput = {
   genres?: string
   description?: string | null
   isAvailable?: boolean
+  isCurrentlyReading?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -788,10 +937,12 @@ export type BookUpdateWithoutOwnerInput = {
   genres?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isCurrentlyReading?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   requests?: Prisma.SwapRequestUpdateManyWithoutBookNestedInput
   wishlistedBy?: Prisma.WishlistItemUpdateManyWithoutBookNestedInput
+  queueEntries?: Prisma.QueueEntryUpdateManyWithoutBookNestedInput
 }
 
 export type BookUncheckedUpdateWithoutOwnerInput = {
@@ -803,10 +954,12 @@ export type BookUncheckedUpdateWithoutOwnerInput = {
   genres?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isCurrentlyReading?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   requests?: Prisma.SwapRequestUncheckedUpdateManyWithoutBookNestedInput
   wishlistedBy?: Prisma.WishlistItemUncheckedUpdateManyWithoutBookNestedInput
+  queueEntries?: Prisma.QueueEntryUncheckedUpdateManyWithoutBookNestedInput
 }
 
 export type BookUncheckedUpdateManyWithoutOwnerInput = {
@@ -818,6 +971,7 @@ export type BookUncheckedUpdateManyWithoutOwnerInput = {
   genres?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isCurrentlyReading?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -830,11 +984,13 @@ export type BookUncheckedUpdateManyWithoutOwnerInput = {
 export type BookCountOutputType = {
   requests: number
   wishlistedBy: number
+  queueEntries: number
 }
 
 export type BookCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   requests?: boolean | BookCountOutputTypeCountRequestsArgs
   wishlistedBy?: boolean | BookCountOutputTypeCountWishlistedByArgs
+  queueEntries?: boolean | BookCountOutputTypeCountQueueEntriesArgs
 }
 
 /**
@@ -861,6 +1017,13 @@ export type BookCountOutputTypeCountWishlistedByArgs<ExtArgs extends runtime.Typ
   where?: Prisma.WishlistItemWhereInput
 }
 
+/**
+ * BookCountOutputType without action
+ */
+export type BookCountOutputTypeCountQueueEntriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.QueueEntryWhereInput
+}
+
 
 export type BookSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -871,12 +1034,14 @@ export type BookSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   genres?: boolean
   description?: boolean
   isAvailable?: boolean
+  isCurrentlyReading?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   ownerId?: boolean
   owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   requests?: boolean | Prisma.Book$requestsArgs<ExtArgs>
   wishlistedBy?: boolean | Prisma.Book$wishlistedByArgs<ExtArgs>
+  queueEntries?: boolean | Prisma.Book$queueEntriesArgs<ExtArgs>
   _count?: boolean | Prisma.BookCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["book"]>
 
@@ -889,6 +1054,7 @@ export type BookSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   genres?: boolean
   description?: boolean
   isAvailable?: boolean
+  isCurrentlyReading?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   ownerId?: boolean
@@ -904,6 +1070,7 @@ export type BookSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   genres?: boolean
   description?: boolean
   isAvailable?: boolean
+  isCurrentlyReading?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   ownerId?: boolean
@@ -919,16 +1086,18 @@ export type BookSelectScalar = {
   genres?: boolean
   description?: boolean
   isAvailable?: boolean
+  isCurrentlyReading?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   ownerId?: boolean
 }
 
-export type BookOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "author" | "condition" | "coverPhoto" | "genres" | "description" | "isAvailable" | "createdAt" | "updatedAt" | "ownerId", ExtArgs["result"]["book"]>
+export type BookOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "author" | "condition" | "coverPhoto" | "genres" | "description" | "isAvailable" | "isCurrentlyReading" | "createdAt" | "updatedAt" | "ownerId", ExtArgs["result"]["book"]>
 export type BookInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   requests?: boolean | Prisma.Book$requestsArgs<ExtArgs>
   wishlistedBy?: boolean | Prisma.Book$wishlistedByArgs<ExtArgs>
+  queueEntries?: boolean | Prisma.Book$queueEntriesArgs<ExtArgs>
   _count?: boolean | Prisma.BookCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type BookIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -944,6 +1113,7 @@ export type $BookPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     owner: Prisma.$UserPayload<ExtArgs>
     requests: Prisma.$SwapRequestPayload<ExtArgs>[]
     wishlistedBy: Prisma.$WishlistItemPayload<ExtArgs>[]
+    queueEntries: Prisma.$QueueEntryPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -954,6 +1124,7 @@ export type $BookPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     genres: string
     description: string | null
     isAvailable: boolean
+    isCurrentlyReading: boolean
     createdAt: Date
     updatedAt: Date
     ownerId: string
@@ -1354,6 +1525,7 @@ export interface Prisma__BookClient<T, Null = never, ExtArgs extends runtime.Typ
   owner<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   requests<T extends Prisma.Book$requestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Book$requestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SwapRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   wishlistedBy<T extends Prisma.Book$wishlistedByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Book$wishlistedByArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WishlistItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  queueEntries<T extends Prisma.Book$queueEntriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Book$queueEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$QueueEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1391,6 +1563,7 @@ export interface BookFieldRefs {
   readonly genres: Prisma.FieldRef<"Book", 'String'>
   readonly description: Prisma.FieldRef<"Book", 'String'>
   readonly isAvailable: Prisma.FieldRef<"Book", 'Boolean'>
+  readonly isCurrentlyReading: Prisma.FieldRef<"Book", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Book", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Book", 'DateTime'>
   readonly ownerId: Prisma.FieldRef<"Book", 'String'>
@@ -1838,6 +2011,30 @@ export type Book$wishlistedByArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.WishlistItemScalarFieldEnum | Prisma.WishlistItemScalarFieldEnum[]
+}
+
+/**
+ * Book.queueEntries
+ */
+export type Book$queueEntriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the QueueEntry
+   */
+  select?: Prisma.QueueEntrySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the QueueEntry
+   */
+  omit?: Prisma.QueueEntryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.QueueEntryInclude<ExtArgs> | null
+  where?: Prisma.QueueEntryWhereInput
+  orderBy?: Prisma.QueueEntryOrderByWithRelationInput | Prisma.QueueEntryOrderByWithRelationInput[]
+  cursor?: Prisma.QueueEntryWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.QueueEntryScalarFieldEnum | Prisma.QueueEntryScalarFieldEnum[]
 }
 
 /**
