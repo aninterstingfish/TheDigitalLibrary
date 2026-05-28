@@ -46,6 +46,7 @@ export type UserMinAggregateOutputType = {
   yearGroup: number | null
   borrowLimit: number | null
   approved: boolean | null
+  isAdmin: boolean | null
   parentEmail: string | null
   parentToken: string | null
   createdAt: Date | null
@@ -61,6 +62,7 @@ export type UserMaxAggregateOutputType = {
   yearGroup: number | null
   borrowLimit: number | null
   approved: boolean | null
+  isAdmin: boolean | null
   parentEmail: string | null
   parentToken: string | null
   createdAt: Date | null
@@ -76,6 +78,7 @@ export type UserCountAggregateOutputType = {
   yearGroup: number
   borrowLimit: number
   approved: number
+  isAdmin: number
   parentEmail: number
   parentToken: number
   createdAt: number
@@ -103,6 +106,7 @@ export type UserMinAggregateInputType = {
   yearGroup?: true
   borrowLimit?: true
   approved?: true
+  isAdmin?: true
   parentEmail?: true
   parentToken?: true
   createdAt?: true
@@ -118,6 +122,7 @@ export type UserMaxAggregateInputType = {
   yearGroup?: true
   borrowLimit?: true
   approved?: true
+  isAdmin?: true
   parentEmail?: true
   parentToken?: true
   createdAt?: true
@@ -133,6 +138,7 @@ export type UserCountAggregateInputType = {
   yearGroup?: true
   borrowLimit?: true
   approved?: true
+  isAdmin?: true
   parentEmail?: true
   parentToken?: true
   createdAt?: true
@@ -235,6 +241,7 @@ export type UserGroupByOutputType = {
   yearGroup: number | null
   borrowLimit: number
   approved: boolean
+  isAdmin: boolean
   parentEmail: string | null
   parentToken: string | null
   createdAt: Date
@@ -273,6 +280,7 @@ export type UserWhereInput = {
   yearGroup?: Prisma.IntNullableFilter<"User"> | number | null
   borrowLimit?: Prisma.IntFilter<"User"> | number
   approved?: Prisma.BoolFilter<"User"> | boolean
+  isAdmin?: Prisma.BoolFilter<"User"> | boolean
   parentEmail?: Prisma.StringNullableFilter<"User"> | string | null
   parentToken?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
@@ -295,6 +303,7 @@ export type UserOrderByWithRelationInput = {
   yearGroup?: Prisma.SortOrderInput | Prisma.SortOrder
   borrowLimit?: Prisma.SortOrder
   approved?: Prisma.SortOrder
+  isAdmin?: Prisma.SortOrder
   parentEmail?: Prisma.SortOrderInput | Prisma.SortOrder
   parentToken?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -321,6 +330,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   yearGroup?: Prisma.IntNullableFilter<"User"> | number | null
   borrowLimit?: Prisma.IntFilter<"User"> | number
   approved?: Prisma.BoolFilter<"User"> | boolean
+  isAdmin?: Prisma.BoolFilter<"User"> | boolean
   parentEmail?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   ownedBooks?: Prisma.BookListRelationFilter
@@ -342,6 +352,7 @@ export type UserOrderByWithAggregationInput = {
   yearGroup?: Prisma.SortOrderInput | Prisma.SortOrder
   borrowLimit?: Prisma.SortOrder
   approved?: Prisma.SortOrder
+  isAdmin?: Prisma.SortOrder
   parentEmail?: Prisma.SortOrderInput | Prisma.SortOrder
   parentToken?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -365,6 +376,7 @@ export type UserScalarWhereWithAggregatesInput = {
   yearGroup?: Prisma.IntNullableWithAggregatesFilter<"User"> | number | null
   borrowLimit?: Prisma.IntWithAggregatesFilter<"User"> | number
   approved?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  isAdmin?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   parentEmail?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   parentToken?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
@@ -380,6 +392,7 @@ export type UserCreateInput = {
   yearGroup?: number | null
   borrowLimit?: number
   approved?: boolean
+  isAdmin?: boolean
   parentEmail?: string | null
   parentToken?: string | null
   createdAt?: Date | string
@@ -402,6 +415,7 @@ export type UserUncheckedCreateInput = {
   yearGroup?: number | null
   borrowLimit?: number
   approved?: boolean
+  isAdmin?: boolean
   parentEmail?: string | null
   parentToken?: string | null
   createdAt?: Date | string
@@ -424,6 +438,7 @@ export type UserUpdateInput = {
   yearGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   borrowLimit?: Prisma.IntFieldUpdateOperationsInput | number
   approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   parentEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   parentToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -446,6 +461,7 @@ export type UserUncheckedUpdateInput = {
   yearGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   borrowLimit?: Prisma.IntFieldUpdateOperationsInput | number
   approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   parentEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   parentToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -468,6 +484,7 @@ export type UserCreateManyInput = {
   yearGroup?: number | null
   borrowLimit?: number
   approved?: boolean
+  isAdmin?: boolean
   parentEmail?: string | null
   parentToken?: string | null
   createdAt?: Date | string
@@ -483,6 +500,7 @@ export type UserUpdateManyMutationInput = {
   yearGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   borrowLimit?: Prisma.IntFieldUpdateOperationsInput | number
   approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   parentEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   parentToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -498,6 +516,7 @@ export type UserUncheckedUpdateManyInput = {
   yearGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   borrowLimit?: Prisma.IntFieldUpdateOperationsInput | number
   approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   parentEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   parentToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -513,6 +532,7 @@ export type UserCountOrderByAggregateInput = {
   yearGroup?: Prisma.SortOrder
   borrowLimit?: Prisma.SortOrder
   approved?: Prisma.SortOrder
+  isAdmin?: Prisma.SortOrder
   parentEmail?: Prisma.SortOrder
   parentToken?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -533,6 +553,7 @@ export type UserMaxOrderByAggregateInput = {
   yearGroup?: Prisma.SortOrder
   borrowLimit?: Prisma.SortOrder
   approved?: Prisma.SortOrder
+  isAdmin?: Prisma.SortOrder
   parentEmail?: Prisma.SortOrder
   parentToken?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -548,6 +569,7 @@ export type UserMinOrderByAggregateInput = {
   yearGroup?: Prisma.SortOrder
   borrowLimit?: Prisma.SortOrder
   approved?: Prisma.SortOrder
+  isAdmin?: Prisma.SortOrder
   parentEmail?: Prisma.SortOrder
   parentToken?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -703,6 +725,7 @@ export type UserCreateWithoutOwnedBooksInput = {
   yearGroup?: number | null
   borrowLimit?: number
   approved?: boolean
+  isAdmin?: boolean
   parentEmail?: string | null
   parentToken?: string | null
   createdAt?: Date | string
@@ -724,6 +747,7 @@ export type UserUncheckedCreateWithoutOwnedBooksInput = {
   yearGroup?: number | null
   borrowLimit?: number
   approved?: boolean
+  isAdmin?: boolean
   parentEmail?: string | null
   parentToken?: string | null
   createdAt?: Date | string
@@ -761,6 +785,7 @@ export type UserUpdateWithoutOwnedBooksInput = {
   yearGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   borrowLimit?: Prisma.IntFieldUpdateOperationsInput | number
   approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   parentEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   parentToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -782,6 +807,7 @@ export type UserUncheckedUpdateWithoutOwnedBooksInput = {
   yearGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   borrowLimit?: Prisma.IntFieldUpdateOperationsInput | number
   approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   parentEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   parentToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -803,6 +829,7 @@ export type UserCreateWithoutSwapRequestsInput = {
   yearGroup?: number | null
   borrowLimit?: number
   approved?: boolean
+  isAdmin?: boolean
   parentEmail?: string | null
   parentToken?: string | null
   createdAt?: Date | string
@@ -824,6 +851,7 @@ export type UserUncheckedCreateWithoutSwapRequestsInput = {
   yearGroup?: number | null
   borrowLimit?: number
   approved?: boolean
+  isAdmin?: boolean
   parentEmail?: string | null
   parentToken?: string | null
   createdAt?: Date | string
@@ -861,6 +889,7 @@ export type UserUpdateWithoutSwapRequestsInput = {
   yearGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   borrowLimit?: Prisma.IntFieldUpdateOperationsInput | number
   approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   parentEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   parentToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -882,6 +911,7 @@ export type UserUncheckedUpdateWithoutSwapRequestsInput = {
   yearGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   borrowLimit?: Prisma.IntFieldUpdateOperationsInput | number
   approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   parentEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   parentToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -903,6 +933,7 @@ export type UserCreateWithoutMessagesInput = {
   yearGroup?: number | null
   borrowLimit?: number
   approved?: boolean
+  isAdmin?: boolean
   parentEmail?: string | null
   parentToken?: string | null
   createdAt?: Date | string
@@ -924,6 +955,7 @@ export type UserUncheckedCreateWithoutMessagesInput = {
   yearGroup?: number | null
   borrowLimit?: number
   approved?: boolean
+  isAdmin?: boolean
   parentEmail?: string | null
   parentToken?: string | null
   createdAt?: Date | string
@@ -961,6 +993,7 @@ export type UserUpdateWithoutMessagesInput = {
   yearGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   borrowLimit?: Prisma.IntFieldUpdateOperationsInput | number
   approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   parentEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   parentToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -982,6 +1015,7 @@ export type UserUncheckedUpdateWithoutMessagesInput = {
   yearGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   borrowLimit?: Prisma.IntFieldUpdateOperationsInput | number
   approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   parentEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   parentToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1003,6 +1037,7 @@ export type UserCreateWithoutRatingsGivenInput = {
   yearGroup?: number | null
   borrowLimit?: number
   approved?: boolean
+  isAdmin?: boolean
   parentEmail?: string | null
   parentToken?: string | null
   createdAt?: Date | string
@@ -1024,6 +1059,7 @@ export type UserUncheckedCreateWithoutRatingsGivenInput = {
   yearGroup?: number | null
   borrowLimit?: number
   approved?: boolean
+  isAdmin?: boolean
   parentEmail?: string | null
   parentToken?: string | null
   createdAt?: Date | string
@@ -1050,6 +1086,7 @@ export type UserCreateWithoutRatingsReceivedInput = {
   yearGroup?: number | null
   borrowLimit?: number
   approved?: boolean
+  isAdmin?: boolean
   parentEmail?: string | null
   parentToken?: string | null
   createdAt?: Date | string
@@ -1071,6 +1108,7 @@ export type UserUncheckedCreateWithoutRatingsReceivedInput = {
   yearGroup?: number | null
   borrowLimit?: number
   approved?: boolean
+  isAdmin?: boolean
   parentEmail?: string | null
   parentToken?: string | null
   createdAt?: Date | string
@@ -1108,6 +1146,7 @@ export type UserUpdateWithoutRatingsGivenInput = {
   yearGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   borrowLimit?: Prisma.IntFieldUpdateOperationsInput | number
   approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   parentEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   parentToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1129,6 +1168,7 @@ export type UserUncheckedUpdateWithoutRatingsGivenInput = {
   yearGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   borrowLimit?: Prisma.IntFieldUpdateOperationsInput | number
   approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   parentEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   parentToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1161,6 +1201,7 @@ export type UserUpdateWithoutRatingsReceivedInput = {
   yearGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   borrowLimit?: Prisma.IntFieldUpdateOperationsInput | number
   approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   parentEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   parentToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1182,6 +1223,7 @@ export type UserUncheckedUpdateWithoutRatingsReceivedInput = {
   yearGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   borrowLimit?: Prisma.IntFieldUpdateOperationsInput | number
   approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   parentEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   parentToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1203,6 +1245,7 @@ export type UserCreateWithoutWishlistInput = {
   yearGroup?: number | null
   borrowLimit?: number
   approved?: boolean
+  isAdmin?: boolean
   parentEmail?: string | null
   parentToken?: string | null
   createdAt?: Date | string
@@ -1224,6 +1267,7 @@ export type UserUncheckedCreateWithoutWishlistInput = {
   yearGroup?: number | null
   borrowLimit?: number
   approved?: boolean
+  isAdmin?: boolean
   parentEmail?: string | null
   parentToken?: string | null
   createdAt?: Date | string
@@ -1261,6 +1305,7 @@ export type UserUpdateWithoutWishlistInput = {
   yearGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   borrowLimit?: Prisma.IntFieldUpdateOperationsInput | number
   approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   parentEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   parentToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1282,6 +1327,7 @@ export type UserUncheckedUpdateWithoutWishlistInput = {
   yearGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   borrowLimit?: Prisma.IntFieldUpdateOperationsInput | number
   approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   parentEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   parentToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1303,6 +1349,7 @@ export type UserCreateWithoutNotificationsInput = {
   yearGroup?: number | null
   borrowLimit?: number
   approved?: boolean
+  isAdmin?: boolean
   parentEmail?: string | null
   parentToken?: string | null
   createdAt?: Date | string
@@ -1324,6 +1371,7 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   yearGroup?: number | null
   borrowLimit?: number
   approved?: boolean
+  isAdmin?: boolean
   parentEmail?: string | null
   parentToken?: string | null
   createdAt?: Date | string
@@ -1361,6 +1409,7 @@ export type UserUpdateWithoutNotificationsInput = {
   yearGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   borrowLimit?: Prisma.IntFieldUpdateOperationsInput | number
   approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   parentEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   parentToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1382,6 +1431,7 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   yearGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   borrowLimit?: Prisma.IntFieldUpdateOperationsInput | number
   approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   parentEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   parentToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1488,6 +1538,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   yearGroup?: boolean
   borrowLimit?: boolean
   approved?: boolean
+  isAdmin?: boolean
   parentEmail?: boolean
   parentToken?: boolean
   createdAt?: boolean
@@ -1511,6 +1562,7 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   yearGroup?: boolean
   borrowLimit?: boolean
   approved?: boolean
+  isAdmin?: boolean
   parentEmail?: boolean
   parentToken?: boolean
   createdAt?: boolean
@@ -1526,6 +1578,7 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   yearGroup?: boolean
   borrowLimit?: boolean
   approved?: boolean
+  isAdmin?: boolean
   parentEmail?: boolean
   parentToken?: boolean
   createdAt?: boolean
@@ -1541,12 +1594,13 @@ export type UserSelectScalar = {
   yearGroup?: boolean
   borrowLimit?: boolean
   approved?: boolean
+  isAdmin?: boolean
   parentEmail?: boolean
   parentToken?: boolean
   createdAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "username" | "email" | "passwordHash" | "name" | "profilePhoto" | "yearGroup" | "borrowLimit" | "approved" | "parentEmail" | "parentToken" | "createdAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "username" | "email" | "passwordHash" | "name" | "profilePhoto" | "yearGroup" | "borrowLimit" | "approved" | "isAdmin" | "parentEmail" | "parentToken" | "createdAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   ownedBooks?: boolean | Prisma.User$ownedBooksArgs<ExtArgs>
   swapRequests?: boolean | Prisma.User$swapRequestsArgs<ExtArgs>
@@ -1581,6 +1635,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     yearGroup: number | null
     borrowLimit: number
     approved: boolean
+    isAdmin: boolean
     parentEmail: string | null
     parentToken: string | null
     createdAt: Date
@@ -2023,6 +2078,7 @@ export interface UserFieldRefs {
   readonly yearGroup: Prisma.FieldRef<"User", 'Int'>
   readonly borrowLimit: Prisma.FieldRef<"User", 'Int'>
   readonly approved: Prisma.FieldRef<"User", 'Boolean'>
+  readonly isAdmin: Prisma.FieldRef<"User", 'Boolean'>
   readonly parentEmail: Prisma.FieldRef<"User", 'String'>
   readonly parentToken: Prisma.FieldRef<"User", 'String'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>

@@ -2,19 +2,17 @@ import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { createSession } from "@/lib/session";
-import { sendParentalConsentEmail } from "@/lib/email";
-import { randomBytes } from "crypto";
 
 const USERNAME_RE = /^[a-zA-Z0-9_@#!$%^&*:"<>?{}+=.\-]{3,30}$/;
 
 export async function POST(req: NextRequest) {
-  let body: { name?: string; username?: string; email?: string; password?: string; age?: number; parentEmail?: string };
+  let body: { name?: string; username?: string; email?: string; password?: string; age?: number };
   try {
     body = await req.json();
   } catch {
     return NextResponse.json({ error: "Invalid request body." }, { status: 400 });
   }
-  const { name, username, email, password, age, parentEmail } = body;
+  const { name, username, email, password, age } = body;
 
   if (!name?.trim() || !username?.trim() || !email?.trim() || !password) {
     return NextResponse.json({ error: "Please fill in all fields." }, { status: 400 });
@@ -24,12 +22,6 @@ export async function POST(req: NextRequest) {
   }
   if (age < 5 || age > 110) {
     return NextResponse.json({ error: "Please enter a valid age.", field: "age" }, { status: 400 });
-  }
-  if (age < 13 && !parentEmail?.trim()) {
-    return NextResponse.json({ error: "A parent or guardian email is required for users under 13.", field: "parentEmail" }, { status: 400 });
-  }
-  if (age < 13 && parentEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(parentEmail.trim())) {
-    return NextResponse.json({ error: "Enter a valid parent email address.", field: "parentEmail" }, { status: 400 });
   }
   if (!/^[a-zA-Z\s]+$/.test(name.trim())) {
     return NextResponse.json({ error: "Name can only contain letters and spaces.", field: "name" }, { status: 400 });
@@ -67,21 +59,11 @@ export async function POST(req: NextRequest) {
         email: email.trim().toLowerCase(),
         passwordHash,
         approved: !needsApproval,
-        parentEmail: needsApproval ? parentEmail!.trim().toLowerCase() : null,
-        parentToken: needsApproval ? randomBytes(32).toString("hex") : null,
       },
     });
 
     if (needsApproval) {
-      const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
-      const approvalUrl = `${appUrl}/approve-account?token=${user.parentToken}`;
-      await sendParentalConsentEmail({
-        parentEmail: parentEmail!.trim(),
-        childName: user.name,
-        childUsername: user.username,
-        approvalUrl,
-      });
-      return NextResponse.json({ pendingApproval: true, parentEmail: parentEmail!.trim() });
+      return NextResponse.json({ pendingApproval: true });
     }
 
     await createSession(user.id);

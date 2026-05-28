@@ -1049,6 +1049,7 @@ export const UserScalarFieldEnum = {
   yearGroup: 'yearGroup',
   borrowLimit: 'borrowLimit',
   approved: 'approved',
+  isAdmin: 'isAdmin',
   parentEmail: 'parentEmail',
   parentToken: 'parentToken',
   createdAt: 'createdAt'

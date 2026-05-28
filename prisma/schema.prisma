@@ -17,6 +17,7 @@ model User {
   yearGroup      Int?
   borrowLimit    Int      @default(5)
   approved       Boolean  @default(true)
+  isAdmin        Boolean  @default(false)
   parentEmail    String?
   parentToken    String?  @unique
   createdAt      DateTime @default(now())

@@ -7,7 +7,7 @@ export default async function Nav({ active }: { active?: string }) {
   const session = await getSession();
   if (!session) redirect("/login");
 
-  const user = await prisma.user.findUnique({ where: { id: session.userId }, select: { username: true } });
+  const user = await prisma.user.findUnique({ where: { id: session.userId }, select: { username: true, isAdmin: true } });
   if (!user) redirect("/login");
 
   let unreadCount = 0;
@@ -19,6 +19,7 @@ export default async function Nav({ active }: { active?: string }) {
     { href: "/books/new", label: "List a Book" },
     { href: "/leaderboard", label: "Leaderboard" },
     { href: "/wishlist", label: "Wishlist" },
+    ...(user.isAdmin ? [{ href: "/admin", label: "Admin" }] : []),
   ];
 
   return (

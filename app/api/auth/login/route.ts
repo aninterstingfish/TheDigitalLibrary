@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
   }
 
   if (!user.approved) {
-    return NextResponse.json({ error: `Account pending parental approval. Ask the parent at ${user.parentEmail} to check their email and click the confirmation link.` }, { status: 403 });
+    return NextResponse.json({ error: "Your account is awaiting approval. Ask a parent or guardian to log in to their Cloud Library account and approve it from their Admin panel." }, { status: 403 });
   }
 
   try {
