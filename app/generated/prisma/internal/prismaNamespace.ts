@@ -389,6 +389,7 @@ export const ModelName = {
   BookRating: 'BookRating',
   ReadingList: 'ReadingList',
   ReadingListItem: 'ReadingListItem',
+  ConsentRequest: 'ConsentRequest',
   BookRequest: 'BookRequest',
   QueueEntry: 'QueueEntry',
   SwapRequest: 'SwapRequest',
@@ -412,7 +413,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "book" | "bookRating" | "readingList" | "readingListItem" | "bookRequest" | "queueEntry" | "swapRequest" | "swap" | "message" | "rating" | "wishlistItem" | "notification"
+    modelProps: "user" | "book" | "bookRating" | "readingList" | "readingListItem" | "consentRequest" | "bookRequest" | "queueEntry" | "swapRequest" | "swap" | "message" | "rating" | "wishlistItem" | "notification"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -783,6 +784,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.ReadingListItemCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.ReadingListItemCountAggregateOutputType> | number
+        }
+      }
+    }
+    ConsentRequest: {
+      payload: Prisma.$ConsentRequestPayload<ExtArgs>
+      fields: Prisma.ConsentRequestFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ConsentRequestFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConsentRequestPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ConsentRequestFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConsentRequestPayload>
+        }
+        findFirst: {
+          args: Prisma.ConsentRequestFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConsentRequestPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ConsentRequestFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConsentRequestPayload>
+        }
+        findMany: {
+          args: Prisma.ConsentRequestFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConsentRequestPayload>[]
+        }
+        create: {
+          args: Prisma.ConsentRequestCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConsentRequestPayload>
+        }
+        createMany: {
+          args: Prisma.ConsentRequestCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ConsentRequestCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConsentRequestPayload>[]
+        }
+        delete: {
+          args: Prisma.ConsentRequestDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConsentRequestPayload>
+        }
+        update: {
+          args: Prisma.ConsentRequestUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConsentRequestPayload>
+        }
+        deleteMany: {
+          args: Prisma.ConsentRequestDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ConsentRequestUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ConsentRequestUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConsentRequestPayload>[]
+        }
+        upsert: {
+          args: Prisma.ConsentRequestUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConsentRequestPayload>
+        }
+        aggregate: {
+          args: Prisma.ConsentRequestAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateConsentRequest>
+        }
+        groupBy: {
+          args: Prisma.ConsentRequestGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ConsentRequestGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ConsentRequestCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ConsentRequestCountAggregateOutputType> | number
         }
       }
     }
@@ -1493,6 +1568,21 @@ export const ReadingListItemScalarFieldEnum = {
 export type ReadingListItemScalarFieldEnum = (typeof ReadingListItemScalarFieldEnum)[keyof typeof ReadingListItemScalarFieldEnum]
 
 
+export const ConsentRequestScalarFieldEnum = {
+  id: 'id',
+  token: 'token',
+  expiresAt: 'expiresAt',
+  name: 'name',
+  username: 'username',
+  childEmail: 'childEmail',
+  passwordHash: 'passwordHash',
+  parentEmail: 'parentEmail',
+  createdAt: 'createdAt'
+} as const
+
+export type ConsentRequestScalarFieldEnum = (typeof ConsentRequestScalarFieldEnum)[keyof typeof ConsentRequestScalarFieldEnum]
+
+
 export const BookRequestScalarFieldEnum = {
   id: 'id',
   title: 'title',
@@ -1815,6 +1905,7 @@ export type GlobalOmitConfig = {
   bookRating?: Prisma.BookRatingOmit
   readingList?: Prisma.ReadingListOmit
   readingListItem?: Prisma.ReadingListItemOmit
+  consentRequest?: Prisma.ConsentRequestOmit
   bookRequest?: Prisma.BookRequestOmit
   queueEntry?: Prisma.QueueEntryOmit
   swapRequest?: Prisma.SwapRequestOmit

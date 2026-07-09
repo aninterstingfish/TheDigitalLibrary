@@ -67,6 +67,11 @@ export type ReadingList = Prisma.ReadingListModel
  */
 export type ReadingListItem = Prisma.ReadingListItemModel
 /**
+ * Model ConsentRequest
+ * 
+ */
+export type ConsentRequest = Prisma.ConsentRequestModel
+/**
  * Model BookRequest
  * 
  */

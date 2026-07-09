@@ -16,12 +16,14 @@ export async function sendParentalConsentEmail({
   parentEmail,
   childName,
   childUsername,
-  approvalUrl,
+  approveUrl,
+  declineUrl,
 }: {
   parentEmail: string;
   childName: string;
   childUsername: string;
-  approvalUrl: string;
+  approveUrl: string;
+  declineUrl: string;
 }) {
   const from = process.env.EMAIL_FROM ?? "Cloud Library <noreply@cloudlibrary.school>";
 
@@ -66,17 +68,29 @@ export async function sendParentalConsentEmail({
             <a href="${process.env.NEXT_PUBLIC_APP_URL ?? ""}/privacy" style="color:#000">Privacy Policy</a> for details.
           </p>
 
-          <!-- CTA Button -->
-          <table cellpadding="0" cellspacing="0" width="100%"><tr><td align="center">
-            <a href="${approvalUrl}"
-              style="display:inline-block;background:#000000;color:#ffffff;text-decoration:none;font-size:15px;font-weight:600;padding:16px 40px;border-radius:12px;letter-spacing:-0.2px">
-              Confirm account creation
-            </a>
-          </td></tr></table>
+          <!-- CTA Buttons -->
+          <table cellpadding="0" cellspacing="0" width="100%">
+            <tr>
+              <td align="center" style="padding-bottom:12px">
+                <a href="${approveUrl}"
+                  style="display:inline-block;background:#000000;color:#ffffff;text-decoration:none;font-size:15px;font-weight:600;padding:16px 40px;border-radius:12px;letter-spacing:-0.2px">
+                  Approve account
+                </a>
+              </td>
+            </tr>
+            <tr>
+              <td align="center">
+                <a href="${declineUrl}"
+                  style="display:inline-block;background:#ffffff;color:#6b7280;text-decoration:none;font-size:14px;font-weight:500;padding:12px 32px;border-radius:12px;border:1px solid #e5e7eb">
+                  Decline — don't create account
+                </a>
+              </td>
+            </tr>
+          </table>
 
           <p style="margin:32px 0 0;font-size:13px;color:#9ca3af;line-height:1.6">
-            If you did not expect this email, you can safely ignore it — no account will be created
-            unless you click the button above. The link expires in 7 days.
+            If you did not expect this email, click Decline or simply ignore it — no account will be
+            created without your approval. This link expires in 7 days.
           </p>
         </td></tr>
 
@@ -95,12 +109,13 @@ export async function sendParentalConsentEmail({
 </html>`;
 
   if (!process.env.EMAIL_HOST) {
-    console.warn("[email] EMAIL_HOST not set — logging approval URL instead:");
-    console.warn("[email] APPROVAL URL:", approvalUrl);
+    console.warn("[email] EMAIL_HOST not set — logging consent URLs instead:");
+    console.warn("[email] APPROVE URL:", approveUrl);
+    console.warn("[email] DECLINE URL:", declineUrl);
     return;
   }
 
-  console.log("[email] Sending to", parentEmail, "via", process.env.EMAIL_HOST);
+  console.log("[email] Sending consent email to", parentEmail, "via", process.env.EMAIL_HOST);
   try {
     const info = await makeTransporter().sendMail({
       from,
