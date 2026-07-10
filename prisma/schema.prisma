@@ -107,18 +107,6 @@ model ReadingListItem {
   @@unique([listId, bookId])
 }
 
-model ConsentRequest {
-  id           String   @id @default(cuid())
-  token        String   @unique @default(cuid())
-  expiresAt    DateTime
-  name         String
-  username     String
-  childEmail   String?
-  passwordHash String
-  parentEmail  String
-  createdAt    DateTime @default(now())
-}
-
 model BookRequest {
   id        String   @id @default(cuid())
   title     String

@@ -56,7 +56,6 @@ export const ModelName = {
   BookRating: 'BookRating',
   ReadingList: 'ReadingList',
   ReadingListItem: 'ReadingListItem',
-  ConsentRequest: 'ConsentRequest',
   BookRequest: 'BookRequest',
   QueueEntry: 'QueueEntry',
   SwapRequest: 'SwapRequest',
@@ -157,21 +156,6 @@ export const ReadingListItemScalarFieldEnum = {
 } as const
 
 export type ReadingListItemScalarFieldEnum = (typeof ReadingListItemScalarFieldEnum)[keyof typeof ReadingListItemScalarFieldEnum]
-
-
-export const ConsentRequestScalarFieldEnum = {
-  id: 'id',
-  token: 'token',
-  expiresAt: 'expiresAt',
-  name: 'name',
-  username: 'username',
-  childEmail: 'childEmail',
-  passwordHash: 'passwordHash',
-  parentEmail: 'parentEmail',
-  createdAt: 'createdAt'
-} as const
-
-export type ConsentRequestScalarFieldEnum = (typeof ConsentRequestScalarFieldEnum)[keyof typeof ConsentRequestScalarFieldEnum]
 
 
 export const BookRequestScalarFieldEnum = {

@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
   }
 
   if (!user.approved) {
-    return NextResponse.json({ error: "Your account is awaiting parental approval. Ask a parent or guardian to check their email for the approval link." }, { status: 403 });
+    return NextResponse.json({ error: "Your account is awaiting approval. Ask your parent or guardian to log in to their Cloud Library account and approve it from their Admin panel." }, { status: 403 });
   }
   if (user.paused) {
     return NextResponse.json({ error: "Your account has been temporarily paused. Contact your parent or guardian." }, { status: 403 });
