@@ -118,7 +118,7 @@ export async function POST(req: NextRequest) {
         console.error("[register] Failed to send consent email:", emailErr);
       }
 
-      return NextResponse.json({ pendingApproval: true, parentEmail: parentEmail!.trim().toLowerCase() });
+      return NextResponse.json({ pendingApproval: true, parentEmail: parentEmail!.trim().toLowerCase(), userId: user.id });
     }
 
     await createSession(user.id);

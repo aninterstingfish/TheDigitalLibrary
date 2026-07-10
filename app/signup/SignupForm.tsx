@@ -53,6 +53,9 @@ export default function SignupForm() {
   const [submitted, setSubmitted] = useState(false);
   const [pendingApproval, setPendingApproval] = useState(false);
   const [pendingParentEmail, setPendingParentEmail] = useState("");
+  const [pendingUserId, setPendingUserId] = useState("");
+  const [resendLoading, setResendLoading] = useState(false);
+  const [resendSent, setResendSent] = useState(false);
 
   const age = parseInt(form.age);
   const needsApproval = !isNaN(age) && age < 13;
@@ -61,7 +64,22 @@ export default function SignupForm() {
   const set = (field: Field) => (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm((f) => ({ ...f, [field]: e.target.value }));
     setErrors((err) => ({ ...err, [field]: undefined }));
-    if (field === "parentUsername") setParentNotFound(false);
+  };
+
+  const handleResend = async () => {
+    if (!pendingUserId || resendLoading) return;
+    setResendLoading(true);
+    setResendSent(false);
+    try {
+      await fetch("/api/auth/resend-consent", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: pendingUserId }),
+      });
+      setResendSent(true);
+    } finally {
+      setResendLoading(false);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -94,6 +112,7 @@ export default function SignupForm() {
       setIsLoading(false);
       if (data.pendingApproval) {
         setPendingParentEmail(data.parentEmail ?? form.parentEmail.trim());
+        setPendingUserId(data.userId ?? "");
         setPendingApproval(true);
       }
       setSubmitted(true);
@@ -118,6 +137,14 @@ export default function SignupForm() {
           Ask your parent or guardian to open the email and click <strong className="text-black">Approve account</strong>.
           Once they do, you can sign in here.
         </p>
+        {resendSent ? (
+          <p className="text-green-600 text-sm font-medium mb-4">Approval email resent — check the inbox again.</p>
+        ) : (
+          <button onClick={handleResend} disabled={resendLoading || !pendingUserId}
+            className="block w-full border border-gray-200 text-black py-3 rounded-xl text-sm font-medium hover:bg-gray-50 transition-all mb-3 disabled:opacity-50 disabled:cursor-not-allowed">
+            {resendLoading ? "Resending…" : "Didn't get it? Resend email"}
+          </button>
+        )}
         <Link href="/login" className="block w-full bg-black text-white py-3.5 rounded-xl text-sm font-semibold text-center hover:bg-zinc-800 transition-all">
           Go to sign in
         </Link>
