@@ -23,6 +23,7 @@ export async function POST(req: NextRequest) {
     where: isEmail
       ? { email: identifier.toLowerCase() }
       : { username: identifier },
+    include: { consentRequest: true },
   });
 
   if (!user) {
@@ -44,7 +45,15 @@ export async function POST(req: NextRequest) {
   }
 
   if (!user.approved) {
-    return NextResponse.json({ error: "Your account is awaiting approval. Ask your parent or guardian to log in to their Cloud Library account and approve it from their Admin panel." }, { status: 403 });
+    if (user.consentRequest?.status === "PENDING") {
+      return NextResponse.json({
+        error: "Your account is awaiting parental approval.",
+        code: "PENDING_CONSENT",
+        parentEmail: user.consentRequest.parentEmail,
+        userId: user.id,
+      }, { status: 403 });
+    }
+    return NextResponse.json({ error: "Your account is not yet approved." }, { status: 403 });
   }
   if (user.paused) {
     return NextResponse.json({ error: "Your account has been temporarily paused. Contact your parent or guardian." }, { status: 403 });

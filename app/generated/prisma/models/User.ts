@@ -329,6 +329,7 @@ export type UserWhereInput = {
   bookRequests?: Prisma.BookRequestListRelationFilter
   queueEntries?: Prisma.QueueEntryListRelationFilter
   readingLists?: Prisma.ReadingListListRelationFilter
+  consentRequest?: Prisma.XOR<Prisma.ConsentRequestNullableScalarRelationFilter, Prisma.ConsentRequestWhereInput> | null
 }
 
 export type UserOrderByWithRelationInput = {
@@ -361,6 +362,7 @@ export type UserOrderByWithRelationInput = {
   bookRequests?: Prisma.BookRequestOrderByRelationAggregateInput
   queueEntries?: Prisma.QueueEntryOrderByRelationAggregateInput
   readingLists?: Prisma.ReadingListOrderByRelationAggregateInput
+  consentRequest?: Prisma.ConsentRequestOrderByWithRelationInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -396,6 +398,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   bookRequests?: Prisma.BookRequestListRelationFilter
   queueEntries?: Prisma.QueueEntryListRelationFilter
   readingLists?: Prisma.ReadingListListRelationFilter
+  consentRequest?: Prisma.XOR<Prisma.ConsentRequestNullableScalarRelationFilter, Prisma.ConsentRequestWhereInput> | null
 }, "id" | "username" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -473,6 +476,7 @@ export type UserCreateInput = {
   bookRequests?: Prisma.BookRequestCreateNestedManyWithoutUserInput
   queueEntries?: Prisma.QueueEntryCreateNestedManyWithoutUserInput
   readingLists?: Prisma.ReadingListCreateNestedManyWithoutUserInput
+  consentRequest?: Prisma.ConsentRequestCreateNestedOneWithoutChildInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -504,6 +508,7 @@ export type UserUncheckedCreateInput = {
   bookRequests?: Prisma.BookRequestUncheckedCreateNestedManyWithoutUserInput
   queueEntries?: Prisma.QueueEntryUncheckedCreateNestedManyWithoutUserInput
   readingLists?: Prisma.ReadingListUncheckedCreateNestedManyWithoutUserInput
+  consentRequest?: Prisma.ConsentRequestUncheckedCreateNestedOneWithoutChildInput
 }
 
 export type UserUpdateInput = {
@@ -535,6 +540,7 @@ export type UserUpdateInput = {
   bookRequests?: Prisma.BookRequestUpdateManyWithoutUserNestedInput
   queueEntries?: Prisma.QueueEntryUpdateManyWithoutUserNestedInput
   readingLists?: Prisma.ReadingListUpdateManyWithoutUserNestedInput
+  consentRequest?: Prisma.ConsentRequestUpdateOneWithoutChildNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -566,6 +572,7 @@ export type UserUncheckedUpdateInput = {
   bookRequests?: Prisma.BookRequestUncheckedUpdateManyWithoutUserNestedInput
   queueEntries?: Prisma.QueueEntryUncheckedUpdateManyWithoutUserNestedInput
   readingLists?: Prisma.ReadingListUncheckedUpdateManyWithoutUserNestedInput
+  consentRequest?: Prisma.ConsentRequestUncheckedUpdateOneWithoutChildNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -805,6 +812,20 @@ export type UserUncheckedUpdateManyWithoutParentNestedInput = {
   deleteMany?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
 }
 
+export type UserCreateNestedOneWithoutConsentRequestInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutConsentRequestInput, Prisma.UserUncheckedCreateWithoutConsentRequestInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutConsentRequestInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutConsentRequestNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutConsentRequestInput, Prisma.UserUncheckedCreateWithoutConsentRequestInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutConsentRequestInput
+  upsert?: Prisma.UserUpsertWithoutConsentRequestInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutConsentRequestInput, Prisma.UserUpdateWithoutConsentRequestInput>, Prisma.UserUncheckedUpdateWithoutConsentRequestInput>
+}
+
 export type UserCreateNestedOneWithoutOwnedBooksInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutOwnedBooksInput, Prisma.UserUncheckedCreateWithoutOwnedBooksInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutOwnedBooksInput
@@ -987,6 +1008,7 @@ export type UserCreateWithoutChildrenInput = {
   bookRequests?: Prisma.BookRequestCreateNestedManyWithoutUserInput
   queueEntries?: Prisma.QueueEntryCreateNestedManyWithoutUserInput
   readingLists?: Prisma.ReadingListCreateNestedManyWithoutUserInput
+  consentRequest?: Prisma.ConsentRequestCreateNestedOneWithoutChildInput
 }
 
 export type UserUncheckedCreateWithoutChildrenInput = {
@@ -1017,6 +1039,7 @@ export type UserUncheckedCreateWithoutChildrenInput = {
   bookRequests?: Prisma.BookRequestUncheckedCreateNestedManyWithoutUserInput
   queueEntries?: Prisma.QueueEntryUncheckedCreateNestedManyWithoutUserInput
   readingLists?: Prisma.ReadingListUncheckedCreateNestedManyWithoutUserInput
+  consentRequest?: Prisma.ConsentRequestUncheckedCreateNestedOneWithoutChildInput
 }
 
 export type UserCreateOrConnectWithoutChildrenInput = {
@@ -1052,6 +1075,7 @@ export type UserCreateWithoutParentInput = {
   bookRequests?: Prisma.BookRequestCreateNestedManyWithoutUserInput
   queueEntries?: Prisma.QueueEntryCreateNestedManyWithoutUserInput
   readingLists?: Prisma.ReadingListCreateNestedManyWithoutUserInput
+  consentRequest?: Prisma.ConsentRequestCreateNestedOneWithoutChildInput
 }
 
 export type UserUncheckedCreateWithoutParentInput = {
@@ -1082,6 +1106,7 @@ export type UserUncheckedCreateWithoutParentInput = {
   bookRequests?: Prisma.BookRequestUncheckedCreateNestedManyWithoutUserInput
   queueEntries?: Prisma.QueueEntryUncheckedCreateNestedManyWithoutUserInput
   readingLists?: Prisma.ReadingListUncheckedCreateNestedManyWithoutUserInput
+  consentRequest?: Prisma.ConsentRequestUncheckedCreateNestedOneWithoutChildInput
 }
 
 export type UserCreateOrConnectWithoutParentInput = {
@@ -1132,6 +1157,7 @@ export type UserUpdateWithoutChildrenInput = {
   bookRequests?: Prisma.BookRequestUpdateManyWithoutUserNestedInput
   queueEntries?: Prisma.QueueEntryUpdateManyWithoutUserNestedInput
   readingLists?: Prisma.ReadingListUpdateManyWithoutUserNestedInput
+  consentRequest?: Prisma.ConsentRequestUpdateOneWithoutChildNestedInput
 }
 
 export type UserUncheckedUpdateWithoutChildrenInput = {
@@ -1162,6 +1188,7 @@ export type UserUncheckedUpdateWithoutChildrenInput = {
   bookRequests?: Prisma.BookRequestUncheckedUpdateManyWithoutUserNestedInput
   queueEntries?: Prisma.QueueEntryUncheckedUpdateManyWithoutUserNestedInput
   readingLists?: Prisma.ReadingListUncheckedUpdateManyWithoutUserNestedInput
+  consentRequest?: Prisma.ConsentRequestUncheckedUpdateOneWithoutChildNestedInput
 }
 
 export type UserUpsertWithWhereUniqueWithoutParentInput = {
@@ -1202,6 +1229,146 @@ export type UserScalarWhereInput = {
   parentId?: Prisma.StringNullableFilter<"User"> | string | null
 }
 
+export type UserCreateWithoutConsentRequestInput = {
+  id?: string
+  username: string
+  email: string
+  passwordHash: string
+  name: string
+  profilePhoto?: string | null
+  yearGroup?: number | null
+  borrowLimit?: number
+  approved?: boolean
+  paused?: boolean
+  isAdmin?: boolean
+  isTeacher?: boolean
+  damagedReports?: number
+  nonReturns?: number
+  createdAt?: Date | string
+  parent?: Prisma.UserCreateNestedOneWithoutChildrenInput
+  children?: Prisma.UserCreateNestedManyWithoutParentInput
+  ownedBooks?: Prisma.BookCreateNestedManyWithoutOwnerInput
+  swapRequests?: Prisma.SwapRequestCreateNestedManyWithoutBorrowerInput
+  ratingsGiven?: Prisma.RatingCreateNestedManyWithoutRaterInput
+  ratingsReceived?: Prisma.RatingCreateNestedManyWithoutRateeInput
+  bookRatings?: Prisma.BookRatingCreateNestedManyWithoutUserInput
+  messages?: Prisma.MessageCreateNestedManyWithoutSenderInput
+  wishlist?: Prisma.WishlistItemCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  bookRequests?: Prisma.BookRequestCreateNestedManyWithoutUserInput
+  queueEntries?: Prisma.QueueEntryCreateNestedManyWithoutUserInput
+  readingLists?: Prisma.ReadingListCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutConsentRequestInput = {
+  id?: string
+  username: string
+  email: string
+  passwordHash: string
+  name: string
+  profilePhoto?: string | null
+  yearGroup?: number | null
+  borrowLimit?: number
+  approved?: boolean
+  paused?: boolean
+  isAdmin?: boolean
+  isTeacher?: boolean
+  damagedReports?: number
+  nonReturns?: number
+  createdAt?: Date | string
+  parentId?: string | null
+  children?: Prisma.UserUncheckedCreateNestedManyWithoutParentInput
+  ownedBooks?: Prisma.BookUncheckedCreateNestedManyWithoutOwnerInput
+  swapRequests?: Prisma.SwapRequestUncheckedCreateNestedManyWithoutBorrowerInput
+  ratingsGiven?: Prisma.RatingUncheckedCreateNestedManyWithoutRaterInput
+  ratingsReceived?: Prisma.RatingUncheckedCreateNestedManyWithoutRateeInput
+  bookRatings?: Prisma.BookRatingUncheckedCreateNestedManyWithoutUserInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
+  wishlist?: Prisma.WishlistItemUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  bookRequests?: Prisma.BookRequestUncheckedCreateNestedManyWithoutUserInput
+  queueEntries?: Prisma.QueueEntryUncheckedCreateNestedManyWithoutUserInput
+  readingLists?: Prisma.ReadingListUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutConsentRequestInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutConsentRequestInput, Prisma.UserUncheckedCreateWithoutConsentRequestInput>
+}
+
+export type UserUpsertWithoutConsentRequestInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutConsentRequestInput, Prisma.UserUncheckedUpdateWithoutConsentRequestInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutConsentRequestInput, Prisma.UserUncheckedCreateWithoutConsentRequestInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutConsentRequestInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutConsentRequestInput, Prisma.UserUncheckedUpdateWithoutConsentRequestInput>
+}
+
+export type UserUpdateWithoutConsentRequestInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  yearGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  borrowLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  paused?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isTeacher?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  damagedReports?: Prisma.IntFieldUpdateOperationsInput | number
+  nonReturns?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  parent?: Prisma.UserUpdateOneWithoutChildrenNestedInput
+  children?: Prisma.UserUpdateManyWithoutParentNestedInput
+  ownedBooks?: Prisma.BookUpdateManyWithoutOwnerNestedInput
+  swapRequests?: Prisma.SwapRequestUpdateManyWithoutBorrowerNestedInput
+  ratingsGiven?: Prisma.RatingUpdateManyWithoutRaterNestedInput
+  ratingsReceived?: Prisma.RatingUpdateManyWithoutRateeNestedInput
+  bookRatings?: Prisma.BookRatingUpdateManyWithoutUserNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
+  wishlist?: Prisma.WishlistItemUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  bookRequests?: Prisma.BookRequestUpdateManyWithoutUserNestedInput
+  queueEntries?: Prisma.QueueEntryUpdateManyWithoutUserNestedInput
+  readingLists?: Prisma.ReadingListUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutConsentRequestInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  yearGroup?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  borrowLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  paused?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isTeacher?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  damagedReports?: Prisma.IntFieldUpdateOperationsInput | number
+  nonReturns?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  children?: Prisma.UserUncheckedUpdateManyWithoutParentNestedInput
+  ownedBooks?: Prisma.BookUncheckedUpdateManyWithoutOwnerNestedInput
+  swapRequests?: Prisma.SwapRequestUncheckedUpdateManyWithoutBorrowerNestedInput
+  ratingsGiven?: Prisma.RatingUncheckedUpdateManyWithoutRaterNestedInput
+  ratingsReceived?: Prisma.RatingUncheckedUpdateManyWithoutRateeNestedInput
+  bookRatings?: Prisma.BookRatingUncheckedUpdateManyWithoutUserNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+  wishlist?: Prisma.WishlistItemUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  bookRequests?: Prisma.BookRequestUncheckedUpdateManyWithoutUserNestedInput
+  queueEntries?: Prisma.QueueEntryUncheckedUpdateManyWithoutUserNestedInput
+  readingLists?: Prisma.ReadingListUncheckedUpdateManyWithoutUserNestedInput
+}
+
 export type UserCreateWithoutOwnedBooksInput = {
   id?: string
   username: string
@@ -1230,6 +1397,7 @@ export type UserCreateWithoutOwnedBooksInput = {
   bookRequests?: Prisma.BookRequestCreateNestedManyWithoutUserInput
   queueEntries?: Prisma.QueueEntryCreateNestedManyWithoutUserInput
   readingLists?: Prisma.ReadingListCreateNestedManyWithoutUserInput
+  consentRequest?: Prisma.ConsentRequestCreateNestedOneWithoutChildInput
 }
 
 export type UserUncheckedCreateWithoutOwnedBooksInput = {
@@ -1260,6 +1428,7 @@ export type UserUncheckedCreateWithoutOwnedBooksInput = {
   bookRequests?: Prisma.BookRequestUncheckedCreateNestedManyWithoutUserInput
   queueEntries?: Prisma.QueueEntryUncheckedCreateNestedManyWithoutUserInput
   readingLists?: Prisma.ReadingListUncheckedCreateNestedManyWithoutUserInput
+  consentRequest?: Prisma.ConsentRequestUncheckedCreateNestedOneWithoutChildInput
 }
 
 export type UserCreateOrConnectWithoutOwnedBooksInput = {
@@ -1306,6 +1475,7 @@ export type UserUpdateWithoutOwnedBooksInput = {
   bookRequests?: Prisma.BookRequestUpdateManyWithoutUserNestedInput
   queueEntries?: Prisma.QueueEntryUpdateManyWithoutUserNestedInput
   readingLists?: Prisma.ReadingListUpdateManyWithoutUserNestedInput
+  consentRequest?: Prisma.ConsentRequestUpdateOneWithoutChildNestedInput
 }
 
 export type UserUncheckedUpdateWithoutOwnedBooksInput = {
@@ -1336,6 +1506,7 @@ export type UserUncheckedUpdateWithoutOwnedBooksInput = {
   bookRequests?: Prisma.BookRequestUncheckedUpdateManyWithoutUserNestedInput
   queueEntries?: Prisma.QueueEntryUncheckedUpdateManyWithoutUserNestedInput
   readingLists?: Prisma.ReadingListUncheckedUpdateManyWithoutUserNestedInput
+  consentRequest?: Prisma.ConsentRequestUncheckedUpdateOneWithoutChildNestedInput
 }
 
 export type UserCreateWithoutBookRatingsInput = {
@@ -1366,6 +1537,7 @@ export type UserCreateWithoutBookRatingsInput = {
   bookRequests?: Prisma.BookRequestCreateNestedManyWithoutUserInput
   queueEntries?: Prisma.QueueEntryCreateNestedManyWithoutUserInput
   readingLists?: Prisma.ReadingListCreateNestedManyWithoutUserInput
+  consentRequest?: Prisma.ConsentRequestCreateNestedOneWithoutChildInput
 }
 
 export type UserUncheckedCreateWithoutBookRatingsInput = {
@@ -1396,6 +1568,7 @@ export type UserUncheckedCreateWithoutBookRatingsInput = {
   bookRequests?: Prisma.BookRequestUncheckedCreateNestedManyWithoutUserInput
   queueEntries?: Prisma.QueueEntryUncheckedCreateNestedManyWithoutUserInput
   readingLists?: Prisma.ReadingListUncheckedCreateNestedManyWithoutUserInput
+  consentRequest?: Prisma.ConsentRequestUncheckedCreateNestedOneWithoutChildInput
 }
 
 export type UserCreateOrConnectWithoutBookRatingsInput = {
@@ -1442,6 +1615,7 @@ export type UserUpdateWithoutBookRatingsInput = {
   bookRequests?: Prisma.BookRequestUpdateManyWithoutUserNestedInput
   queueEntries?: Prisma.QueueEntryUpdateManyWithoutUserNestedInput
   readingLists?: Prisma.ReadingListUpdateManyWithoutUserNestedInput
+  consentRequest?: Prisma.ConsentRequestUpdateOneWithoutChildNestedInput
 }
 
 export type UserUncheckedUpdateWithoutBookRatingsInput = {
@@ -1472,6 +1646,7 @@ export type UserUncheckedUpdateWithoutBookRatingsInput = {
   bookRequests?: Prisma.BookRequestUncheckedUpdateManyWithoutUserNestedInput
   queueEntries?: Prisma.QueueEntryUncheckedUpdateManyWithoutUserNestedInput
   readingLists?: Prisma.ReadingListUncheckedUpdateManyWithoutUserNestedInput
+  consentRequest?: Prisma.ConsentRequestUncheckedUpdateOneWithoutChildNestedInput
 }
 
 export type UserCreateWithoutReadingListsInput = {
@@ -1502,6 +1677,7 @@ export type UserCreateWithoutReadingListsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   bookRequests?: Prisma.BookRequestCreateNestedManyWithoutUserInput
   queueEntries?: Prisma.QueueEntryCreateNestedManyWithoutUserInput
+  consentRequest?: Prisma.ConsentRequestCreateNestedOneWithoutChildInput
 }
 
 export type UserUncheckedCreateWithoutReadingListsInput = {
@@ -1532,6 +1708,7 @@ export type UserUncheckedCreateWithoutReadingListsInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   bookRequests?: Prisma.BookRequestUncheckedCreateNestedManyWithoutUserInput
   queueEntries?: Prisma.QueueEntryUncheckedCreateNestedManyWithoutUserInput
+  consentRequest?: Prisma.ConsentRequestUncheckedCreateNestedOneWithoutChildInput
 }
 
 export type UserCreateOrConnectWithoutReadingListsInput = {
@@ -1578,6 +1755,7 @@ export type UserUpdateWithoutReadingListsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   bookRequests?: Prisma.BookRequestUpdateManyWithoutUserNestedInput
   queueEntries?: Prisma.QueueEntryUpdateManyWithoutUserNestedInput
+  consentRequest?: Prisma.ConsentRequestUpdateOneWithoutChildNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReadingListsInput = {
@@ -1608,6 +1786,7 @@ export type UserUncheckedUpdateWithoutReadingListsInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   bookRequests?: Prisma.BookRequestUncheckedUpdateManyWithoutUserNestedInput
   queueEntries?: Prisma.QueueEntryUncheckedUpdateManyWithoutUserNestedInput
+  consentRequest?: Prisma.ConsentRequestUncheckedUpdateOneWithoutChildNestedInput
 }
 
 export type UserCreateWithoutBookRequestsInput = {
@@ -1638,6 +1817,7 @@ export type UserCreateWithoutBookRequestsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   queueEntries?: Prisma.QueueEntryCreateNestedManyWithoutUserInput
   readingLists?: Prisma.ReadingListCreateNestedManyWithoutUserInput
+  consentRequest?: Prisma.ConsentRequestCreateNestedOneWithoutChildInput
 }
 
 export type UserUncheckedCreateWithoutBookRequestsInput = {
@@ -1668,6 +1848,7 @@ export type UserUncheckedCreateWithoutBookRequestsInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   queueEntries?: Prisma.QueueEntryUncheckedCreateNestedManyWithoutUserInput
   readingLists?: Prisma.ReadingListUncheckedCreateNestedManyWithoutUserInput
+  consentRequest?: Prisma.ConsentRequestUncheckedCreateNestedOneWithoutChildInput
 }
 
 export type UserCreateOrConnectWithoutBookRequestsInput = {
@@ -1714,6 +1895,7 @@ export type UserUpdateWithoutBookRequestsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   queueEntries?: Prisma.QueueEntryUpdateManyWithoutUserNestedInput
   readingLists?: Prisma.ReadingListUpdateManyWithoutUserNestedInput
+  consentRequest?: Prisma.ConsentRequestUpdateOneWithoutChildNestedInput
 }
 
 export type UserUncheckedUpdateWithoutBookRequestsInput = {
@@ -1744,6 +1926,7 @@ export type UserUncheckedUpdateWithoutBookRequestsInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   queueEntries?: Prisma.QueueEntryUncheckedUpdateManyWithoutUserNestedInput
   readingLists?: Prisma.ReadingListUncheckedUpdateManyWithoutUserNestedInput
+  consentRequest?: Prisma.ConsentRequestUncheckedUpdateOneWithoutChildNestedInput
 }
 
 export type UserCreateWithoutQueueEntriesInput = {
@@ -1774,6 +1957,7 @@ export type UserCreateWithoutQueueEntriesInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   bookRequests?: Prisma.BookRequestCreateNestedManyWithoutUserInput
   readingLists?: Prisma.ReadingListCreateNestedManyWithoutUserInput
+  consentRequest?: Prisma.ConsentRequestCreateNestedOneWithoutChildInput
 }
 
 export type UserUncheckedCreateWithoutQueueEntriesInput = {
@@ -1804,6 +1988,7 @@ export type UserUncheckedCreateWithoutQueueEntriesInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   bookRequests?: Prisma.BookRequestUncheckedCreateNestedManyWithoutUserInput
   readingLists?: Prisma.ReadingListUncheckedCreateNestedManyWithoutUserInput
+  consentRequest?: Prisma.ConsentRequestUncheckedCreateNestedOneWithoutChildInput
 }
 
 export type UserCreateOrConnectWithoutQueueEntriesInput = {
@@ -1850,6 +2035,7 @@ export type UserUpdateWithoutQueueEntriesInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   bookRequests?: Prisma.BookRequestUpdateManyWithoutUserNestedInput
   readingLists?: Prisma.ReadingListUpdateManyWithoutUserNestedInput
+  consentRequest?: Prisma.ConsentRequestUpdateOneWithoutChildNestedInput
 }
 
 export type UserUncheckedUpdateWithoutQueueEntriesInput = {
@@ -1880,6 +2066,7 @@ export type UserUncheckedUpdateWithoutQueueEntriesInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   bookRequests?: Prisma.BookRequestUncheckedUpdateManyWithoutUserNestedInput
   readingLists?: Prisma.ReadingListUncheckedUpdateManyWithoutUserNestedInput
+  consentRequest?: Prisma.ConsentRequestUncheckedUpdateOneWithoutChildNestedInput
 }
 
 export type UserCreateWithoutSwapRequestsInput = {
@@ -1910,6 +2097,7 @@ export type UserCreateWithoutSwapRequestsInput = {
   bookRequests?: Prisma.BookRequestCreateNestedManyWithoutUserInput
   queueEntries?: Prisma.QueueEntryCreateNestedManyWithoutUserInput
   readingLists?: Prisma.ReadingListCreateNestedManyWithoutUserInput
+  consentRequest?: Prisma.ConsentRequestCreateNestedOneWithoutChildInput
 }
 
 export type UserUncheckedCreateWithoutSwapRequestsInput = {
@@ -1940,6 +2128,7 @@ export type UserUncheckedCreateWithoutSwapRequestsInput = {
   bookRequests?: Prisma.BookRequestUncheckedCreateNestedManyWithoutUserInput
   queueEntries?: Prisma.QueueEntryUncheckedCreateNestedManyWithoutUserInput
   readingLists?: Prisma.ReadingListUncheckedCreateNestedManyWithoutUserInput
+  consentRequest?: Prisma.ConsentRequestUncheckedCreateNestedOneWithoutChildInput
 }
 
 export type UserCreateOrConnectWithoutSwapRequestsInput = {
@@ -1986,6 +2175,7 @@ export type UserUpdateWithoutSwapRequestsInput = {
   bookRequests?: Prisma.BookRequestUpdateManyWithoutUserNestedInput
   queueEntries?: Prisma.QueueEntryUpdateManyWithoutUserNestedInput
   readingLists?: Prisma.ReadingListUpdateManyWithoutUserNestedInput
+  consentRequest?: Prisma.ConsentRequestUpdateOneWithoutChildNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSwapRequestsInput = {
@@ -2016,6 +2206,7 @@ export type UserUncheckedUpdateWithoutSwapRequestsInput = {
   bookRequests?: Prisma.BookRequestUncheckedUpdateManyWithoutUserNestedInput
   queueEntries?: Prisma.QueueEntryUncheckedUpdateManyWithoutUserNestedInput
   readingLists?: Prisma.ReadingListUncheckedUpdateManyWithoutUserNestedInput
+  consentRequest?: Prisma.ConsentRequestUncheckedUpdateOneWithoutChildNestedInput
 }
 
 export type UserCreateWithoutMessagesInput = {
@@ -2046,6 +2237,7 @@ export type UserCreateWithoutMessagesInput = {
   bookRequests?: Prisma.BookRequestCreateNestedManyWithoutUserInput
   queueEntries?: Prisma.QueueEntryCreateNestedManyWithoutUserInput
   readingLists?: Prisma.ReadingListCreateNestedManyWithoutUserInput
+  consentRequest?: Prisma.ConsentRequestCreateNestedOneWithoutChildInput
 }
 
 export type UserUncheckedCreateWithoutMessagesInput = {
@@ -2076,6 +2268,7 @@ export type UserUncheckedCreateWithoutMessagesInput = {
   bookRequests?: Prisma.BookRequestUncheckedCreateNestedManyWithoutUserInput
   queueEntries?: Prisma.QueueEntryUncheckedCreateNestedManyWithoutUserInput
   readingLists?: Prisma.ReadingListUncheckedCreateNestedManyWithoutUserInput
+  consentRequest?: Prisma.ConsentRequestUncheckedCreateNestedOneWithoutChildInput
 }
 
 export type UserCreateOrConnectWithoutMessagesInput = {
@@ -2122,6 +2315,7 @@ export type UserUpdateWithoutMessagesInput = {
   bookRequests?: Prisma.BookRequestUpdateManyWithoutUserNestedInput
   queueEntries?: Prisma.QueueEntryUpdateManyWithoutUserNestedInput
   readingLists?: Prisma.ReadingListUpdateManyWithoutUserNestedInput
+  consentRequest?: Prisma.ConsentRequestUpdateOneWithoutChildNestedInput
 }
 
 export type UserUncheckedUpdateWithoutMessagesInput = {
@@ -2152,6 +2346,7 @@ export type UserUncheckedUpdateWithoutMessagesInput = {
   bookRequests?: Prisma.BookRequestUncheckedUpdateManyWithoutUserNestedInput
   queueEntries?: Prisma.QueueEntryUncheckedUpdateManyWithoutUserNestedInput
   readingLists?: Prisma.ReadingListUncheckedUpdateManyWithoutUserNestedInput
+  consentRequest?: Prisma.ConsentRequestUncheckedUpdateOneWithoutChildNestedInput
 }
 
 export type UserCreateWithoutRatingsGivenInput = {
@@ -2182,6 +2377,7 @@ export type UserCreateWithoutRatingsGivenInput = {
   bookRequests?: Prisma.BookRequestCreateNestedManyWithoutUserInput
   queueEntries?: Prisma.QueueEntryCreateNestedManyWithoutUserInput
   readingLists?: Prisma.ReadingListCreateNestedManyWithoutUserInput
+  consentRequest?: Prisma.ConsentRequestCreateNestedOneWithoutChildInput
 }
 
 export type UserUncheckedCreateWithoutRatingsGivenInput = {
@@ -2212,6 +2408,7 @@ export type UserUncheckedCreateWithoutRatingsGivenInput = {
   bookRequests?: Prisma.BookRequestUncheckedCreateNestedManyWithoutUserInput
   queueEntries?: Prisma.QueueEntryUncheckedCreateNestedManyWithoutUserInput
   readingLists?: Prisma.ReadingListUncheckedCreateNestedManyWithoutUserInput
+  consentRequest?: Prisma.ConsentRequestUncheckedCreateNestedOneWithoutChildInput
 }
 
 export type UserCreateOrConnectWithoutRatingsGivenInput = {
@@ -2247,6 +2444,7 @@ export type UserCreateWithoutRatingsReceivedInput = {
   bookRequests?: Prisma.BookRequestCreateNestedManyWithoutUserInput
   queueEntries?: Prisma.QueueEntryCreateNestedManyWithoutUserInput
   readingLists?: Prisma.ReadingListCreateNestedManyWithoutUserInput
+  consentRequest?: Prisma.ConsentRequestCreateNestedOneWithoutChildInput
 }
 
 export type UserUncheckedCreateWithoutRatingsReceivedInput = {
@@ -2277,6 +2475,7 @@ export type UserUncheckedCreateWithoutRatingsReceivedInput = {
   bookRequests?: Prisma.BookRequestUncheckedCreateNestedManyWithoutUserInput
   queueEntries?: Prisma.QueueEntryUncheckedCreateNestedManyWithoutUserInput
   readingLists?: Prisma.ReadingListUncheckedCreateNestedManyWithoutUserInput
+  consentRequest?: Prisma.ConsentRequestUncheckedCreateNestedOneWithoutChildInput
 }
 
 export type UserCreateOrConnectWithoutRatingsReceivedInput = {
@@ -2323,6 +2522,7 @@ export type UserUpdateWithoutRatingsGivenInput = {
   bookRequests?: Prisma.BookRequestUpdateManyWithoutUserNestedInput
   queueEntries?: Prisma.QueueEntryUpdateManyWithoutUserNestedInput
   readingLists?: Prisma.ReadingListUpdateManyWithoutUserNestedInput
+  consentRequest?: Prisma.ConsentRequestUpdateOneWithoutChildNestedInput
 }
 
 export type UserUncheckedUpdateWithoutRatingsGivenInput = {
@@ -2353,6 +2553,7 @@ export type UserUncheckedUpdateWithoutRatingsGivenInput = {
   bookRequests?: Prisma.BookRequestUncheckedUpdateManyWithoutUserNestedInput
   queueEntries?: Prisma.QueueEntryUncheckedUpdateManyWithoutUserNestedInput
   readingLists?: Prisma.ReadingListUncheckedUpdateManyWithoutUserNestedInput
+  consentRequest?: Prisma.ConsentRequestUncheckedUpdateOneWithoutChildNestedInput
 }
 
 export type UserUpsertWithoutRatingsReceivedInput = {
@@ -2394,6 +2595,7 @@ export type UserUpdateWithoutRatingsReceivedInput = {
   bookRequests?: Prisma.BookRequestUpdateManyWithoutUserNestedInput
   queueEntries?: Prisma.QueueEntryUpdateManyWithoutUserNestedInput
   readingLists?: Prisma.ReadingListUpdateManyWithoutUserNestedInput
+  consentRequest?: Prisma.ConsentRequestUpdateOneWithoutChildNestedInput
 }
 
 export type UserUncheckedUpdateWithoutRatingsReceivedInput = {
@@ -2424,6 +2626,7 @@ export type UserUncheckedUpdateWithoutRatingsReceivedInput = {
   bookRequests?: Prisma.BookRequestUncheckedUpdateManyWithoutUserNestedInput
   queueEntries?: Prisma.QueueEntryUncheckedUpdateManyWithoutUserNestedInput
   readingLists?: Prisma.ReadingListUncheckedUpdateManyWithoutUserNestedInput
+  consentRequest?: Prisma.ConsentRequestUncheckedUpdateOneWithoutChildNestedInput
 }
 
 export type UserCreateWithoutWishlistInput = {
@@ -2454,6 +2657,7 @@ export type UserCreateWithoutWishlistInput = {
   bookRequests?: Prisma.BookRequestCreateNestedManyWithoutUserInput
   queueEntries?: Prisma.QueueEntryCreateNestedManyWithoutUserInput
   readingLists?: Prisma.ReadingListCreateNestedManyWithoutUserInput
+  consentRequest?: Prisma.ConsentRequestCreateNestedOneWithoutChildInput
 }
 
 export type UserUncheckedCreateWithoutWishlistInput = {
@@ -2484,6 +2688,7 @@ export type UserUncheckedCreateWithoutWishlistInput = {
   bookRequests?: Prisma.BookRequestUncheckedCreateNestedManyWithoutUserInput
   queueEntries?: Prisma.QueueEntryUncheckedCreateNestedManyWithoutUserInput
   readingLists?: Prisma.ReadingListUncheckedCreateNestedManyWithoutUserInput
+  consentRequest?: Prisma.ConsentRequestUncheckedCreateNestedOneWithoutChildInput
 }
 
 export type UserCreateOrConnectWithoutWishlistInput = {
@@ -2530,6 +2735,7 @@ export type UserUpdateWithoutWishlistInput = {
   bookRequests?: Prisma.BookRequestUpdateManyWithoutUserNestedInput
   queueEntries?: Prisma.QueueEntryUpdateManyWithoutUserNestedInput
   readingLists?: Prisma.ReadingListUpdateManyWithoutUserNestedInput
+  consentRequest?: Prisma.ConsentRequestUpdateOneWithoutChildNestedInput
 }
 
 export type UserUncheckedUpdateWithoutWishlistInput = {
@@ -2560,6 +2766,7 @@ export type UserUncheckedUpdateWithoutWishlistInput = {
   bookRequests?: Prisma.BookRequestUncheckedUpdateManyWithoutUserNestedInput
   queueEntries?: Prisma.QueueEntryUncheckedUpdateManyWithoutUserNestedInput
   readingLists?: Prisma.ReadingListUncheckedUpdateManyWithoutUserNestedInput
+  consentRequest?: Prisma.ConsentRequestUncheckedUpdateOneWithoutChildNestedInput
 }
 
 export type UserCreateWithoutNotificationsInput = {
@@ -2590,6 +2797,7 @@ export type UserCreateWithoutNotificationsInput = {
   bookRequests?: Prisma.BookRequestCreateNestedManyWithoutUserInput
   queueEntries?: Prisma.QueueEntryCreateNestedManyWithoutUserInput
   readingLists?: Prisma.ReadingListCreateNestedManyWithoutUserInput
+  consentRequest?: Prisma.ConsentRequestCreateNestedOneWithoutChildInput
 }
 
 export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -2620,6 +2828,7 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   bookRequests?: Prisma.BookRequestUncheckedCreateNestedManyWithoutUserInput
   queueEntries?: Prisma.QueueEntryUncheckedCreateNestedManyWithoutUserInput
   readingLists?: Prisma.ReadingListUncheckedCreateNestedManyWithoutUserInput
+  consentRequest?: Prisma.ConsentRequestUncheckedCreateNestedOneWithoutChildInput
 }
 
 export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -2666,6 +2875,7 @@ export type UserUpdateWithoutNotificationsInput = {
   bookRequests?: Prisma.BookRequestUpdateManyWithoutUserNestedInput
   queueEntries?: Prisma.QueueEntryUpdateManyWithoutUserNestedInput
   readingLists?: Prisma.ReadingListUpdateManyWithoutUserNestedInput
+  consentRequest?: Prisma.ConsentRequestUpdateOneWithoutChildNestedInput
 }
 
 export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -2696,6 +2906,7 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   bookRequests?: Prisma.BookRequestUncheckedUpdateManyWithoutUserNestedInput
   queueEntries?: Prisma.QueueEntryUncheckedUpdateManyWithoutUserNestedInput
   readingLists?: Prisma.ReadingListUncheckedUpdateManyWithoutUserNestedInput
+  consentRequest?: Prisma.ConsentRequestUncheckedUpdateOneWithoutChildNestedInput
 }
 
 export type UserCreateManyParentInput = {
@@ -2744,6 +2955,7 @@ export type UserUpdateWithoutParentInput = {
   bookRequests?: Prisma.BookRequestUpdateManyWithoutUserNestedInput
   queueEntries?: Prisma.QueueEntryUpdateManyWithoutUserNestedInput
   readingLists?: Prisma.ReadingListUpdateManyWithoutUserNestedInput
+  consentRequest?: Prisma.ConsentRequestUpdateOneWithoutChildNestedInput
 }
 
 export type UserUncheckedUpdateWithoutParentInput = {
@@ -2774,6 +2986,7 @@ export type UserUncheckedUpdateWithoutParentInput = {
   bookRequests?: Prisma.BookRequestUncheckedUpdateManyWithoutUserNestedInput
   queueEntries?: Prisma.QueueEntryUncheckedUpdateManyWithoutUserNestedInput
   readingLists?: Prisma.ReadingListUncheckedUpdateManyWithoutUserNestedInput
+  consentRequest?: Prisma.ConsentRequestUncheckedUpdateOneWithoutChildNestedInput
 }
 
 export type UserUncheckedUpdateManyWithoutParentInput = {
@@ -2954,6 +3167,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   bookRequests?: boolean | Prisma.User$bookRequestsArgs<ExtArgs>
   queueEntries?: boolean | Prisma.User$queueEntriesArgs<ExtArgs>
   readingLists?: boolean | Prisma.User$readingListsArgs<ExtArgs>
+  consentRequest?: boolean | Prisma.User$consentRequestArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -3031,6 +3245,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   bookRequests?: boolean | Prisma.User$bookRequestsArgs<ExtArgs>
   queueEntries?: boolean | Prisma.User$queueEntriesArgs<ExtArgs>
   readingLists?: boolean | Prisma.User$readingListsArgs<ExtArgs>
+  consentRequest?: boolean | Prisma.User$consentRequestArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3056,6 +3271,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     bookRequests: Prisma.$BookRequestPayload<ExtArgs>[]
     queueEntries: Prisma.$QueueEntryPayload<ExtArgs>[]
     readingLists: Prisma.$ReadingListPayload<ExtArgs>[]
+    consentRequest: Prisma.$ConsentRequestPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -3481,6 +3697,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   bookRequests<T extends Prisma.User$bookRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$bookRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   queueEntries<T extends Prisma.User$queueEntriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$queueEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$QueueEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   readingLists<T extends Prisma.User$readingListsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$readingListsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReadingListPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  consentRequest<T extends Prisma.User$consentRequestArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$consentRequestArgs<ExtArgs>>): Prisma.Prisma__ConsentRequestClient<runtime.Types.Result.GetResult<Prisma.$ConsentRequestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4229,6 +4446,25 @@ export type User$readingListsArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.ReadingListScalarFieldEnum | Prisma.ReadingListScalarFieldEnum[]
+}
+
+/**
+ * User.consentRequest
+ */
+export type User$consentRequestArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ConsentRequest
+   */
+  select?: Prisma.ConsentRequestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ConsentRequest
+   */
+  omit?: Prisma.ConsentRequestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ConsentRequestInclude<ExtArgs> | null
+  where?: Prisma.ConsentRequestWhereInput
 }
 
 /**

@@ -52,6 +52,7 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   User: 'User',
+  ConsentRequest: 'ConsentRequest',
   Book: 'Book',
   BookRating: 'BookRating',
   ReadingList: 'ReadingList',
@@ -99,6 +100,19 @@ export const UserScalarFieldEnum = {
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const ConsentRequestScalarFieldEnum = {
+  id: 'id',
+  token: 'token',
+  parentEmail: 'parentEmail',
+  status: 'status',
+  createdAt: 'createdAt',
+  expiresAt: 'expiresAt',
+  childId: 'childId'
+} as const
+
+export type ConsentRequestScalarFieldEnum = (typeof ConsentRequestScalarFieldEnum)[keyof typeof ConsentRequestScalarFieldEnum]
 
 
 export const BookScalarFieldEnum = {

@@ -2,12 +2,12 @@ import nodemailer from "nodemailer";
 
 function makeTransporter() {
   return nodemailer.createTransport({
-    host: process.env.EMAIL_HOST,
-    port: parseInt(process.env.EMAIL_PORT ?? "587"),
-    secure: process.env.EMAIL_SECURE === "true",
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false,
     auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
+      user: process.env.GMAIL_USER,
+      pass: process.env.GMAIL_APP_PASSWORD,
     },
   });
 }
@@ -25,7 +25,7 @@ export async function sendParentalConsentEmail({
   approveUrl: string;
   declineUrl: string;
 }) {
-  const from = process.env.EMAIL_FROM ?? "Cloud Library <noreply@cloudlibrary.school>";
+  const from = `Cloud Library <${process.env.GMAIL_USER ?? "noreply@cloudlibrary.school"}>`;
 
   const html = `<!DOCTYPE html>
 <html lang="en">
@@ -35,7 +35,6 @@ export async function sendParentalConsentEmail({
     <tr><td align="center">
       <table width="560" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:16px;overflow:hidden;border:1px solid #e5e7eb;max-width:560px">
 
-        <!-- Header -->
         <tr><td style="background:#000000;padding:28px 40px">
           <table cellpadding="0" cellspacing="0"><tr>
             <td style="vertical-align:middle;padding-right:10px">
@@ -54,7 +53,6 @@ export async function sendParentalConsentEmail({
           </tr></table>
         </td></tr>
 
-        <!-- Body -->
         <tr><td style="padding:40px 40px 32px">
           <h1 style="margin:0 0 8px;font-size:24px;font-weight:700;color:#000;letter-spacing:-0.5px">Parental consent required</h1>
           <p style="margin:0 0 24px;font-size:15px;color:#6b7280;line-height:1.6">
@@ -68,7 +66,6 @@ export async function sendParentalConsentEmail({
             <a href="${process.env.NEXT_PUBLIC_APP_URL ?? ""}/privacy" style="color:#000">Privacy Policy</a> for details.
           </p>
 
-          <!-- CTA Buttons -->
           <table cellpadding="0" cellspacing="0" width="100%">
             <tr>
               <td align="center" style="padding-bottom:12px">
@@ -94,7 +91,6 @@ export async function sendParentalConsentEmail({
           </p>
         </td></tr>
 
-        <!-- Footer -->
         <tr><td style="background:#f9fafb;padding:20px 40px;border-top:1px solid #f3f4f6">
           <p style="margin:0;font-size:12px;color:#9ca3af">
             Cloud Library · School Book Exchange ·
@@ -108,14 +104,14 @@ export async function sendParentalConsentEmail({
 </body>
 </html>`;
 
-  if (!process.env.EMAIL_HOST) {
-    console.warn("[email] EMAIL_HOST not set — logging consent URLs instead:");
+  if (!process.env.GMAIL_USER || !process.env.GMAIL_APP_PASSWORD) {
+    console.warn("[email] GMAIL_USER / GMAIL_APP_PASSWORD not set — logging consent URLs instead:");
     console.warn("[email] APPROVE URL:", approveUrl);
     console.warn("[email] DECLINE URL:", declineUrl);
     return;
   }
 
-  console.log("[email] Sending consent email to", parentEmail, "via", process.env.EMAIL_HOST);
+  console.log("[email] Sending consent email to", parentEmail, "via Gmail");
   try {
     const info = await makeTransporter().sendMail({
       from,

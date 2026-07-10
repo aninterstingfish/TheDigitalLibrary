@@ -9,6 +9,9 @@ export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [pendingConsent, setPendingConsent] = useState<{ parentEmail: string; userId: string } | null>(null);
+  const [resendLoading, setResendLoading] = useState(false);
+  const [resendSent, setResendSent] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,12 +31,66 @@ export default function LoginForm() {
     const text = await res.text();
     const data = text ? JSON.parse(text) : {};
     if (!res.ok) {
+      if (data.code === "PENDING_CONSENT") {
+        setPendingConsent({ parentEmail: data.parentEmail, userId: data.userId });
+        setIsLoading(false);
+        return;
+      }
       setError(data.error || "Sign in failed.");
       setIsLoading(false);
       return;
     }
     window.location.href = "/dashboard";
   };
+
+  const handleResend = async () => {
+    if (!pendingConsent || resendLoading) return;
+    setResendLoading(true);
+    setResendSent(false);
+    try {
+      await fetch("/api/auth/resend-consent", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: pendingConsent.userId }),
+      });
+      setResendSent(true);
+    } finally {
+      setResendLoading(false);
+    }
+  };
+
+  if (pendingConsent) {
+    return (
+      <div className="w-full max-w-[360px] text-center">
+        <div className="w-14 h-14 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-6">
+          <svg className="w-7 h-7 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          </svg>
+        </div>
+        <h2 className="text-2xl font-bold text-black mb-2">Check your parent&apos;s inbox</h2>
+        <p className="text-gray-500 text-sm leading-relaxed mb-2">
+          An approval email has been sent to
+        </p>
+        <p className="text-black font-semibold text-sm mb-6">{pendingConsent.parentEmail}</p>
+        <p className="text-gray-500 text-sm leading-relaxed mb-8">
+          Ask your parent or guardian to open the email and click <strong className="text-black">Approve account</strong>.
+          Once they do, you can sign in here.
+        </p>
+        {resendSent
+          ? <p className="text-green-600 text-sm font-medium mb-4">Email resent successfully.</p>
+          : (
+            <button onClick={handleResend} disabled={resendLoading}
+              className="block w-full border border-gray-200 text-black py-3 rounded-xl text-sm font-medium hover:bg-gray-50 transition-all mb-3 disabled:opacity-50">
+              {resendLoading ? "Resending…" : "Resend approval email"}
+            </button>
+          )}
+        <button onClick={() => { setPendingConsent(null); setResendSent(false); }}
+          className="block w-full bg-black text-white py-3.5 rounded-xl text-sm font-semibold hover:bg-zinc-800 transition-all">
+          Back to sign in
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full max-w-[360px]">

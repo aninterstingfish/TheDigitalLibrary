@@ -3,8 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 
-type Field = "name" | "username" | "email" | "password" | "confirm" | "age" | "parentUsername";
-interface FormState { name: string; username: string; email: string; password: string; confirm: string; age: string; parentUsername: string; }
+type Field = "name" | "username" | "email" | "password" | "confirm" | "age" | "parentEmail" | "parentUsername";
+interface FormState { name: string; username: string; email: string; password: string; confirm: string; age: string; parentEmail: string; parentUsername: string; }
 interface Errors extends Partial<Record<Field, string>> {}
 
 const USERNAME_RE = /^[a-zA-Z0-9_@#!$%^&*:"<>?{}+=.\-]{3,30}$/;
@@ -37,19 +37,22 @@ function validateForm(form: FormState, needsApproval: boolean): Errors {
   if (!form.age) e.age = "Please enter your age.";
   else if (isNaN(age) || age < 5 || age > 110) e.age = "Please enter a valid age.";
 
-  if (needsApproval && !form.parentUsername.trim()) e.parentUsername = "Please enter your parent or guardian's username.";
+  if (needsApproval) {
+    if (!form.parentEmail.trim()) e.parentEmail = "Please enter your parent or guardian's email.";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.parentEmail.trim())) e.parentEmail = "Enter a valid email address.";
+  }
 
   return e;
 }
 
 export default function SignupForm() {
-  const [form, setForm] = useState<FormState>({ name: "", username: "", email: "", password: "", confirm: "", age: "", parentUsername: "" });
+  const [form, setForm] = useState<FormState>({ name: "", username: "", email: "", password: "", confirm: "", age: "", parentEmail: "", parentUsername: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState<Errors>({});
   const [isLoading, setIsLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [pendingApproval, setPendingApproval] = useState(false);
-  const [parentNotFound, setParentNotFound] = useState(false);
+  const [pendingParentEmail, setPendingParentEmail] = useState("");
 
   const age = parseInt(form.age);
   const needsApproval = !isNaN(age) && age < 13;
@@ -67,7 +70,6 @@ export default function SignupForm() {
     if (Object.keys(errs).length > 0) { setErrors(errs); window.scrollTo({ top: 0, behavior: "smooth" }); return; }
 
     setIsLoading(true);
-    setParentNotFound(false);
     try {
       const res = await fetch("/api/auth/register", {
         method: "POST",
@@ -78,19 +80,22 @@ export default function SignupForm() {
           email: form.email.trim().toLowerCase(),
           password: form.password,
           age: parseInt(form.age),
-          ...(form.parentUsername.trim() && { parentUsername: form.parentUsername.trim() }),
+          ...(needsApproval && form.parentEmail.trim() && { parentEmail: form.parentEmail.trim() }),
+          ...(!needsApproval && form.parentUsername.trim() && { parentUsername: form.parentUsername.trim() }),
         }),
       });
       const text = await res.text();
       const data = text ? JSON.parse(text) : {};
       if (!res.ok) {
-        if (data.code === "PARENT_NOT_FOUND") { setParentNotFound(true); setIsLoading(false); return; }
         setErrors({ [data.field ?? "email"]: data.error });
         setIsLoading(false);
         return;
       }
       setIsLoading(false);
-      setPendingApproval(!!data.pendingApproval);
+      if (data.pendingApproval) {
+        setPendingParentEmail(data.parentEmail ?? form.parentEmail.trim());
+        setPendingApproval(true);
+      }
       setSubmitted(true);
     } catch {
       setErrors({ email: "Network error — please check your connection and try again." } as Errors);
@@ -98,44 +103,20 @@ export default function SignupForm() {
     }
   };
 
-  if (parentNotFound) {
-    return (
-      <div className="w-full max-w-[360px] text-center">
-        <div className="w-14 h-14 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-6">
-          <svg className="w-7 h-7 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-        </div>
-        <h2 className="text-2xl font-bold text-black mb-2">Parent account not found</h2>
-        <p className="text-gray-500 text-sm leading-relaxed mb-4">
-          No account with the username <strong className="text-black">@{form.parentUsername}</strong> exists yet.
-        </p>
-        <p className="text-gray-500 text-sm leading-relaxed mb-8">
-          Ask your parent or guardian to <strong className="text-black">create an account first</strong>, then come back and sign up.
-        </p>
-        <button onClick={() => setParentNotFound(false)}
-          className="block w-full bg-black text-white py-3.5 rounded-xl text-sm font-semibold text-center hover:bg-zinc-800 transition-all">
-          Go back
-        </button>
-      </div>
-    );
-  }
-
   if (submitted && pendingApproval) {
     return (
       <div className="w-full max-w-[360px] text-center">
         <div className="w-14 h-14 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-6">
           <svg className="w-7 h-7 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
           </svg>
         </div>
-        <h2 className="text-2xl font-bold text-black mb-2">Awaiting approval</h2>
-        <p className="text-gray-500 text-sm leading-relaxed mb-4">
-          Your account has been linked to <strong className="text-black">@{form.parentUsername}</strong>.
-        </p>
+        <h2 className="text-2xl font-bold text-black mb-2">Check your parent&apos;s inbox</h2>
+        <p className="text-gray-500 text-sm leading-relaxed mb-2">An approval email has been sent to</p>
+        <p className="text-black font-semibold text-sm mb-6">{pendingParentEmail}</p>
         <p className="text-gray-500 text-sm leading-relaxed mb-8">
-          Ask them to log in and approve your account from their <strong className="text-black">Admin panel</strong>.
-          Once approved you can sign in here.
+          Ask your parent or guardian to open the email and click <strong className="text-black">Approve account</strong>.
+          Once they do, you can sign in here.
         </p>
         <Link href="/login" className="block w-full bg-black text-white py-3.5 rounded-xl text-sm font-semibold text-center hover:bg-zinc-800 transition-all">
           Go to sign in
@@ -214,17 +195,17 @@ export default function SignupForm() {
 
         {needsApproval && (
           <div className="space-y-1.5 rounded-xl bg-amber-50 border border-amber-100 p-4">
-            <label htmlFor="parentUsername" className="block text-sm font-medium text-black">
-              Parent or guardian&apos;s username <span className="text-red-400">*</span>
+            <label htmlFor="parentEmail" className="block text-sm font-medium text-black">
+              Parent or guardian&apos;s email <span className="text-red-400">*</span>
             </label>
             <p className="text-xs text-amber-700 mb-2">
-              Because you&apos;re under 13, a parent or guardian must approve your account.
-              Enter their Cloud Library username — they need to have an account already.
+              Because you&apos;re under 13, your parent or guardian will receive an email to approve your account.
+              They do <strong>not</strong> need a Cloud Library account.
             </p>
-            <input id="parentUsername" type="text" placeholder="parent_username"
-              value={form.parentUsername} onChange={set("parentUsername")}
-              className={inputClass(!!errors.parentUsername)} />
-            {errors.parentUsername && <p className="text-red-500 text-xs">{errors.parentUsername}</p>}
+            <input id="parentEmail" type="email" placeholder="parent@example.com"
+              value={form.parentEmail} onChange={set("parentEmail")}
+              className={inputClass(!!errors.parentEmail)} />
+            {errors.parentEmail && <p className="text-red-500 text-xs">{errors.parentEmail}</p>}
           </div>
         )}
 

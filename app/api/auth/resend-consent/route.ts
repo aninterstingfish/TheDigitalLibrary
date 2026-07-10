@@ -1,39 +1,47 @@
 import { NextRequest, NextResponse } from "next/server";
+import { randomBytes } from "crypto";
 import { prisma } from "@/lib/prisma";
 import { sendParentalConsentEmail } from "@/lib/email";
-import { randomBytes } from "crypto";
 
 export async function POST(req: NextRequest) {
-  let body: { email?: string; identifier?: string };
+  let body: { userId?: string };
   try {
     body = await req.json();
   } catch {
     return NextResponse.json({ error: "Invalid request body." }, { status: 400 });
   }
 
-  const raw = (body.identifier ?? body.email ?? "").trim();
-  if (!raw) return NextResponse.json({ success: true });
+  const { userId } = body;
+  if (!userId) return NextResponse.json({ success: true });
 
-  const isEmail = raw.includes("@");
-  const user = await prisma.user.findFirst({
-    where: {
-      approved: false,
-      ...(isEmail ? { email: raw.toLowerCase() } : { username: raw }),
-    },
+  const consent = await prisma.consentRequest.findUnique({
+    where: { childId: userId },
+    include: { child: true },
   });
 
-  if (!user || !user.parentEmail) return NextResponse.json({ success: true });
+  if (!consent || consent.status !== "PENDING") return NextResponse.json({ success: true });
 
   const newToken = randomBytes(32).toString("hex");
-  await prisma.user.update({ where: { id: user.id }, data: { parentToken: newToken } });
+  const newExpiry = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+
+  await prisma.consentRequest.update({
+    where: { id: consent.id },
+    data: { token: newToken, expiresAt: newExpiry },
+  });
 
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
-  await sendParentalConsentEmail({
-    parentEmail: user.parentEmail,
-    childName: user.name,
-    childUsername: user.username,
-    approvalUrl: `${appUrl}/approve-account?token=${newToken}`,
-  });
+  try {
+    await sendParentalConsentEmail({
+      parentEmail: consent.parentEmail,
+      childName: consent.child.name,
+      childUsername: consent.child.username,
+      approveUrl: `${appUrl}/api/auth/consent?token=${newToken}&action=approve`,
+      declineUrl: `${appUrl}/api/auth/consent?token=${newToken}&action=decline`,
+    });
+  } catch (err) {
+    console.error("[resend-consent]", err);
+    return NextResponse.json({ error: "Failed to send email. Check Gmail credentials." }, { status: 500 });
+  }
 
   return NextResponse.json({ success: true });
 }

@@ -39,6 +39,19 @@ model User {
   bookRequests    BookRequest[]
   queueEntries    QueueEntry[]
   readingLists    ReadingList[]
+  consentRequest  ConsentRequest?
+}
+
+model ConsentRequest {
+  id          String   @id @default(cuid())
+  token       String   @unique
+  parentEmail String
+  status      String   @default("PENDING")
+  createdAt   DateTime @default(now())
+  expiresAt   DateTime
+
+  childId String @unique
+  child   User   @relation(fields: [childId], references: [id], onDelete: Cascade)
 }
 
 model Book {
